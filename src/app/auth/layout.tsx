@@ -1,4 +1,4 @@
-import GuestProtected from "../protected/guest"
+import GuestProtected from "@/libs/protected/guest"
 
 export default async function AuthLayout({
   children,
