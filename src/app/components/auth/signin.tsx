@@ -2,12 +2,18 @@
 import React from 'react'
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Inputs, Schema } from './schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import {
+  SignInInputs as Inputs,
+  SignInSchema as Schema
+} from './schema';
+import { AuthPage } from '../Authentication';
 
-function SignIn() {
+function SignIn({setPage}: {
+  setPage: React.Dispatch<React.SetStateAction<AuthPage>>
+}) {
   const [isLoading, setLoading] = React.useState<boolean>(false);
   const router = useRouter()
 
@@ -24,7 +30,7 @@ function SignIn() {
     const resp = await signIn("credentials", {
       email: payload.email,
       password: payload.password,
-      redirect: false
+      redirect: true
     })
 
     if (!resp?.error) {
@@ -60,7 +66,7 @@ function SignIn() {
               )}
             </button>
             <section className='text-center mt-2'>
-              <Link href={"/auth/signup"} className='text-secondary hover:text-primary transition-all'>ไม่มีชื่อผู้ใช้ ?</Link>
+              <button onClick={() => setPage("signup")} className='text-secondary hover:text-primary transition-all'>ไม่มีชื่อผู้ใช้ ?</button>
             </section>
           </footer>
         </form>

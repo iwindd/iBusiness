@@ -1,12 +1,17 @@
 'use client'
 import React from 'react'
-import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Schema, Inputs } from './schema';
 import { useRegister } from './action';
+import {
+  SignUpInputs as Inputs,
+  SignUpSchema as Schema
+} from './schema';
+import { AuthPage } from '../Authentication';
 
-function SignUp() {
+function SignUp({setPage}: {
+  setPage: React.Dispatch<React.SetStateAction<AuthPage>>
+}) {
   const [isLoading, setLoading] = React.useState<boolean>(false);
 
   const {
@@ -64,7 +69,7 @@ function SignUp() {
               )}
             </button>
             <section className='text-center mt-2'>
-              <Link href={"/auth/signin"} className='text-secondary hover:text-primary transition-all'>มีผู้ใช้อยู่แล้ว ?</Link>
+              <button onClick={() => setPage("signin")} className='text-secondary hover:text-primary transition-all'>มีผู้ใช้อยู่แล้ว ?</button>
             </section>
           </footer>
         </form>

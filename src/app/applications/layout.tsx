@@ -1,5 +1,3 @@
-import GuestProtected from "@/libs/protected/guest"
-
 export default async function AuthLayout({
   children,
 }: {
@@ -8,9 +6,7 @@ export default async function AuthLayout({
   return (
     <html lang="en">
       <body>
-        <GuestProtected>
-          {children}
-        </GuestProtected>
+        {children}
       </body>
     </html>
   )

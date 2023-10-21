@@ -1,6 +1,9 @@
 'use server';
-import { Schema, Inputs } from './schema';
 import Prisma from '@/libs/prisma';
+import {
+  SignUpInputs as Inputs,
+  SignUpSchema as Schema
+} from './schema';
 
 const useResponse = (state: boolean, data: any) => {
   return {
