@@ -1,52 +1,51 @@
 'use client'
 import React from 'react'
+import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegister } from './action';
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import {
-  SignUpInputs as Inputs,
-  SignUpSchema as Schema
+  SignInInputs as Inputs,
+  SignInSchema as Schema
 } from './schema';
-import { AuthPage } from '../Authentication';
+import { AuthPage } from '..';
 
-function SignUp({setPage}: {
+function SignIn({setPage}: {
   setPage: React.Dispatch<React.SetStateAction<AuthPage>>
 }) {
   const [isLoading, setLoading] = React.useState<boolean>(false);
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors },
-    setError
+    formState: { errors }
   } = useForm<Inputs>({
     resolver: zodResolver(Schema)
-  })
+  });
 
   const onSubmit: SubmitHandler<Inputs> = async (payload) => {
     setLoading(true)
-    const resp = await useRegister(payload);
-    setLoading(false);
-    if (!resp.success && resp?.data?.type == "email") {
-      setError("email", {
-        type: "string",
-        message: resp.data.message
-      }, {
-        shouldFocus: true
-      });
+    const resp = await signIn("credentials", {
+      email: payload.email,
+      password: payload.password,
+      redirect: true
+    })
+
+    if (!resp?.error) {
+      return router.push("/");
     }
 
-    if (!resp.success) return;
-    reset()
+    setLoading(false)
   }
 
   return (
     <div className="container mx-auto mt-20">
-      <div className="mx-auto w-96 flex justify-center">
-        <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
+      <div className="mx-auto w-96">
+        <form onSubmit={handleSubmit(onSubmit)} >
           <header className='flex justify-center'>
-            <h1 className='text-2xl bold'>Sign Up</h1>
+            <h1 className='text-2xl bold'>Sign In</h1>
           </header>
           <div className="divider"></div>
           <main className='space-y-2'>
@@ -54,28 +53,26 @@ function SignUp({setPage}: {
             <p className='text-error'>{errors.email?.message}</p>
             <input disabled={isLoading} className='input input-bordered w-full disabled:opacity-50' placeholder='Password...' {...register("password")} />
             <p className='text-error'>{errors.password?.message}</p>
-            <input disabled={isLoading} className='input input-bordered w-full disabled:opacity-50' placeholder='Confirm Password...' {...register("password_confirmation")} />
-            <p className='text-error'>{errors.password_confirmation?.message}</p>
           </main>
           <footer className='mt-4'>
             <button
-              className="btn btn-primary w-full"
               disabled={isLoading}
+              className="btn btn-primary w-full"
             >
               {!isLoading ? (
-                "Sign up"
+                "Sign in"
               ) : (
                 <span className="loading loading-dots loading-lg "></span>
               )}
             </button>
             <section className='text-center mt-2'>
-              <button onClick={() => setPage("signin")} className='text-secondary hover:text-primary transition-all'>มีผู้ใช้อยู่แล้ว ?</button>
+              <button onClick={() => setPage("signup")} className='text-secondary hover:text-primary transition-all'>ไม่มีชื่อผู้ใช้ ?</button>
             </section>
           </footer>
         </form>
       </div>
-    </div >
+    </div>
   )
 }
 
-export default SignUp
+export default SignIn

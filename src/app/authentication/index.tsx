@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
-import SignIn from './auth/signin';
-import SignUp from './auth/signup';
+import SignIn from './components/signin';
+import SignUp from './components/signup';
 
 export type AuthPage = "signin" | "signup";
 function Authentication() {

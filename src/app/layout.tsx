@@ -1,7 +1,7 @@
 import './globals.css'
 import SessionProvider from "./components/SessionProvider";
 import { getServerSession } from "next-auth";
-import Authentication from './components/Authentication';
+import Authentication from './authentication';
 
 export const metadata = {
   title: 'iMall',
