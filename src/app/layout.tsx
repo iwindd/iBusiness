@@ -3,6 +3,7 @@ import SessionProvider from "./components/SessionProvider";
 import { getServerSession } from "next-auth";
 import Authentication from './authentication';
 import Navbar from './components/navbar';
+import Application from './components/Application';
 
 export const metadata = {
   title: 'iMall',
@@ -23,7 +24,13 @@ export default async function RootLayout({
           {
             session ? (
               <Navbar>
-                children
+                {
+                  session?.user.application ? (
+                    children
+                  ) : (
+                    <Application />
+                  )
+                }
               </Navbar>
             ) : (
               <Authentication />
