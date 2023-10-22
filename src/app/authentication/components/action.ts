@@ -26,7 +26,16 @@ export async function useRegister(payload: Inputs) {
       const user = await Prisma.user.create({
         data: {
           email: payload.email,
-          password: payload.password
+          password: payload.password,
+          title: payload.title,
+          address: payload.address,
+          area: payload.area,
+          district: payload.district,
+          firstname: payload.firstname,
+          lastname: payload.lastname,
+          postalcode: payload.postalcode,
+          provice: payload.province,
+          tel: payload.tel
         }
       })
 

@@ -9,10 +9,7 @@ export const authOptions = {
   session: {
     jwt: true,
     maxAge: 30 * 24 * 60 * 60, // 30 days (in seconds)
-    updateAge: 24 * 60 * 60, // 24 hours (in seconds),
-    user: {
-      email: ''
-    },
+    updateAge: 24 * 60 * 60, // 24 hours (in seconds)
   },
   callbacks: {
     async jwt({ token, user, trigger, session }: any) {
@@ -43,7 +40,7 @@ export const authOptions = {
             where: {
               email: credentials.email,
               password: credentials.password,
-            },
+            }
           });
 
           return user

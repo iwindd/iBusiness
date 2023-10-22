@@ -8,10 +8,9 @@ function Layout({ children }: { children: ReactNode }) {
       <Sidebar />
       <div className="flex flex-col w-full">
         <Navbar />
-        
-        <div className='main-content'>
+        <main>
           {children}
-        </div>
+        </main>
       </div>
     </div>
   );
