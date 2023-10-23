@@ -1,8 +1,9 @@
 "use server";
+import { getServerSession } from '@/libs/session';
+import { Session } from 'next-auth';
 
-import { getServerSession } from "next-auth";
-
-export const ChooseApplication = async () => {
+export const getSessionAction = async () => {
   const session = await getServerSession();
-
+  
+  return session
 }

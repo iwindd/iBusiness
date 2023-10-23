@@ -11,8 +11,8 @@ datasource db {
 }
 
 model User {
-  id         Int    @id @default(autoincrement())
-  email      String @unique
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
   password   String
   title      String
   address    String
@@ -23,4 +23,15 @@ model User {
   postalcode String
   provice    String
   tel        String
+  Product    Product[]
+}
+
+model Product {
+  serial String @id
+  title  String
+  price  Int
+  cost   Int
+  stock  Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
 }

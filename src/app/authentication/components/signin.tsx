@@ -34,7 +34,7 @@ function SignIn({setPage}: {
     })
 
     if (!resp?.error) {
-      return router.push("/store");
+      return router.push("/");
     }
 
     setLoading(false)

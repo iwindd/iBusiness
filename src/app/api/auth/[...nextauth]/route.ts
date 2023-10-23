@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import Prisma from '@/libs/prisma'
+import { Session } from 'inspector';
 
 export const authOptions = {
   pages: {
@@ -8,29 +9,34 @@ export const authOptions = {
   },
   session: {
     jwt: true,
-    maxAge: 30 * 24 * 60 * 60, // 30 days (in seconds)
-    updateAge: 24 * 60 * 60, // 24 hours (in seconds)
+    maxAge: 30 * 24 * 60 * 60, 
+    updateAge: 24 * 60 * 60, 
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }: any) {
+    async jwt({ trigger, token, user, session }: any) {
       if (trigger === 'update') {
         return { ...token, ...session.user }
       }
 
-      return { ...token, ...user }
+      return {
+        ...{
+          email: token.email,
+          application: token.application
+        }, ...user
+      }
     },
-
     async session({ session, token }: any) {
       session.user = token as any
+
       return session
-    },
+    }
   },
   providers: [
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: 'Username', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        email: {},
+        password: {}
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
@@ -45,9 +51,9 @@ export const authOptions = {
 
           return user
             ? {
-              id: String(user?.id),
-              email: user?.email,
-              application: ""
+              ...user,
+              id: String(user.id),
+              application: user.id
             }
             : null;
         } catch (error) {
