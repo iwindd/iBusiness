@@ -25,7 +25,7 @@ const SidebarController = () => {
 function Navbar() {
   return (
     <nav className='navbar w-full flex justify-between'>
-      <SidebarController />
+      {/* <SidebarController /> */}
       <main className='h-full flex-grow justify-end'>
         <Menu as="div" className="relative inline-block text-left">
           <div>
