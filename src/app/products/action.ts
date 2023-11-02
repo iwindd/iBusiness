@@ -46,7 +46,28 @@ export async function addProduct(payload: Inputs) {
   } catch (error) {
     return {
       success: false,
-      data: {},
+      error: error
+    }
+  }
+}
+
+export async function deleteProduct(payload: String) {
+  try {
+    const session = await getServerSession();
+    const result = Prisma.product.delete({
+      where: {
+        serial: String(payload),
+        userId: Number(session?.user.application)
+      }
+    })
+
+    return {
+      success: true,
+      data: result
+    }
+  } catch (error) {
+    return {
+      success: false,
       error: error
     }
   }

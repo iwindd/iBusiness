@@ -21,7 +21,8 @@ export const authOptions = {
       return {
         ...{
           email: token.email,
-          application: token.application
+          application: token.application,
+          cart: token.cart
         }, ...user
       }
     },

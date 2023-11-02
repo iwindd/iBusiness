@@ -24,6 +24,7 @@ model User {
   provice    String
   tel        String
   Product    Product[]
+  Order      Order[]
 }
 
 model Product {
@@ -34,4 +35,25 @@ model Product {
   stock  Int
   user   User   @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model Order {
+  id          Int    @id @default(autoincrement())
+  price       Int
+  type        Int
+  note        String
+  user        User   @relation(fields: [application], references: [id])
+  application Int
+  products    OrderProduct[]
+}
+
+model OrderProduct{
+  id Int @id @default(autoincrement())
+  order Order @relation(fields: [orderId], references: [id])
+  orderId Int 
+  serial String
+  title String
+  price Int
+  cost Int
+  count Int
 }
