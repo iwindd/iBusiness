@@ -84,7 +84,7 @@ export const Item = (props: ItemProps) => {
   }, [props.count])
 
   return (
-    <tr className={"transition-all" + (grow ? " bg-secondary " : "")}>
+    <tr className={"transition-all" + (grow ? " bg-base-200 " : "")}>
       <td>{props.serial}</td>
       <td>{props.title}</td>
       <td>{props.price}</td>
