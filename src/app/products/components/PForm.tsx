@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { addProduct, deleteProduct, saveProduct } from '../action';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQueryClient } from '@tanstack/react-query';
+import ConfirmButton from '@/app/components/confirm_button';
 
 interface Props {
   serial: string,
@@ -140,14 +141,15 @@ function PForm({
                           </button>
                         </div>
                       </div>
-                      <button
-                        type="button"
+                      <ConfirmButton
                         className="btn btn-error"
+                        label='ลบสินค้า'
+                        label2='ลบสินค้า ?'
                         onClick={onDelete}
                         disabled={isNewItem}
-                      >
-                        ลบสินค้า
-                      </button>
+                      />
+                        
+                      
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>

@@ -25,11 +25,11 @@ const Payment = () => {
 
   return (
     <button
-      className="btn btn-primary"
+      className="btn btn-success join-item"
       onClick={onClick}
       disabled={(session?.user.cart || []).length <= 0}
     >
-      payment
+      คิดเงิน
     </button>
   )
 }

@@ -3,6 +3,8 @@ import NextAuth from "next-auth"
 export interface CartItem {
   serial: string,
   title: string,
+  price: number,
+  count: number
 }
 
 declare module "next-auth" {

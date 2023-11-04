@@ -51,18 +51,11 @@ export const PaymentAction = async (data: {
 
     if (cart.length <= 0) return;
 
-    const payload: Product[] = [];
-    cart.map(async (item) => {
-      const product = payload.find(p => p.serial == item.serial);
-      if (!product) {
-        payload.push({
-          ...item,
-          price: 0,
-          cost: 0,
-          count: 1
-        })
-      } else {
-        product.count++;
+    const payload: Product[] = cart.map((p) => {
+      return {
+        ...p,
+        price: 0,
+        cost: 0
       }
     })
 
