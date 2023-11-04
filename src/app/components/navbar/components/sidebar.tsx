@@ -37,7 +37,7 @@ function Sidebar() {
 
   const renderCategories = (header: Header) => {
     return (
-      <Disclosure defaultOpen={true}>
+      <Disclosure defaultOpen={true} key={header.label}>
         {({ open }) => (
           <>
             <Disclosure.Button className={NavClass}>
@@ -51,9 +51,8 @@ function Sidebar() {
                 {
                   header.items.map((i, index) => {
                     return (
-                      <Link href={i.route}>
+                      <Link href={i.route}  key={index}> 
                         <li
-                          key={index}
                           className={NavClass + " border-s hover:text-white " + ((!(pathname).search(i.route)) ? "" : "text-gray-500 border-gray-500")}
                         >
                           {i.label}
@@ -71,9 +70,9 @@ function Sidebar() {
   }
 
   const renderButton = (header: Header) => {
-    return <>
-      <button className={NavClass} onClick={header?.onClick}>{header.label}</button>
-    </>
+    return (
+      <button className={NavClass} onClick={header?.onClick} key={header.label}>{header.label}</button>
+    )
   }
 
   return (

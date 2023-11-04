@@ -8,7 +8,6 @@ export default function Products() {
 
   const onGetServerSession = async () => {
     const resp = await getSessionAction();
-
   }
 
   return (

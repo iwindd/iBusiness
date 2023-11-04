@@ -20,14 +20,19 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input placeholder='รหัสสินค้า' className="input input-bordred" {...register("serial")} autoFocus />
+    <div className='container p-4 '>
+      <form onSubmit={handleSubmit(onSubmit)} className='flex gap-2 w-full'>
+        <input placeholder='รหัสสินค้า' className="input flex-grow input-bordered outline-none ring-0 focus:ring-0 ring-5" {...register("serial")} autoFocus />
         <button className='btn btn-primary'>เพิ่มสินค้า</button>
+        <button type='button' className="btn btn-success">คิดเงิน</button>
       </form>
+      <div className="controllers space-x-1 mt-2 flex">
+        <button className="btn btn-error">ล้างตะกร้า</button>
+      </div>
+      <div className="divider"></div>
 
       <Controller />
-    </>
+    </div >
   )
 }
 
