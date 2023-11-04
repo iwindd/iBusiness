@@ -79,7 +79,10 @@ export const PaymentAction = async (paymentPayload: {
       data: {
         ...paymentPayload,
         price: products.reduce((total, p) => total + p.price*p.count, 0),
+        cost: products.reduce((total, p) => total + p.cost*p.count, 0),
+        profit: products.reduce((total, p) => total + p.price*p.count, 0)-products.reduce((total, p) => total + p.cost*p.count, 0),
         application: Number(session?.user.application),
+        productsText: products.map(p => p.title).join(", "),
         products: {
           create: products
         }

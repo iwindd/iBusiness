@@ -27,33 +27,47 @@ model User {
   Order      Order[]
 }
 
+model Category {
+  id        Int       @id @default(autoincrement())
+  title     String
+  createdAt DateTime  @default(now())
+  Product   Product[]
+}
+
 model Product {
-  serial String @id
-  title  String
-  price  Int
-  cost   Int
-  stock  Int
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
+  serial     String   @id
+  title      String
+  price      Int
+  cost       Int
+  stock      Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
 }
 
 model Order {
-  id          Int    @id @default(autoincrement())
-  price       Int
-  type        Int
-  note        String
-  user        User   @relation(fields: [application], references: [id])
-  application Int
-  products    OrderProduct[]
+  id           Int            @id @default(autoincrement())
+  price        Int
+  cost         Int
+  profit       Int
+  type         Int
+  note         String
+  user         User           @relation(fields: [application], references: [id])
+  application  Int
+  productsText String
+  products     OrderProduct[]
+  createdAt    DateTime       @default(now())
 }
 
-model OrderProduct{
-  id Int @id @default(autoincrement())
-  order Order @relation(fields: [orderId], references: [id])
-  orderId Int 
-  serial String
-  title String
-  price Int
-  cost Int
-  count Int
+model OrderProduct {
+  id       Int    @id @default(autoincrement())
+  order    Order  @relation(fields: [orderId], references: [id])
+  orderId  Int
+  serial   String
+  title    String
+  category String
+  price    Int
+  cost     Int
+  count    Int
 }
