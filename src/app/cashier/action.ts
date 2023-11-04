@@ -41,7 +41,7 @@ export const AddToCashier = async (payload: Inputs) => {
   }
 }
 
-export const PaymentAction = async (data: {
+export const PaymentAction = async (paymentPayload: {
   note: string,
   type: 0 | 1
 }) => {
@@ -77,9 +77,8 @@ export const PaymentAction = async (data: {
 
     const Order = await Prisma.order.create({
       data: {
+        ...paymentPayload,
         price: products.reduce((total, p) => total + p.price*p.count, 0),
-        type: 0,
-        note: "",
         application: Number(session?.user.application),
         products: {
           create: products
