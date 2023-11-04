@@ -87,6 +87,7 @@ export const Item = (props: ItemProps) => {
     <tr className={"transition-all" + (grow ? " bg-base-200 " : "")}>
       <td>{props.serial}</td>
       <td>{props.title}</td>
+      <td>{props.category}</td>
       <td>{props.price}</td>
       <td>
         <div className="join">

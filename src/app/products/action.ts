@@ -41,6 +41,9 @@ export async function getProducts(
               }
             }
           ]
+        },
+        include: {
+          category: true
         }
       })
     ])
@@ -90,7 +93,8 @@ export async function addProduct(payload: Inputs) {
         title: payload.title,
         price: payload.price,
         cost: payload.cost,
-        stock: payload.stock
+        stock: payload.stock,
+        categoryId: Number(payload.categoryId)
       }
     })
 
@@ -115,7 +119,12 @@ export async function saveProduct(payload: Inputs) {
         serial: payload.serial
       },
       data: {
-        ...payload,
+        userId: Number(session?.user.application),
+        title: payload.title,
+        price: payload.price,
+        cost: payload.cost,
+        stock: payload.stock,
+        categoryId: Number(payload.categoryId)
       }
     })
 

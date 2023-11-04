@@ -3,15 +3,13 @@ import React from 'react'
 import { Dialog, Transition } from '@headlessui/react';
 import { Schema, Inputs } from './schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addProduct, deleteProduct, saveProduct } from '../action';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useQueryClient } from '@tanstack/react-query';
 import ConfirmButton from '@/app/components/confirm_button';
-import { getCategories } from '@/app/categories/action';
-
+import { addCategory, deleteCategory, updateCategory } from '../action';
 
 interface Props {
-  serial: string,
+  target: number,
   state: boolean,
   setState: React.Dispatch<React.SetStateAction<boolean>>,
   values?: Inputs,
@@ -19,21 +17,17 @@ interface Props {
 }
 
 function PForm({
-  serial,
+  target,
   state: isOpen,
   setState: setIsOpen,
   values,
   isNewItem
 }: Props) {
   const [isLoading, setLoading] = React.useState<boolean>(false);
-  const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm<Inputs>({
+  const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<Inputs>({
     resolver: zodResolver(Schema),
     defaultValues: {
-      serial: serial,
-      price: 0,
-      cost: 0,
-      stock: 0,
-      categoryId: 0
+      title: ""
     }
   });
 
@@ -41,49 +35,31 @@ function PForm({
 
   const onSubmit: SubmitHandler<Inputs> = async (payload) => {
     setLoading(true);
-
     if (isNewItem) {
-      const resp = await addProduct({ ...payload, serial: serial });
+      const resp = await addCategory(payload);
       if (!resp.success) return setLoading(false);
     } else {
-      const resp = await saveProduct({ ...payload, serial: serial });
+      const resp = await updateCategory(target, payload);
       if (!resp.success) return setLoading(false);
     }
 
-    queryClient.refetchQueries({ queryKey: ['products'], type: 'active' })
-    setIsOpen(false);
+    queryClient.refetchQueries({ queryKey: ['categories'], type: 'active' })
     setLoading(false);
+    setIsOpen(false);
   }
 
   const onDelete = async () => {
     setLoading(true);
-    const resp = await deleteProduct(serial);
-    if (!resp.success) return setLoading(false);
-
-    queryClient.refetchQueries({ queryKey: ['products'], type: 'active' })
+    const resp = await deleteCategory(target);
+    queryClient.refetchQueries({ queryKey: ['categories'], type: 'active' })
     setIsOpen(false);
     setLoading(false);
   }
 
-  React.useEffect(reset, [values, isNewItem, serial])
+  React.useEffect(reset, [values, isNewItem])
   React.useEffect(() => {
-    if (values?.serial) setValue("serial", values.serial);
     if (values?.title) setValue("title", values.title);
-    if (values?.price) setValue("price", values.price);
-    if (values?.cost) setValue("cost", values.cost);
-    if (values?.stock) setValue("stock", values.stock);
-    if (values?.categoryId) setValue("categoryId", values.categoryId);
-
   }, [values])
-
-  const { data: categoriesData, isLoading: isLoadingCategories, error } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      return await getCategories(1, 1000, "", [null, 'asc'])
-    }
-  })
-
-  if (error) return <p>cannot loading categories</p>
 
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
@@ -117,44 +93,13 @@ function PForm({
                       as="h3"
                       className="text-lg font-medium leading-6 "
                     >
-                      รหัสสินค้า :
-                      <span className='ms-auto'> {serial || "?"}</span>
+                      ประเภทสินค้า
                       <div className="divider"></div>
                     </Dialog.Title>
                     <p className="text-sm text-gray-500">
                       <div className='flex flex-col space-y-1 w-full'>
-                        <input className='input input-bordered focus:text-white transition-all' type='hidden' placeholder='รหัสสินค้า' {...register("serial")} disabled={true} />
-                        <p className="text-error">{errors.serial?.message}</p>
-
-                        <input className='input input-bordered focus:text-white transition-all' placeholder='ชื่อสินค้า' {...register("title")} autoFocus required />
+                        <input className='input input-bordered focus:text-white transition-all' placeholder='ประเภทสินค้า' {...register("title")} autoFocus required />
                         <p className="text-error">{errors.title?.message}</p>
-
-                        <Controller
-                          name="categoryId" // This should match the name you use in your form data
-                          control={control}
-                          render={({ field }) => (
-                            <select className='select select-bordered' {...field} {...register('categoryId', {valueAsNumber:true})}>
-                              <option disabled value={0}>{isLoadingCategories ? "loading..." : "เลือกประเภทสินค้า"} </option>
-                              {
-                                (categoriesData?.data || []).map(c => {
-                                  return (
-                                    <option key={c.id} value={Number(c.id)} >{c.title}</option>
-                                  )
-                                })
-                              }
-                            </select>
-                          )}
-                        />
-
-                        <input className='input input-bordered focus:text-white transition-all' type='number' placeholder='ราคาขาย' {...register("price", { valueAsNumber: true })} required />
-                        <p className="text-error">{errors.price?.message}</p>
-
-                        <input className='input input-bordered focus:text-white transition-all' type='number' placeholder='ราคาต้นทุน' {...register("cost", { valueAsNumber: true })} required />
-                        <p className="text-error">{errors.cost?.message}</p>
-
-                        <input className='input input-bordered focus:text-white transition-all' type='number' placeholder='สต๊อก' {...register("stock", { valueAsNumber: true })} required />
-                        <p className="text-error">{errors.stock?.message}</p>
-
                       </div>
                     </p>
 
@@ -164,7 +109,7 @@ function PForm({
                           type="submit"
                           className="btn btn-success"
                         >
-                          บันทึกสินค้า
+                          บันทึก
                         </button>
                         <div>
                           <button
@@ -178,13 +123,11 @@ function PForm({
                       </div>
                       <ConfirmButton
                         className="btn btn-error"
-                        label='ลบสินค้า'
-                        label2='ลบสินค้า ?'
+                        label='ลบ'
+                        label2='ลบ ?'
                         onClick={onDelete}
                         disabled={isNewItem}
                       />
-
-
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>

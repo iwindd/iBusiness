@@ -24,7 +24,8 @@ const CashierPage = () => {
         serial: resp.data?.serial as string,
         title: resp.data?.title as string,
         price: resp.data?.price as number,
-        count: 1
+        count: 1,
+        category: resp.data?.category.title as string
       })
     }else{
       product.count++

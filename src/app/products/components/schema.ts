@@ -6,5 +6,6 @@ export const Schema = z.object({
   title: z.string(),
   price: z.number(),
   cost: z.number(),
-  stock: z.number()
+  stock: z.number(),
+  categoryId: z.number(),
 })

@@ -18,6 +18,9 @@ export const AddToCashier = async (payload: Inputs) => {
       where: {
         serial: payload.serial,
         userId: Number(session?.user.application)
+      },
+      include: {
+        category: true
       }
     })
 
@@ -62,6 +65,9 @@ export const PaymentAction = async (paymentPayload: {
     const data = await Prisma.product.findMany({
       where: {
         serial: { in: payload.map(p => p.serial) }
+      },
+      include: {
+        category: true
       }
     })
 
@@ -72,6 +78,7 @@ export const PaymentAction = async (paymentPayload: {
         price: product.price,
         cost: product.cost,
         count: (payload.find(p => p.serial == product.serial) as Product).count,
+        category: product.category.title
       }
     })
 

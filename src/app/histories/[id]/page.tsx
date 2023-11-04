@@ -64,6 +64,7 @@ const History = async ({ params: { id } }: {
             <tr>
               <th>รหัสสินค้า</th>
               <th>ชื่อสินค้า</th>
+              <th>ประเภทสินค้า</th>
               <th>ราคา</th>
               <th>ต้นทุน</th>
               <th>กำไร</th>
@@ -74,9 +75,10 @@ const History = async ({ params: { id } }: {
             {
               history?.products.map((p) => {
                 return (
-                  <tr>
+                  <tr key={p.id}>
                     <td>{p.serial}</td>
                     <td>{p.title}</td>
+                    <td>{p.category}</td>
                     <td>{p.price.toLocaleString()} ฿</td>
                     <td>{p.cost.toLocaleString()} ฿</td>
                     <td>{(p.price - p.cost).toLocaleString()} ฿</td>

@@ -5,14 +5,19 @@ import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../action';
 import { CSVLink, CSVDownload } from "react-csv";
 
-interface DataRow extends Inputs { }
+interface DataRow extends Inputs {
+  category: {
+    title: string
+  }
+}
 
 const columns: TableColumn<DataRow>[] = [
-  { name: 'Serial', selector: row => row.serial, sortable: false},
-  { name: 'Title', selector: row => row.title, sortable: false},
-  { name: 'Price', selector: row => row.price, sortable: true, format: (data) => data.price.toLocaleString() },
-  { name: 'Cost', selector: row => row.cost, sortable: true, format: (data) => data.cost.toLocaleString() },
-  { name: 'Stock', selector: row => row.stock, sortable: true, format: (data) => data.stock.toLocaleString() },
+  { id: "serail", name: 'รหัสสินค้า', selector: row => row.serial, sortable: false },
+  { id: "title", name: 'ชื่อสินค้า', selector: row => row.title, sortable: false },
+  { id: "category", name: 'ประเภทสินค้า', selector: row => row.category.title, sortable: true },
+  { id: "price", name: 'ราคา', selector: row => row.price, sortable: true, format: (data) => data.price.toLocaleString() },
+  { id: "cost", name: 'ต้นทุน', selector: row => row.cost, sortable: true, format: (data) => data.cost.toLocaleString() },
+  { id: "stock", name: 'ของในสต๊อก', selector: row => row.stock, sortable: true, format: (data) => data.stock.toLocaleString() },
 ];
 
 const ProductTable = (props: {
@@ -52,13 +57,14 @@ const ProductTable = (props: {
                 filename={"รายการสินค้า"}
                 className='btn btn-success'
                 data={
-                  (data?.data as Inputs[]).map((p: Inputs) => {
+                  (data?.data as DataRow[]).map((p: DataRow) => {
                     return {
-                      Serial: p.serial,
-                      Title: p.title,
-                      Price: p.price,
-                      Cost: p.cost,
-                      Stock: p.stock
+                      serial: p.serial,
+                      title: p.title,
+                      price: p.price,
+                      category: p.category.title,
+                      cost: p.cost,
+                      stock: p.stock
                     }
                   })
                 }
@@ -66,14 +72,14 @@ const ProductTable = (props: {
                   (columns).map((col) => {
                     return {
                       label: col.name,
-                      key: (col.name)
+                      key: (col.id)
                     }
                   }) as any
                 }>EXPORT CSV</CSVLink>
             </div>
           </div>
           <DataTable
-            columns={columns}
+            columns={columns as any}
             data={data ? (data.success ? data.data as Inputs[] : []) : []}
             progressPending={isLoading}
             pagination

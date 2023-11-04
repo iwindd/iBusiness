@@ -1,49 +1,36 @@
 import React from 'react'
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { useQuery } from '@tanstack/react-query';
-import { getHistories } from '../action';
-import { useRouter } from 'next/navigation';
-interface DataRow {
+import { getCategories } from '../action';
+import { Inputs } from './schema';
+interface DataRow extends Inputs {
   id: number,
-  price: number,
-  cost: number,
-  profit: number,
-  type: number,
-  note: string,
-  createdAt: any,
-  productsText: string
+  title: string,
+  createdAt: any
 }
 
 const columns: TableColumn<DataRow>[] = [
+  { id: "id", name: "#", hide: 1, sortField: "id", selector: row => row.id, sortable: true, format: (data) => data.id },
+  { name: "ประเภทสินค้า", sortField: "title", selector: row => row.title, sortable: true, format: (data) => data.title },
+  { name: "จำนวนสินค้า", selector: row => row.title, sortable: false, format: (data) => data.title },
   {
-    name: 'วันทำรายการ', sortField: "createdAt", selector: row => row.createdAt, sortable: true, format: (data) =>
+    name: 'วันที่เพิ่ม', sortField: "createdAt", selector: row => row.createdAt, sortable: true, format: (data) =>
       new Intl.DateTimeFormat('th-TH', { timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(data.createdAt))
-  },
-  { name: 'ราคา', sortField: "price", selector: row => row.price, sortable: true, format: (data) => data.price.toLocaleString() + " ฿" },
-  { name: 'ต้นทุน', sortField: "cost", selector: row => row.cost, sortable: true, format: (data) => data.cost.toLocaleString() + " ฿" },
-  { name: 'กำไร', sortField: "profit", selector: row => row.profit, sortable: true, format: (data) => data.profit.toLocaleString() + " ฿" },
-  {
-    name: 'สินค้า', selector: row => row.productsText, sortable: false, format: (data) => {
-      const MoreItem = data.productsText.length >= 20;
-
-      return MoreItem ? data.productsText.substring(0, 20) + '...' : data.productsText
-    }
-  },
-  { name: 'หมายเหตุ', sortField: "note", selector: row => row.note, sortable: true, format: (data) => data.note.toLocaleString() || "-" },
+  }
 ];
 
-const HistoryTable = (props: {
-  search: string
+const CategoryTable = (props: {
+  search: string,
+  onManage: (id: number, payload: Inputs) => void
 }) => {
   const [perPage, setPerPage] = React.useState<number>(10);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalRows, setTotalRows] = React.useState<number>(0);
   const [sort, setSort] = React.useState<[string | null, "asc" | "desc"]>([null, "desc"]);
-  const router = useRouter();
   const { data, refetch, isLoading, error } = useQuery({
-    queryKey: ["histories"],
+    queryKey: ["categories"],
     queryFn: async () => {
-      return await getHistories(currentPage, perPage, props.search, sort);
+      return await getCategories(currentPage, perPage, props.search, sort);
     }
   })
 
@@ -81,7 +68,7 @@ const HistoryTable = (props: {
             }}
             onChangeRowsPerPage={setPerPage}
             onChangePage={setCurrentPage}
-            onRowClicked={(data) => router.push(`/histories/${data.id}`)}
+            onRowClicked={(data) => props.onManage(data.id, data)}
           />
         </>
       ) : (
@@ -94,4 +81,4 @@ const HistoryTable = (props: {
   )
 }
 
-export default HistoryTable
+export default CategoryTable  

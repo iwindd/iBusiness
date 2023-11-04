@@ -4,7 +4,8 @@ export interface CartItem {
   serial: string,
   title: string,
   price: number,
-  count: number
+  count: number,
+  category: string
 }
 
 declare module "next-auth" {

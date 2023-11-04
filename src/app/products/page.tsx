@@ -17,7 +17,8 @@ function Products() {
     title: "",
     price: 0,
     cost: 0,
-    stock: 0
+    stock: 0,
+    categoryId: 0
   });
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -44,7 +45,8 @@ function Products() {
       title: payload.title,
       price: payload.price || 0,
       cost: payload.cost || 0,
-      stock: payload.stock || 0
+      stock: payload.stock || 0,
+      categoryId: payload.categoryId
     });
     setState(true);
   }

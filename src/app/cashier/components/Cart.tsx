@@ -16,6 +16,7 @@ const Cart = (props: CashierPageChildType) => {
           <tr>
             <th>รหัสสินค้า</th>
             <th>ชื่อสินค้า</th>
+            <th>ประเภทสินค้า</th>
             <th>ราคา</th>
             <th>จำนวน</th>
             <th>เครื่องมือ</th>

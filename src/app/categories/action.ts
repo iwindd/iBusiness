@@ -1,8 +1,9 @@
 "use server";
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
+import { Inputs } from "./components/schema";
 
-export async function getHistories(
+export async function getCategories(
   page: number,
   size: number,
   search: string,
@@ -20,13 +21,13 @@ export async function getHistories(
     }
 
     const session = await getServerSession();
-    const histories = await Prisma.$transaction([
-      Prisma.order.count({
+    const categories = await Prisma.$transaction([
+      Prisma.category.count({
         where: {
           application: Number(session?.user.application)
         }
       }),
-      Prisma.order.findMany({
+      Prisma.category.findMany({
         skip: (page - 1) * size,
         take: size,
         orderBy: orderBy,
@@ -34,7 +35,7 @@ export async function getHistories(
           application: Number(session?.user.application),
           OR: [
             {
-              note: {
+              title: {
                 contains: search
               },
             }
@@ -45,8 +46,8 @@ export async function getHistories(
 
     return {
       success: true,
-      data: histories[1],
-      total: histories[0]
+      data: categories[1],
+      total: categories[0]
     }
   } catch (error) {
     return {
@@ -56,10 +57,55 @@ export async function getHistories(
   }
 }
 
-export async function getHistory(id: number) {
+export async function addCategory(payload: Inputs) {
   try {
     const session = await getServerSession();
-    const product = await Prisma.order.findFirst({
+    const category = await Prisma.category.create({
+      data: {
+        application: Number(session?.user.application),
+        title: payload.title
+      }
+    })
+
+    return {
+      success: true,
+      data: category
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error
+    }
+  }
+}
+
+export async function updateCategory(id: number, payload: Inputs) {
+  try {
+    const session = await getServerSession();
+    const category = await Prisma.category.update({
+      where: {
+        id: id,
+        application: Number(session?.user.application)
+      },
+      data: payload
+    })
+
+    return {
+      success: true,
+      data: category
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error
+    }
+  }
+}
+
+export async function deleteCategory(id: number) {
+  try {
+    const session = await getServerSession();
+    const category = await Prisma.category.delete({
       where: {
         id: id,
         application: Number(session?.user.application)
@@ -68,7 +114,7 @@ export async function getHistory(id: number) {
 
     return {
       success: true,
-      data: product
+      data: category
     }
   } catch (error) {
     return {
