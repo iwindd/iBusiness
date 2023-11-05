@@ -37,6 +37,7 @@ model Category {
 
 model Product {
   id          Int      @id @default(autoincrement())
+  retail      Boolean  @default(true)
   serial      String
   title       String
   price       Int
@@ -50,6 +51,7 @@ model Product {
 
 model Order {
   id           Int            @id @default(autoincrement())
+  retail       Boolean        @default(true)
   price        Int
   cost         Int
   profit       Int
