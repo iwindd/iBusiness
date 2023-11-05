@@ -7,12 +7,13 @@ interface DataRow extends Inputs {
   id: number,
   title: string,
   createdAt: any,
+  products: { id: number }[]
 }
 
 const columns: TableColumn<DataRow>[] = [
   { id: "id", name: "#", hide: 1, sortField: "id", selector: row => row.id, sortable: true, format: (data) => data.id },
   { name: "ประเภทสินค้า", sortField: "title", selector: row => row.title, sortable: true, format: (data) => data.title },
-  { name: "จำนวนสินค้า", selector: row => row.title, sortable: false, format: (data) => data.title },
+  { name: "จำนวนสินค้า", selector: row => row.title, sortable: false, format: (data) => (data.products.length).toLocaleString() },
   {
     name: 'วันที่เพิ่ม', sortField: "createdAt", selector: row => row.createdAt, sortable: true, format: (data) =>
       new Intl.DateTimeFormat('th-TH', { timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(data.createdAt))

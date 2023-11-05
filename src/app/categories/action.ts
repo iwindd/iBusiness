@@ -42,7 +42,7 @@ export async function getCategories(
           ]
         },
         include: {
-          Product: {
+          products: {
             select: {
               id: true
             }
