@@ -2,11 +2,11 @@
 import React from 'react'
 import Header from './header';
 import { useAtom } from 'jotai'
-import { SidebarAtom } from '../store'
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { SideState } from '..';
 
 interface Header {
   label: string,
@@ -31,8 +31,7 @@ const headers: Header[] = [
 
 const NavClass = `flex w-full justify-between px-4 py-2 text-left text-sm font-medium outline-none hover:bg-base-200 transition-all `;
 
-function Sidebar() {
-  const [Sidebar] = useAtom(SidebarAtom)
+function Sidebar({ SideState: Sidebar }: SideState) {
   const pathname = usePathname()
 
   const renderCategories = (header: Header) => {
@@ -51,7 +50,7 @@ function Sidebar() {
                 {
                   header.items.map((i, index) => {
                     return (
-                      <Link href={i.route}  key={index}> 
+                      <Link href={i.route} key={index}>
                         <li
                           className={NavClass + " border-s hover:text-white " + ((!(pathname).search(i.route)) ? "" : "text-gray-500 border-gray-500")}
                         >

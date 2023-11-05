@@ -1,31 +1,33 @@
 "use client"
 import React from 'react'
 import { useAtom } from 'jotai'
-import { SidebarAtom } from '../store'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { signOut } from 'next-auth/react'
 import { classNames } from '@/libs/utils'
+import { SideState } from '..'
+import Sidebar from './sidebar';
 
-const SidebarController = () => {
-  const [Sidebar, setSidebar] = useAtom(SidebarAtom)
-
+const SidebarController = ({
+  SideState,
+  setSideState
+}: SideState) => {
   return (
     <aside className='h-full'>
       <button
         className='w-12 h-12 rounded-full'
-        onClick={() => setSidebar(!Sidebar)}
+        onClick={() => setSideState(!Sidebar)}
       >
-        {Sidebar ? "<" : ">"}
+        {SideState ? "<" : ">"}
       </button>
     </aside>
   )
 }
 
-function Navbar() {
+function Navbar(props: SideState) {
   return (
     <nav className='navbar w-full flex justify-between'>
-      {/* <SidebarController /> */}
+      {/* <SidebarController {...props} /> */}
       <main className='h-full flex-grow justify-end'>
         <Menu as="div" className="relative inline-block text-left">
           <div>
