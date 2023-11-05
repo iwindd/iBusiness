@@ -17,7 +17,7 @@ export const AddToCashier = async (payload: Inputs) => {
     const product = await Prisma.product.findFirst({
       where: {
         serial: payload.serial,
-        userId: Number(session?.user.application)
+        application: session?.user.application
       },
       include: {
         category: true
