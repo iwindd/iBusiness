@@ -29,6 +29,7 @@ const CashierPage = () => {
     const product = cart.find(p => p.serial == serial && p.retail == session?.user.retail);
     if (!product ) {
       cart.push({
+        id: resp.data?.id as number,
         serial: resp.data?.serial as string,
         title: resp.data?.title as string,
         price: resp.data?.price as number,

@@ -74,19 +74,19 @@ export const PaymentAction = async (paymentPayload: {
       }
     })
 
-    const products: Product[] = data
-    .filter(p => p.retail == session?.user.retail)
-    .map((product) => {
-      return {
-        serial: product.serial,
-        title: product.title,
-        price: product.price,
-        cost: product.cost,
-        count: (payload.find(p => p.serial == product.serial) as Product).count,
-        category: product.category.title,
-        retail: product.retail
-      }
-    })
+    const products = data
+      .filter(p => p.retail == session?.user.retail)
+      .map((product) => {
+        return {
+          serial: product.serial,
+          title: product.title,
+          price: product.price,
+          cost: product.cost,
+          count: (payload.find(p => p.id == product.id) as Product).count,
+          category: product.category.title,
+          retail: product.retail
+        }
+      })
 
     const Order = await Prisma.order.create({
       data: {
@@ -97,9 +97,21 @@ export const PaymentAction = async (paymentPayload: {
         productsText: products.map(p => p.title).join(", "),
         products: { create: products },
         application: session?.user.application as number,
-        retail: session?.user.retail as boolean,
+        retail: session?.user.retail as boolean
       }
     })
+
+    await Prisma.$transaction(data.map((p) => {
+      return Prisma.product.update({
+        where: {
+          application: session?.user.application as number,
+          id: p.id,
+        },
+        data: {
+          stock: p.stock - (payload.find(pl => pl.id == p.id) as Product).count
+        }
+      })
+    }))
 
     return {
       success: true,

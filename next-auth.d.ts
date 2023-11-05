@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 
 export interface CartItem {
+  id: number,
   serial: string,
   title: string,
   price: number,
