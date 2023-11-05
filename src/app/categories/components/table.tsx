@@ -6,7 +6,7 @@ import { Inputs } from './schema';
 interface DataRow extends Inputs {
   id: number,
   title: string,
-  createdAt: any
+  createdAt: any,
 }
 
 const columns: TableColumn<DataRow>[] = [
