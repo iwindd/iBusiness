@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQueryClient } from '@tanstack/react-query';
 import ConfirmButton from '@/app/components/confirm_button';
 import { addCategory, deleteCategory, updateCategory } from '../action';
+import Link from 'next/link';
 
 interface Props {
   target: number,
@@ -111,6 +112,7 @@ function PForm({
                         >
                           บันทึก
                         </button>
+                        <Link className="btn btn-primary" href={`/products?c=${target}`}>Watch</Link>
                         <div>
                           <button
                             type="button"

@@ -7,10 +7,11 @@ export async function getProducts(
   page: number,
   size: number,
   search: string,
-  sort: [string | null, "asc" | "desc"]
+  sort: [string | null, "asc" | "desc"],
+  category: null | number
 ) {
   try {
-
+    
     const orderBy: any = [{
       id: 'desc'
     }];
@@ -33,6 +34,11 @@ export async function getProducts(
         orderBy: orderBy,
         where: {
           application: session?.user.application,
+          ...(
+            category != 0 ? {
+              categoryId: category as number,
+            }:{}
+          ),
           OR: [
             {
               serial: {
@@ -47,7 +53,11 @@ export async function getProducts(
           ]
         },
         include: {
-          category: true
+          category: {
+            select: {
+              title: true
+            }
+          }
         }
       })
     ])

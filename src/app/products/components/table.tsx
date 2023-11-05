@@ -4,6 +4,7 @@ import { Inputs } from './schema';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../action';
 import { CSVLink } from "react-csv";
+import { useSearchParams } from 'next/navigation'
 
 interface DataRow extends Inputs {
   category: {
@@ -12,12 +13,12 @@ interface DataRow extends Inputs {
 }
 
 const columns: TableColumn<DataRow>[] = [
-  { id: "serail", name: 'รหัสสินค้า', selector: row => row.serial, sortable: false },
+  { id: "serial", name: 'รหัสสินค้า', selector: row => row.serial, sortable: false },
   { id: "title", name: 'ชื่อสินค้า', selector: row => row.title, sortable: false },
   { id: "category", name: 'ประเภทสินค้า', selector: row => row.category.title, sortable: false },
   { id: "price", sortField: "price", name: 'ราคา', selector: row => row.price, sortable: true, format: (data) => data.price.toLocaleString() },
   { id: "cost", sortField: "cost", name: 'ต้นทุน', selector: row => row.cost, sortable: true, format: (data) => data.cost.toLocaleString() },
-  { id: "stock", sortField: "stock", name: 'ของในสต๊อก', selector: row => row.stock, sortable: true, format: (data) => data.stock.toLocaleString() },
+  { id: "stock", sortField: "stock", name: 'ของในสต๊อก', selector: row => row.stock, sortable: true, format: (data) => data.stock.toLocaleString() }
 ];
 
 const ProductTable = (props: {
@@ -28,10 +29,13 @@ const ProductTable = (props: {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalRows, setTotalRows] = React.useState<number>(0);
   const [sort, setSort] = React.useState<[string | null, "asc" | "desc"]>([null, "desc"]);
+  const searchParams = useSearchParams()
+  const categoryFilter = searchParams.get('c');
+
   const { data, refetch, isLoading, error } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      return await getProducts(currentPage, perPage, props.search, sort);
+      return await getProducts(currentPage, perPage, props.search, sort, Number(categoryFilter));
     }
   })
 
@@ -78,7 +82,7 @@ const ProductTable = (props: {
                         }
                       }) as any
                     }>EXPORT CSV</CSVLink>
-                ):(
+                ) : (
                   <span>ERROR</span>
                 )
               }
