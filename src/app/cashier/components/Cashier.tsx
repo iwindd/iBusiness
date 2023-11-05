@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useRef } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Inputs, Schema } from '../schema';
@@ -10,14 +10,20 @@ import Payment from './buttons/Payment';
 
 const Cashier = ({ addProductToCart }: CashierPageChildType) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const { register, handleSubmit, reset, setFocus, watch } = useForm<Inputs>({
+  const [onDelay, setDelay] = React.useState<boolean>(false);
+  const { register, handleSubmit, reset, setFocus, watch, getValues } = useForm<Inputs>({
     resolver: zodResolver(Schema)
   })
-  const serial = watch("serial")
-  
   const { data: session, update } = useSession();
-  const cart = session?.user.cart || []
+  const cart = session?.user.cart || [];
   const onSubmit: SubmitHandler<Inputs> = async (payload) => {
+    if (onDelay) return;
+    setDelay(true)
+    setTimeout(() => {
+      setDelay(false);
+      setTimeout(() => setFocus("serial"), 100)
+    }, 200)
+
     if (payload.serial.length <= 0) {
       if (cart.length <= 0) return;
 
@@ -25,8 +31,7 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
     }
 
     reset()
-    addProductToCart(payload.serial);
-    setFocus("serial");
+    await addProductToCart(payload.serial);
   }
 
   const onPayment = () => setIsOpen(true)
@@ -40,6 +45,7 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
     })
   }
 
+  watch("serial");
 
   return (
     <div className='container p-4 '>
@@ -49,14 +55,15 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
           placeholder='รหัสสินค้า'
           className="input flex-grow input-bordered outline-none ring-0 focus:ring-0 ring-5"
           {...register("serial")}
+          disabled={onDelay}
           autoFocus
         />
 
         {
-          ((serial == undefined ? "" : serial).length > 0) ? (
-            <button className='btn btn-primary'>เพิ่มสินค้า</button>
+          ((getValues("serial") == undefined ? "" : getValues("serial")).length > 0) ? (
+            <button className='btn btn-primary' disabled={onDelay}>เพิ่มสินค้า</button>
           ) : (
-            <button className='btn btn-success' disabled={cart.length <= 0}>จ่ายเงิน</button>
+            <button className='btn btn-success' disabled={cart.length <= 0 || onDelay}>จ่ายเงิน</button>
           )
         }
       </form>

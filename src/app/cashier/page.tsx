@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useInterface } from '../components/InterfaceProvider';
 
 export interface CashierPageChildType {
-  addProductToCart: (serial: string) => void
+  addProductToCart:  (serial: string) => void
 }
 
 const CashierPage = () => {
