@@ -30,13 +30,14 @@ model User {
 model Category {
   id          Int       @id @default(autoincrement())
   application Int
-  title       String   
+  title       String
   createdAt   DateTime  @default(now())
   Product     Product[]
 }
 
 model Product {
-  serial     String   @id
+  id         Int      @id @default(autoincrement())
+  serial     String
   title      String
   price      Int
   cost       Int

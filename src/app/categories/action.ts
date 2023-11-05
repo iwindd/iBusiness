@@ -40,6 +40,13 @@ export async function getCategories(
               },
             }
           ]
+        },
+        include: {
+          Product: {
+            select: {
+              id: true
+            }
+          }
         }
       })
     ])
