@@ -14,7 +14,8 @@ declare module "next-auth" {
       id: string
       email: string,
       application: number,
-      cart: CartItem[]
+      cart: CartItem[],
+      retail: boolean
     }
   }
 }

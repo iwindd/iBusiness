@@ -9,8 +9,8 @@ export const authOptions = {
   },
   session: {
     jwt: true,
-    maxAge: 30 * 24 * 60 * 60, 
-    updateAge: 24 * 60 * 60, 
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
   },
   callbacks: {
     async jwt({ trigger, token, user, session }: any) {
@@ -22,7 +22,8 @@ export const authOptions = {
         ...{
           email: token.email,
           application: token.application,
-          cart: token.cart
+          cart: token.cart,
+          retail: token.retail
         }, ...user
       }
     },
@@ -54,7 +55,8 @@ export const authOptions = {
             ? {
               ...user,
               id: String(user.id),
-              application: user.id
+              application: user.id,
+              retail: true
             }
             : null;
         } catch (error) {

@@ -1,17 +1,20 @@
 "use client";
 import React from 'react'
 import Header from './header';
-import { useAtom } from 'jotai'
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { SideState } from '..';
-
+import { v4 as uuidv4 } from 'uuid';
+import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 interface Header {
+  id?:string,
   label: string,
-  type: "categories" | "button",
+  type: "categories" | "button" | "switch",
   onClick?: () => void,
+  value?: any,
   items: {
     label: string,
     route: string
@@ -26,6 +29,16 @@ const headers: Header[] = [
       { label: 'ประเภทสินค้า', route: "/categories" },
       { label: 'ประวัติการขาย', route: "/histories" }
     ]
+  },
+  {
+    id: "retail",
+    label: "ประเภท : ",
+    type: "switch",
+    value: true,
+    items: [
+      {label: "ขายปลีก", route: ""},
+      {label: "ขายส่ง", route: ""}
+    ],
   }
 ]
 
@@ -33,10 +46,11 @@ const NavClass = `flex w-full justify-between px-4 py-2 text-left text-sm font-m
 
 function Sidebar({ SideState: Sidebar }: SideState) {
   const pathname = usePathname()
+  const {data:session, update} = useSession();
 
   const renderCategories = (header: Header) => {
     return (
-      <Disclosure defaultOpen={true} key={header.label}>
+      <Disclosure defaultOpen={true} key={uuidv4()}>
         {({ open }) => (
           <>
             <Disclosure.Button className={NavClass}>
@@ -48,7 +62,7 @@ function Sidebar({ SideState: Sidebar }: SideState) {
             <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm ">
               <ul>
                 {
-                  header.items.map((i, index) => {
+                  (header?.items).map((i, index) => {
                     return (
                       <Link href={i.route} key={index}>
                         <li
@@ -70,7 +84,30 @@ function Sidebar({ SideState: Sidebar }: SideState) {
 
   const renderButton = (header: Header) => {
     return (
-      <button className={NavClass} onClick={header?.onClick} key={header.label}>{header.label}</button>
+      <button className={NavClass} onClick={header?.onClick} key={uuidv4()}>{header.label} </button>
+    )
+  }
+
+  const renderSwitch = (i: Header) => {
+    const [state, setState] = React.useState<boolean>((i.value as boolean) || false);
+
+    if (i.id == "retail") {
+      React.useEffect(() => {
+        update({
+          ...session,
+          user: {
+            ...session?.user,
+            retail: state
+          }
+        })
+      }, [state]) 
+    }
+
+    return (
+      <label className={NavClass + `cursor-pointer label`}>
+        <span className="label-text">{i.label}{i.items[state ? 0 : 1].label}</span>
+        <input type="checkbox" className="toggle toggle-primary" checked={state} onChange={(e) => setState(e.target.checked)} />
+      </label>
     )
   }
 
@@ -82,6 +119,7 @@ function Sidebar({ SideState: Sidebar }: SideState) {
           headers.map(i => {
             if (i.type == "categories") return renderCategories(i);
             if (i.type == "button") return renderButton(i);
+            if (i.type == "switch") return renderSwitch(i);
 
             return <></>
           })
