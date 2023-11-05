@@ -24,7 +24,9 @@ const Cart = (props: CashierPageChildType) => {
         </thead>
         <tbody>
           {
-            filterArrayByProperty(Cart, "serial").sort().map((product, index) => {
+            Cart.sort()
+            .filter(p => p.retail == session?.user.retail)
+            .map((product, index) => {
               return <Item
                 key={`${product.serial}-${index}`}
                 items={Cart}

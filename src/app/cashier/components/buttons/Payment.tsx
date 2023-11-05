@@ -14,7 +14,8 @@ const Payment = ({ isOpen, setIsOpen }: {
   const { data: session, update} = useSession();
   const [isLoading, setLoading] = React.useState<boolean>(false);
   const [Input, setInput] = React.useState<number>();
-  const cart = session?.user.cart || [];
+  const cart = (session?.user.cart || []).filter(p => p.retail == session?.user.retail)
+
 
   React.useEffect(() => {
     setInput(0);

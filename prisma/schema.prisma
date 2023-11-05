@@ -65,8 +65,9 @@ model Order {
 }
 
 model OrderProduct {
-  id       Int    @id @default(autoincrement())
-  order    Order  @relation(fields: [orderId], references: [id])
+  id       Int     @id @default(autoincrement())
+  retail   Boolean @default(true)
+  order    Order   @relation(fields: [orderId], references: [id])
   orderId  Int
   serial   String
   title    String

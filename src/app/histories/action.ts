@@ -23,7 +23,8 @@ export async function getHistories(
     const histories = await Prisma.$transaction([
       Prisma.order.count({
         where: {
-          application: Number(session?.user.application)
+          retail: session?.user.retail as boolean,
+          application: session?.user.application as number
         }
       }),
       Prisma.order.findMany({
@@ -31,7 +32,8 @@ export async function getHistories(
         take: size,
         orderBy: orderBy,
         where: {
-          application: Number(session?.user.application),
+          retail: session?.user.retail as boolean,
+          application: session?.user.application as number,
           OR: [
             {
               note: {
@@ -62,7 +64,8 @@ export async function getHistory(id: number) {
     const product = await Prisma.order.findFirst({
       where: {
         id: id,
-        application: Number(session?.user.application)
+        retail: session?.user.retail as boolean,
+        application: session?.user.application as number
       }
     })
 

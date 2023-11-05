@@ -5,7 +5,8 @@ export interface CartItem {
   title: string,
   price: number,
   count: number,
-  category: string
+  category: string,
+  retail: boolean
 }
 
 declare module "next-auth" {

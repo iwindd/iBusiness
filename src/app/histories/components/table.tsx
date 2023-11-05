@@ -3,6 +3,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { useQuery } from '@tanstack/react-query';
 import { getHistories } from '../action';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 interface DataRow {
   id: number,
   price: number,
@@ -39,6 +40,7 @@ const HistoryTable = (props: {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalRows, setTotalRows] = React.useState<number>(0);
   const [sort, setSort] = React.useState<[string | null, "asc" | "desc"]>([null, "desc"]);
+  const {data: session} = useSession();
   const router = useRouter();
   const { data, refetch, isLoading, error } = useQuery({
     queryKey: ["histories"],
@@ -53,7 +55,7 @@ const HistoryTable = (props: {
 
   React.useEffect(() => {
     refetch()
-  }, [perPage, currentPage, props.search, sort])
+  }, [perPage, currentPage, props.search, sort, session?.user.retail])
 
   if (error) {
     return <p>ERROR</p>
