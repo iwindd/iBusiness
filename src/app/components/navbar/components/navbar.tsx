@@ -28,7 +28,7 @@ function Navbar(props: SideState) {
   return (
     <nav className='navbar w-full flex justify-between'>
       {/* <SidebarController {...props} /> */}
-      <main className='h-full flex-grow justify-end'>
+      <section className='h-full flex-grow justify-end'>
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold ">
@@ -79,7 +79,7 @@ function Navbar(props: SideState) {
             </Menu.Items>
           </Transition>
         </Menu>
-      </main>
+      </section>
     </nav>
   )
 }

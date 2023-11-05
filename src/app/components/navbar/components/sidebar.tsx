@@ -116,7 +116,7 @@ function Sidebar({ SideState: Sidebar }: SideState) {
   return (
     <aside className={`h-full transition-all w-80 flex flex-col ${Sidebar ? null : "ms-[-20rem]"}`}>
       <Header />
-      <main className='grow-1 flex-grow'>
+      <section className='grow-1 flex-grow'>
         {
           headers.map(i => {
             if (i.type == "categories") return renderCategories(i);
@@ -126,7 +126,7 @@ function Sidebar({ SideState: Sidebar }: SideState) {
             return <></>
           })
         }
-      </main>
+      </section>
     </aside>
   );
 }
