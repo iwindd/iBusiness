@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../action';
 import { CSVLink } from "react-csv";
 import { useSearchParams } from 'next/navigation'
+import { useSession } from 'next-auth/react';
 
 interface DataRow extends Inputs {
   category: {
@@ -31,6 +32,7 @@ const ProductTable = (props: {
   const [sort, setSort] = React.useState<[string | null, "asc" | "desc"]>([null, "desc"]);
   const searchParams = useSearchParams()
   const categoryFilter = searchParams.get('c');
+  const { data: session } = useSession();
 
   const { data, refetch, isLoading, error } = useQuery({
     queryKey: ["products"],
@@ -45,7 +47,7 @@ const ProductTable = (props: {
 
   React.useEffect(() => {
     refetch()
-  }, [perPage, currentPage, props.search, sort])
+  }, [perPage, currentPage, props.search, sort, session?.user.retail])
 
   if (error) {
     return <p>ERROR</p>

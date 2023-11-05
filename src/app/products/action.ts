@@ -25,7 +25,8 @@ export async function getProducts(
     const products = await Prisma.$transaction([
       Prisma.product.count({
         where: {
-          application: session?.user.application
+          application: session?.user.application,
+          retail: session?.user.retail
         }
       }),
       Prisma.product.findMany({
@@ -34,6 +35,7 @@ export async function getProducts(
         orderBy: orderBy,
         where: {
           application: session?.user.application,
+          retail: session?.user.retail,
           ...(
             category != 0 ? {
               categoryId: category as number,
@@ -81,6 +83,7 @@ export async function getProduct(serial: string) {
     const product = await Prisma.product.findFirst({
       where: {
         serial: serial,
+        retail: session?.user.retail,
         application: session?.user.application
       }
     })
@@ -103,6 +106,7 @@ export async function addProduct(payload: Inputs) {
     const product = await Prisma.product.create({
       data: {
         application: session?.user.application as number,
+        retail: session?.user.retail,
         serial: payload.serial,
         title: payload.title,
         price: payload.price,

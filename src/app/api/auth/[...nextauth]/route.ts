@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import Prisma from '@/libs/prisma'
-import { Session } from 'inspector';
 
 export const authOptions = {
   pages: {

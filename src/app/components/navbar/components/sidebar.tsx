@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 interface Header {
-  id?:string,
+  id?: string,
   label: string,
   type: "categories" | "button" | "switch",
   onClick?: () => void,
@@ -36,8 +36,8 @@ const headers: Header[] = [
     type: "switch",
     value: true,
     items: [
-      {label: "ขายปลีก", route: ""},
-      {label: "ขายส่ง", route: ""}
+      { label: "ขายปลีก", route: "" },
+      { label: "ขายส่ง", route: "" }
     ],
   }
 ]
@@ -46,7 +46,7 @@ const NavClass = `flex w-full justify-between px-4 py-2 text-left text-sm font-m
 
 function Sidebar({ SideState: Sidebar }: SideState) {
   const pathname = usePathname()
-  const {data:session, update} = useSession();
+  const { data: session, update } = useSession();
 
   const renderCategories = (header: Header) => {
     return (
@@ -89,24 +89,26 @@ function Sidebar({ SideState: Sidebar }: SideState) {
   }
 
   const renderSwitch = (i: Header) => {
-    const [state, setState] = React.useState<boolean>((i.value as boolean) || false);
-
-    if (i.id == "retail") {
-      React.useEffect(() => {
-        update({
-          ...session,
-          user: {
-            ...session?.user,
-            retail: state
-          }
-        })
-      }, [state]) 
+    const state = (
+      i.id == 'retail' ? session?.user.retail == undefined ? i.value as boolean : session.user.retail : i.value as boolean
+    )
+    
+    const onChange = async (state: boolean) => {
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          retail: state
+        }
+      })
     }
+
+    if (!session?.user?.retail == undefined) return <p></p>
 
     return (
       <label className={NavClass + `cursor-pointer label`}>
         <span className="label-text">{i.label}{i.items[state ? 0 : 1].label}</span>
-        <input type="checkbox" className="toggle toggle-primary" checked={state} onChange={(e) => setState(e.target.checked)} />
+        <input type="checkbox" className="toggle toggle-primary" checked={state} onChange={(e) => onChange(e.target.checked)} />
       </label>
     )
   }
