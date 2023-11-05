@@ -4,6 +4,7 @@ import QueryProvider from './components/QueryProvider';
 import Authentication from './authentication';
 import Navbar from './components/navbar';
 import { getServerSession } from 'next-auth';
+import { InterfaceProvider } from './components/InterfaceProvider';
 
 export const metadata = {
   title: 'iMall',
@@ -20,15 +21,17 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SessionProvider session={session}>
-          <QueryProvider>
-            {session ? (
-              <Navbar>{children}</Navbar>
-            ) : (
-              <Authentication />
-            )}
-          </QueryProvider>
-        </SessionProvider>
+        <InterfaceProvider>
+          <SessionProvider session={session}>
+            <QueryProvider>
+              {session ? (
+                <Navbar>{children}</Navbar>
+              ) : (
+                <Authentication />
+              )}
+            </QueryProvider>
+          </SessionProvider>
+        </InterfaceProvider>
       </body>
     </html>
   );

@@ -19,6 +19,8 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
   const cart = session?.user.cart || []
   const onSubmit: SubmitHandler<Inputs> = async (payload) => {
     if (payload.serial.length <= 0) {
+      if (cart.length <= 0) return;
+
       return onPayment()
     }
 
