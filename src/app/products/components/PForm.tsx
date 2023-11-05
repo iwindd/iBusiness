@@ -26,6 +26,7 @@ function PForm({
   isNewItem
 }: Props) {
   const [isLoading, setLoading] = React.useState<boolean>(false);
+  const [target, setTarget] = React.useState<number>(0);
   const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm<Inputs>({
     resolver: zodResolver(Schema),
     defaultValues: {
@@ -46,7 +47,7 @@ function PForm({
       const resp = await addProduct({ ...payload, serial: serial });
       if (!resp.success) return setLoading(false);
     } else {
-      const resp = await saveProduct({ ...payload, serial: serial });
+      const resp = await saveProduct({ ...payload, serial: serial }, target);
       if (!resp.success) return setLoading(false);
     }
 
@@ -57,7 +58,7 @@ function PForm({
 
   const onDelete = async () => {
     setLoading(true);
-    const resp = await deleteProduct(serial);
+    const resp = await deleteProduct(target);
     if (!resp.success) return setLoading(false);
 
     queryClient.refetchQueries({ queryKey: ['products'], type: 'active' })
@@ -65,7 +66,7 @@ function PForm({
     setLoading(false);
   }
 
-  React.useEffect(reset, [values, isNewItem, serial])
+  React.useEffect(() => { reset(); setTarget(0) }, [values, isNewItem, serial])
   React.useEffect(() => {
     if (values?.serial) setValue("serial", values.serial);
     if (values?.title) setValue("title", values.title);
@@ -73,7 +74,7 @@ function PForm({
     if (values?.cost) setValue("cost", values.cost);
     if (values?.stock) setValue("stock", values.stock);
     if (values?.categoryId) setValue("categoryId", values.categoryId);
-
+    if (values?.id) setTarget(values.id)
   }, [values])
 
   const { data: categoriesData, isLoading: isLoadingCategories, error } = useQuery({
@@ -130,10 +131,10 @@ function PForm({
                         <p className="text-error">{errors.title?.message}</p>
 
                         <Controller
-                          name="categoryId" // This should match the name you use in your form data
+                          name="categoryId"
                           control={control}
                           render={({ field }) => (
-                            <select className='select select-bordered' {...field} {...register('categoryId', {valueAsNumber:true})}>
+                            <select className='select select-bordered' {...field} {...register('categoryId', { valueAsNumber: true })}>
                               <option disabled value={0}>{isLoadingCategories ? "loading..." : "เลือกประเภทสินค้า"} </option>
                               {
                                 (categoriesData?.data || []).map(c => {

@@ -13,7 +13,7 @@ declare module "next-auth" {
     user: {
       id: string
       email: string,
-      application: string,
+      application: number,
       cart: CartItem[]
     }
   }

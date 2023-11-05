@@ -1,8 +1,6 @@
 "use client";
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { getProduct, getProducts } from './action'
-import { useRouter } from 'next/navigation';
+import { getProduct } from './action'
 import PForm from './components/PForm';
 import { Inputs } from './components/schema';
 import ProductTable from './components/table';
@@ -46,9 +44,11 @@ function Products() {
       price: payload.price || 0,
       cost: payload.cost || 0,
       stock: payload.stock || 0,
-      categoryId: payload.categoryId
+      categoryId: payload.categoryId,
+      id: payload.id as number
     });
     setState(true);
+
   }
 
   return (

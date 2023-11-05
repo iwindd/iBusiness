@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
-export type Inputs = z.infer<typeof Schema>
+export type SchemaInputs = z.infer<typeof Schema>
+export interface Inputs extends SchemaInputs {
+  id?: number
+}
+
 export const Schema = z.object({
   serial: z.string(),
   title: z.string(),

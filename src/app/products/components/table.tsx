@@ -3,7 +3,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { Inputs } from './schema';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../action';
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
 interface DataRow extends Inputs {
   category: {
@@ -14,10 +14,10 @@ interface DataRow extends Inputs {
 const columns: TableColumn<DataRow>[] = [
   { id: "serail", name: 'รหัสสินค้า', selector: row => row.serial, sortable: false },
   { id: "title", name: 'ชื่อสินค้า', selector: row => row.title, sortable: false },
-  { id: "category", name: 'ประเภทสินค้า', selector: row => row.category.title, sortable: true },
-  { id: "price", name: 'ราคา', selector: row => row.price, sortable: true, format: (data) => data.price.toLocaleString() },
-  { id: "cost", name: 'ต้นทุน', selector: row => row.cost, sortable: true, format: (data) => data.cost.toLocaleString() },
-  { id: "stock", name: 'ของในสต๊อก', selector: row => row.stock, sortable: true, format: (data) => data.stock.toLocaleString() },
+  { id: "category", name: 'ประเภทสินค้า', selector: row => row.category.title, sortable: false },
+  { id: "price", sortField: "price", name: 'ราคา', selector: row => row.price, sortable: true, format: (data) => data.price.toLocaleString() },
+  { id: "cost", sortField: "cost", name: 'ต้นทุน', selector: row => row.cost, sortable: true, format: (data) => data.cost.toLocaleString() },
+  { id: "stock", sortField: "stock", name: 'ของในสต๊อก', selector: row => row.stock, sortable: true, format: (data) => data.stock.toLocaleString() },
 ];
 
 const ProductTable = (props: {
@@ -52,30 +52,36 @@ const ProductTable = (props: {
       {!isLoading ? (
         <>
           <div>
-            <div className="flex justify-end">
-              <CSVLink
-                filename={"รายการสินค้า"}
-                className='btn btn-success'
-                data={
-                  (data?.data as DataRow[]).map((p: DataRow) => {
-                    return {
-                      serial: p.serial,
-                      title: p.title,
-                      price: p.price,
-                      category: p.category.title,
-                      cost: p.cost,
-                      stock: p.stock
+            <div className="flex justify-end mb-2">
+              {
+                !isLoading && data?.data && Array.isArray(data.data) ? (
+                  <CSVLink
+                    filename={"รายการสินค้า"}
+                    className='btn btn-success'
+                    data={
+                      (data?.data as DataRow[]).map((p) => {
+                        return {
+                          serial: p.serial,
+                          title: p.title,
+                          price: p.price,
+                          category: p.category.title,
+                          cost: p.cost,
+                          stock: p.stock
+                        }
+                      })
                     }
-                  })
-                }
-                headers={
-                  (columns).map((col) => {
-                    return {
-                      label: col.name,
-                      key: (col.id)
-                    }
-                  }) as any
-                }>EXPORT CSV</CSVLink>
+                    headers={
+                      (columns).map((col) => {
+                        return {
+                          label: col.name,
+                          key: (col.id)
+                        }
+                      }) as any
+                    }>EXPORT CSV</CSVLink>
+                ):(
+                  <span>ERROR</span>
+                )
+              }
             </div>
           </div>
           <DataTable
@@ -92,7 +98,7 @@ const ProductTable = (props: {
             paginationDefaultPage={currentPage}
             sortServer
             onSort={(data, style) => {
-              setSort([data.name as string, style])
+              setSort([data.sortField as string, style])
             }}
             onChangeRowsPerPage={setPerPage}
             onChangePage={setCurrentPage}

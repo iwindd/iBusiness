@@ -4,23 +4,27 @@ import { Inputs } from "./components/schema";
 import { getServerSession } from "@/libs/session";
 
 export async function getProducts(
-  page: number, 
-  size: number, 
-  search: string, 
+  page: number,
+  size: number,
+  search: string,
   sort: [string | null, "asc" | "desc"]
 ) {
   try {
 
-    const orderBy : any = {};
-    if (sort[0] != null){
-      orderBy[(sort[0] as string).toLowerCase()] = sort[1]
+    const orderBy: any = [{
+      id: 'desc'
+    }];
+    if (sort[0] != null) {
+      orderBy.unshift({
+        [(sort[0] as string)]: sort[1]
+      })
     }
 
     const session = await getServerSession();
     const products = await Prisma.$transaction([
       Prisma.product.count({
         where: {
-          userId: Number(session?.user.application)
+          application: session?.user.application
         }
       }),
       Prisma.product.findMany({
@@ -28,7 +32,7 @@ export async function getProducts(
         take: size,
         orderBy: orderBy,
         where: {
-          userId: Number(session?.user.application),
+          application: session?.user.application,
           OR: [
             {
               serial: {
@@ -61,13 +65,13 @@ export async function getProducts(
   }
 }
 
-export async function getProduct(serial : string) {
+export async function getProduct(serial: string) {
   try {
     const session = await getServerSession();
     const product = await Prisma.product.findFirst({
       where: {
         serial: serial,
-        userId: Number(session?.user.application)
+        application: session?.user.application
       }
     })
 
@@ -88,7 +92,7 @@ export async function addProduct(payload: Inputs) {
     const session = await getServerSession()
     const product = await Prisma.product.create({
       data: {
-        userId: Number(session?.user.application),
+        application: session?.user.application as number,
         serial: payload.serial,
         title: payload.title,
         price: payload.price,
@@ -110,16 +114,15 @@ export async function addProduct(payload: Inputs) {
   }
 }
 
-export async function saveProduct(payload: Inputs) {
+export async function saveProduct(payload: Inputs, id: number) {
   try {
     const session = await getServerSession()
     const product = await Prisma.product.update({
       where: {
-        userId: Number(session?.user.application),
-        serial: payload.serial
+        id: id,
+        application: session?.user.application
       },
       data: {
-        userId: Number(session?.user.application),
         title: payload.title,
         price: payload.price,
         cost: payload.cost,
@@ -140,13 +143,13 @@ export async function saveProduct(payload: Inputs) {
   }
 }
 
-export async function deleteProduct(payload: String) {
+export async function deleteProduct(id: number) {
   try {
     const session = await getServerSession();
     const result = Prisma.product.delete({
       where: {
-        serial: String(payload),
-        userId: Number(session?.user.application)
+        id: id,
+        application: session?.user.application
       }
     })
 
