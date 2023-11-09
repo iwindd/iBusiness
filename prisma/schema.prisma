@@ -11,20 +11,21 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  password   String
-  title      String
-  address    String
-  area       String
-  district   String
-  firstname  String
-  lastname   String
-  postalcode String
-  provice    String
-  tel        String
-  Product    Product[]
-  Order      Order[]
+  id                 Int                  @id @default(autoincrement())
+  email              String               @unique
+  password           String
+  title              String
+  address            String
+  area               String
+  district           String
+  firstname          String
+  lastname           String
+  postalcode         String
+  provice            String
+  tel                String
+  Product            Product[]
+  Order              Order[]
+  OrderReceiptDesign OrderReceiptDesign[]
 }
 
 model Category {
@@ -75,4 +76,14 @@ model OrderProduct {
   price    Int
   cost     Int
   count    Int
+}
+
+model OrderReceiptDesign {
+  id          Int     @id @default(autoincrement())
+  global      Boolean @default(false)
+  user        User    @relation(fields: [application], references: [id])
+  application Int
+  logo        String
+  title       String
+  design      Json
 }

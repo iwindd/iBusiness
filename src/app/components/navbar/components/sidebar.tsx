@@ -7,27 +7,21 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { SideState } from '..';
 import { v4 as uuidv4 } from 'uuid';
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
-interface Header {
-  id?: string,
-  label: string,
-  type: "categories" | "button" | "switch",
-  onClick?: () => void,
-  value?: any,
-  items: {
-    label: string,
-    route: string
-  }[]
-}
+import { NavButton, NavCategories, NavRoute, NavSwitch } from './typings';
+
+type Header = NavButton | NavCategories | NavSwitch | NavRoute
 
 const headers: Header[] = [
   {
+    label: "แดชบอร์ด", type: "route", route: "/dashboard"
+  },
+  {
     label: "ร้านค้า", type: "categories", items: [
-      { label: 'ขายสินค้า', route: "/cashier" },
-      { label: 'สินค้า', route: "/products" },
-      { label: 'ประเภทสินค้า', route: "/categories" },
-      { label: 'ประวัติการขาย', route: "/histories" }
+      { type: "route", label: 'ขายสินค้า', route: "/cashier" },
+      { type: "route", label: 'สินค้า', route: "/products" },
+      { type: "route", label: 'ประเภทสินค้า', route: "/categories" },
+      { type: "route", label: 'ประวัติการขาย', route: "/histories" }
     ]
   },
   {
@@ -35,10 +29,8 @@ const headers: Header[] = [
     label: "ประเภท : ",
     type: "switch",
     value: true,
-    items: [
-      { label: "ขายปลีก", route: "" },
-      { label: "ขายส่ง", route: "" }
-    ],
+    active: "ขายปลีก",
+    unactive: "ขายส่ง"
   }
 ]
 
@@ -48,7 +40,19 @@ function Sidebar({ SideState: Sidebar }: SideState) {
   const pathname = usePathname()
   const { data: session, update } = useSession();
 
-  const renderCategories = (header: Header) => {
+  const renderRoute = (route: NavRoute) => {
+    return (
+      <Link href={route.route} key={uuidv4()}>
+        <li
+          className={NavClass + " border-s hover:text-white " + ((!(pathname).search(route.route)) ? "" : "text-gray-500 border-none")}
+        >
+          {route.label}
+        </li>
+      </Link>
+    )
+  }
+
+  const renderCategories = (header: NavCategories) => {
     return (
       <Disclosure defaultOpen={true} key={uuidv4()}>
         {({ open }) => (
@@ -61,19 +65,7 @@ function Sidebar({ SideState: Sidebar }: SideState) {
             </Disclosure.Button>
             <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm ">
               <ul>
-                {
-                  (header?.items).map((i, index) => {
-                    return (
-                      <Link href={i.route} key={index}>
-                        <li
-                          className={NavClass + " border-s hover:text-white " + ((!(pathname).search(i.route)) ? "" : "text-gray-500 border-gray-500")}
-                        >
-                          {i.label}
-                        </li>
-                      </Link>
-                    )
-                  })
-                }
+                {(header.items).map(renderRoute)}
               </ul>
             </Disclosure.Panel>
           </>
@@ -82,17 +74,17 @@ function Sidebar({ SideState: Sidebar }: SideState) {
     )
   }
 
-  const renderButton = (header: Header) => {
+  const renderButton = (header: NavButton) => {
     return (
       <button className={NavClass} onClick={header?.onClick} key={uuidv4()}>{header.label} </button>
     )
   }
 
-  const renderSwitch = (i: Header) => {
+  const renderSwitch = (i: NavSwitch) => {
     const state = (
       i.id == 'retail' ? session?.user.retail == undefined ? i.value as boolean : session.user.retail : i.value as boolean
     )
-    
+
     const onChange = async (state: boolean) => {
       await update({
         ...session,
@@ -107,7 +99,7 @@ function Sidebar({ SideState: Sidebar }: SideState) {
 
     return (
       <label className={NavClass + `cursor-pointer label`}>
-        <span className="label-text">{i.label}{i.items[state ? 0 : 1].label}</span>
+        <span className="label-text">{i.label}{state ? i.active : i.unactive}</span>
         <input type="checkbox" className="toggle toggle-primary" checked={state} onChange={(e) => onChange(e.target.checked)} />
       </label>
     )
@@ -122,8 +114,9 @@ function Sidebar({ SideState: Sidebar }: SideState) {
             if (i.type == "categories") return renderCategories(i);
             if (i.type == "button") return renderButton(i);
             if (i.type == "switch") return renderSwitch(i);
+            if (i.type == "route") return renderRoute(i);
 
-            return <></>
+            return <>ERROR</>
           })
         }
       </section>

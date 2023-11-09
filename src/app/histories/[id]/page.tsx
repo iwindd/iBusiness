@@ -29,7 +29,10 @@ const History = async ({ params: { id } }: {
       <header className='flex justify-between'>
         <div>
           <h1 className='text-2xl'>รายละเอียด </h1>
-          <p className='text-gray-500'>{new Intl.DateTimeFormat('th-TH', { timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(history?.createdAt))} </p>
+          <p className='text-gray-500'>
+            {new Intl.DateTimeFormat('th-TH', { timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(history?.createdAt))}
+            <button className='ms-2'>ออกใบเสร็จ</button>
+          </p>
         </div>
         <span className='text-xl'>#{history?.id.toLocaleString()}</span>
       </header>
