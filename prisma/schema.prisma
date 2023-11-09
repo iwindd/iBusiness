@@ -66,16 +66,17 @@ model Order {
 }
 
 model OrderProduct {
-  id       Int     @id @default(autoincrement())
-  retail   Boolean @default(true)
-  order    Order   @relation(fields: [orderId], references: [id])
-  orderId  Int
-  serial   String
-  title    String
-  category String
-  price    Int
-  cost     Int
-  count    Int
+  id        Int      @id @default(autoincrement())
+  retail    Boolean  @default(true)
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
+  serial    String
+  title     String
+  category  String
+  price     Int
+  cost      Int
+  count     Int
+  createdAt DateTime @default(now())
 }
 
 model OrderReceiptDesign {
