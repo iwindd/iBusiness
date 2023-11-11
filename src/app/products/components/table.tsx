@@ -30,10 +30,12 @@ const ProductTable = (props: {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalRows, setTotalRows] = React.useState<number>(0);
   const [sort, setSort] = React.useState<[string | null, "asc" | "desc"]>([null, "desc"]);
-  const searchParams = useSearchParams()
-  const categoryFilter = searchParams.get('c');
-  const { data: session } = useSession();
+  const params = useSearchParams()
+  const categoryFilter = params.get('c');
+  const sortParam = params.get('sort');
+  const sortFormatParam = params.get('format');
 
+  const { data: session } = useSession();
   const { data, refetch, isLoading, error } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -94,6 +96,8 @@ const ProductTable = (props: {
             columns={columns as any}
             data={data ? (data.success ? data.data as Inputs[] : []) : []}
             progressPending={isLoading}
+            defaultSortFieldId={sortParam}
+            defaultSortAsc={sortFormatParam == "asc"}
             pagination
             paginationServer
             paginationComponentOptions={{
