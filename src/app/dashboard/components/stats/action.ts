@@ -9,6 +9,9 @@ export const getDashboardStats = async () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    const today2 = new Date();
+    today2.setHours(23, 59, 0, 0);
+
     const oneWeekAgo = new Date(today);
     oneWeekAgo.setDate(today.getDate() - 7);
 
@@ -31,7 +34,7 @@ export const getDashboardStats = async () => {
           ...queryWhere,
           createdAt: {
             gte: oneWeekAgo,
-            lt: today,
+            lt: today2,
           },
         },
       }),
@@ -41,7 +44,7 @@ export const getDashboardStats = async () => {
           ...queryWhere,
           createdAt: {
             gte: oneMonthAgo,
-            lt: today,
+            lt: today2,
           },
         },
       }),
