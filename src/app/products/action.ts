@@ -157,7 +157,7 @@ export async function saveProduct(payload: Inputs, id: number) {
 
     Activity({
       category: "Product",
-      type: "ADD",
+      type: "EDIT",
       data: {
         id: product.id,
         title: product.title
@@ -188,7 +188,7 @@ export async function deleteProduct(id: number, title: string) {
 
     Activity({
       category: "Product",
-      type: "ADD",
+      type: "DELETE",
       data: {
         id: id,
         title: title
