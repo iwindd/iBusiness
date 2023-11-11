@@ -41,9 +41,10 @@ model Product {
   retail      Boolean  @default(true)
   serial      String
   title       String
-  price       Int
-  cost        Int
-  stock       Int
+  price       Int      @default(0)
+  cost        Int      @default(0)
+  stock       Int      @default(0)
+  sold        Int      @default(0)
   user        User     @relation(fields: [application], references: [id])
   application Int
   category    Category @relation(fields: [categoryId], references: [id])

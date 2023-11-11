@@ -101,17 +101,22 @@ export const PaymentAction = async (paymentPayload: {
       }
     })
 
-    await Prisma.$transaction(data.map((p) => {
-      return Prisma.product.update({
-        where: {
-          application: session?.user.application as number,
-          id: p.id,
-        },
-        data: {
-          stock: p.stock - (payload.find(pl => pl.id == p.id) as Product).count
-        }
+    await Prisma.$transaction(
+      data.map((p) => {
+        const count = (payload.find(pl => pl.id == p.id) as Product).count;
+        
+        return Prisma.product.update({
+          where: {
+            application: session?.user.application as number,
+            id: p.id,
+          },
+          data: {
+            stock: p.stock - count,
+            sold: p.sold + count
+          }
+        })
       })
-    }))
+    )
 
     return {
       success: true,
