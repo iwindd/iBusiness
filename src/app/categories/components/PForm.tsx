@@ -112,7 +112,6 @@ function PForm({
                         >
                           บันทึก
                         </button>
-                        <Link className="btn btn-primary" href={`/products?c=${target}`}>Watch</Link>
                         <div>
                           <button
                             type="button"
@@ -122,6 +121,9 @@ function PForm({
                             ยกเลิก
                           </button>
                         </div>
+                        {!isNewItem ? (
+                          <Link className="btn btn-primary" href={`/products?categoryFilter=${target}`} >ดูสินค้า</Link>
+                        ) : null}
                       </div>
                       <ConfirmButton
                         className="btn btn-error"

@@ -31,7 +31,7 @@ const ProductTable = (props: {
   const [totalRows, setTotalRows] = React.useState<number>(0);
   const [sort, setSort] = React.useState<[string | null, "asc" | "desc"]>([null, "desc"]);
   const params = useSearchParams()
-  const categoryFilter = params.get('c');
+  const categoryFilter = params.get('categoryFilter');
   const sortParam = params.get('sort');
   const sortFormatParam = params.get('format');
 
