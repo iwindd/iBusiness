@@ -6,19 +6,27 @@ export type ActivityPayload = Product | Cashier | Category
 interface Product {
   category: "Product"
   type: "ADD" | "EDIT" | "DELETE",
-  data?: number
+  data: {
+    id: number,
+    title: string
+  }
 }
 
 interface Cashier {
   category: "Cashier"
   type: "PAYMENT"
-  data?: number
+  data: {
+    id: number
+  }
 }
 
 interface Category {
   category: "Category"
   type: "ADD" | "EDIT" | "DELETE"
-  data?: number
+  data: {
+    id: number,
+    title: string
+  }
 }
 
 export const Activity = async (

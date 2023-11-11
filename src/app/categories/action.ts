@@ -78,7 +78,10 @@ export async function addCategory(payload: Inputs) {
     Activity({
       category: "Category",
       type: "ADD",
-      data: category.id
+      data: {
+        id: category.id,
+        title: payload.title
+      }
     })
 
     return {
@@ -107,7 +110,10 @@ export async function updateCategory(id: number, payload: Inputs) {
     Activity({
       category: "Category",
       type: "EDIT",
-      data: id
+      data: {
+        id: id,
+        title: payload.title
+      }
     })
 
     return {
@@ -122,7 +128,7 @@ export async function updateCategory(id: number, payload: Inputs) {
   }
 }
 
-export async function deleteCategory(id: number) {
+export async function deleteCategory(id: number, title: string) {
   try {
     const session = await getServerSession();
     const category = await Prisma.category.delete({
@@ -135,7 +141,10 @@ export async function deleteCategory(id: number) {
     Activity({
       category: "Category",
       type: "DELETE",
-      data: id
+      data: {
+        id: id,
+        title: title
+      }
     })
 
     return {

@@ -51,7 +51,7 @@ function PForm({
 
   const onDelete = async () => {
     setLoading(true);
-    const resp = await deleteCategory(target);
+    const resp = await deleteCategory(target, values?.title as string);
     queryClient.refetchQueries({ queryKey: ['categories'], type: 'active' })
     setIsOpen(false);
     setLoading(false);

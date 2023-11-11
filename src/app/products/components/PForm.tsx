@@ -58,7 +58,7 @@ function PForm({
 
   const onDelete = async () => {
     setLoading(true);
-    const resp = await deleteProduct(target);
+    const resp = await deleteProduct(target, values?.title as string);
     if (!resp.success) return setLoading(false);
 
     queryClient.refetchQueries({ queryKey: ['products'], type: 'active' })

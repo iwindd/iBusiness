@@ -105,7 +105,7 @@ export const PaymentAction = async (paymentPayload: {
     await Prisma.$transaction(
       data.map((p) => {
         const count = (payload.find(pl => pl.id == p.id) as Product).count;
-        
+
         return Prisma.product.update({
           where: {
             application: session?.user.application as number,
@@ -122,7 +122,9 @@ export const PaymentAction = async (paymentPayload: {
     Activity({
       category: "Cashier",
       type: "PAYMENT",
-      data: Order.id
+      data: {
+        id: Order.id, 
+      }
     })
 
     return {

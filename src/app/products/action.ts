@@ -120,7 +120,10 @@ export async function addProduct(payload: Inputs) {
     Activity({
       category: "Product",
       type: "ADD",
-      data: product.id
+      data: {
+        id: product.id,
+        title: product.title
+      }
     });
 
     return {
@@ -154,10 +157,13 @@ export async function saveProduct(payload: Inputs, id: number) {
 
     Activity({
       category: "Product",
-      type: "EDIT",
-      data: id
+      type: "ADD",
+      data: {
+        id: product.id,
+        title: product.title
+      }
     });
-
+    
     return {
       success: true,
       data: product
@@ -170,7 +176,7 @@ export async function saveProduct(payload: Inputs, id: number) {
   }
 }
 
-export async function deleteProduct(id: number) {
+export async function deleteProduct(id: number, title: string) {
   try {
     const session = await getServerSession();
     const result = Prisma.product.delete({
@@ -182,8 +188,11 @@ export async function deleteProduct(id: number) {
 
     Activity({
       category: "Product",
-      type: "DELETE",
-      data: id
+      type: "ADD",
+      data: {
+        id: id,
+        title: title
+      }
     });
 
     return {
