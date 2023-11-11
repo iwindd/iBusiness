@@ -10,33 +10,34 @@ import { v4 } from 'uuid';
 interface Stat {
   title: string,
   desc: string,
+  route: string,
   icon: JSX.Element,
   format: (day: Order[], week: Order[], month: Order[], ProductOutOfStock: number, ProductOnStock: number) => string
 }
 
 const Items: Stat[] = [
   {
-    title: "ยอดขายวันนี้", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (day) => {
+    title: "ยอดขายวันนี้", route: "/histories?scope=today", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (day) => {
       return day.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "ยอดขายอาทิตย์นี้", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (_, week) => {
+    title: "ยอดขายอาทิตย์นี้", route: "/histories?scope=week", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (_, week) => {
       return week.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "ยอดขายเดือนนี้", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (_, __, month) => {
+    title: "ยอดขายเดือนนี้", route: "/histories?scope=month", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (_, __, month) => {
       return month.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "สินค้าไม่มีในสต๊อก", desc: "จำนวนสินค้าที่ไม่มีของคงเหลือ", icon: <ArchiveBoxIcon className='h-10 w-10' />, format: (_, __, ___, outOfStock) => {
+    title: "สินค้าไม่มีในสต๊อก", route: "/products?sort=stock&format=asc", desc: "จำนวนสินค้าที่ไม่มีของคงเหลือ", icon: <ArchiveBoxIcon className='h-10 w-10' />, format: (_, __, ___, outOfStock) => {
       return outOfStock.toLocaleString()
     }
   },
   {
-    title: "สินค้าทั้งหมด", desc: "จำนวนสินค้าทั้งหมด", icon: <ArchiveBoxIcon className='h-10 w-10' />, format: (_, __, ___, outOfStock, stock) => {
+    title: "สินค้าทั้งหมด", route: "/products", desc: "จำนวนสินค้าทั้งหมด", icon: <ArchiveBoxIcon className='h-10 w-10' />, format: (_, __, ___, outOfStock, stock) => {
       return (outOfStock + stock).toLocaleString()
     }
   }
@@ -60,6 +61,7 @@ const Stats = async () => {
           return (
             <Stat
               key={v4()}
+              route={i.route}
               title={i.title}
               value={i.format(
                 data?.data?.[0] || [], // day order
