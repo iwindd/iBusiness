@@ -11,11 +11,6 @@ import ActivityTable from './components/helper/activity';
 
 const Dashboard = () => {
   const session = useSession();
-  const queryClient = useQueryClient();
-
-  React.useEffect(() => {
-    queryClient.refetchQueries({ queryKey: ['Stats'], type: 'active' })
-  }, [session.data?.user.retail])
 
   return (
     <div>
