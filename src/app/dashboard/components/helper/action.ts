@@ -12,7 +12,7 @@ export interface BestSellerItem {
 export async function getBestSeller() {
   try {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setHours(23, 59, 0, 0);
 
     const oneMonthAgo = new Date(today);
     oneMonthAgo.setMonth(today.getMonth() - 1);
