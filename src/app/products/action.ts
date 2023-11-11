@@ -2,6 +2,7 @@
 import Prisma from "@/libs/prisma";
 import { Inputs } from "./components/schema";
 import { getServerSession } from "@/libs/session";
+import { Activity } from "@/libs/activity";
 
 export async function getProducts(
   page: number,
@@ -116,6 +117,12 @@ export async function addProduct(payload: Inputs) {
       }
     })
 
+    Activity({
+      category: "Product",
+      type: "ADD",
+      data: product.id
+    });
+
     return {
       success: true,
       data: product
@@ -145,6 +152,12 @@ export async function saveProduct(payload: Inputs, id: number) {
       }
     })
 
+    Activity({
+      category: "Product",
+      type: "EDIT",
+      data: id
+    });
+
     return {
       success: true,
       data: product
@@ -166,6 +179,12 @@ export async function deleteProduct(id: number) {
         application: session?.user.application
       }
     })
+
+    Activity({
+      category: "Product",
+      type: "DELETE",
+      data: id
+    });
 
     return {
       success: true,

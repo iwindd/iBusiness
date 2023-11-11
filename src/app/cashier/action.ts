@@ -4,6 +4,7 @@ import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
 import { Inputs } from "./schema";
 import { CartItem } from "../../../next-auth";
+import { Activity } from "@/libs/activity";
 
 interface Product extends CartItem {
   price: number,
@@ -117,6 +118,12 @@ export const PaymentAction = async (paymentPayload: {
         })
       })
     )
+
+    Activity({
+      category: "Cashier",
+      type: "PAYMENT",
+      data: Order.id
+    })
 
     return {
       success: true,

@@ -26,6 +26,7 @@ model User {
   Product            Product[]
   Order              Order[]
   OrderReceiptDesign OrderReceiptDesign[]
+  Activity           Activity[]
 }
 
 model Category {
@@ -88,4 +89,14 @@ model OrderReceiptDesign {
   logo        String
   title       String
   design      Json
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [application], references: [id])
+  application Int
+  category    String
+  type        String
+  payload     Json
+  createdAt   DateTime @default(now())
 }

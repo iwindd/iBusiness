@@ -1,5 +1,4 @@
 "use server";
-
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
 import { filterArrayByProperty } from "@/libs/utils";
@@ -59,11 +58,21 @@ export async function getBestSeller() {
     }
   }
 }
-export async function getActivity() {
+export async function getActivities() {
   try {
+    const session = await getServerSession()
+    const activities = await Prisma.activity.findMany({
+      where: {
+        application: session?.user.application as number,
+      },
+      orderBy: {
+        createdAt: "desc"
+      }
+    })
+
     return {
       success: true,
-      data: {}
+      data: activities
     }
   } catch (error) {
     return {

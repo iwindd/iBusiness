@@ -2,6 +2,7 @@
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
 import { Inputs } from "./components/schema";
+import { Activity } from "@/libs/activity";
 
 export async function getCategories(
   page: number,
@@ -74,6 +75,12 @@ export async function addCategory(payload: Inputs) {
       }
     })
 
+    Activity({
+      category: "Category",
+      type: "ADD",
+      data: category.id
+    })
+
     return {
       success: true,
       data: category
@@ -97,6 +104,12 @@ export async function updateCategory(id: number, payload: Inputs) {
       data: payload
     })
 
+    Activity({
+      category: "Category",
+      type: "EDIT",
+      data: id
+    })
+
     return {
       success: true,
       data: category
@@ -117,6 +130,12 @@ export async function deleteCategory(id: number) {
         id: id,
         application: Number(session?.user.application)
       }
+    })
+
+    Activity({
+      category: "Category",
+      type: "DELETE",
+      data: id
     })
 
     return {
