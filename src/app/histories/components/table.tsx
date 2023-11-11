@@ -2,7 +2,7 @@ import React from 'react'
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { useQuery } from '@tanstack/react-query';
 import { getHistories } from '../action';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 interface DataRow {
   id: number,
@@ -41,11 +41,13 @@ const HistoryTable = (props: {
   const [totalRows, setTotalRows] = React.useState<number>(0);
   const [sort, setSort] = React.useState<[string | null, "asc" | "desc"]>([null, "desc"]);
   const {data: session} = useSession();
+  const params = useSearchParams()
+  const scope = params.get("scope");
   const router = useRouter();
   const { data, refetch, isLoading, error } = useQuery({
     queryKey: ["histories"],
     queryFn: async () => {
-      return await getHistories(currentPage, perPage, props.search, sort);
+      return await getHistories(currentPage, perPage, props.search, sort, scope as "today" | "week" | "month" | null);
     }
   })
 
