@@ -1,6 +1,5 @@
 "use client"
 import React from 'react'
-import { useAtom } from 'jotai'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { signOut } from 'next-auth/react'
