@@ -55,7 +55,7 @@ const Stats = async () => {
   if (error) return <p>ERROR</p>;
 
   return (
-    <div className="stats shadow">
+    <div className="stats w-full ">
       {
         Items.map((i) => {
           return (

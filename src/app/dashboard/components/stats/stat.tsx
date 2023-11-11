@@ -13,7 +13,7 @@ const Stat = (props: Props) => {
   return (
     <Link
       href={props.route}
-      className="stat"
+      className="stat hover:bg-base-200 transition-all duration-250"
     >
       <div className="stat-figure text-secondary">
         {props.icon}
