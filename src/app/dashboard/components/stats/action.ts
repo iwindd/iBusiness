@@ -5,7 +5,7 @@ import { getServerSession } from '@/libs/session';
 export const getDashboardStats = async () => {
   try {
     const session = await getServerSession();
-    const queryWhere = { application: session?.user.application as number, retail: session?.user.retail as boolean }
+    const queryWhere = { application: session?.user.application as number }
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
