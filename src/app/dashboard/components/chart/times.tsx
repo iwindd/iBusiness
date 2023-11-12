@@ -1,27 +1,43 @@
 import React from 'react'
 import { LineChart } from '@mui/x-charts';
 
-const TimesChart = () => {
+const parseHour = (index: number) => {
+  const hourRaw = (index++).toString();
+  const hour = hourRaw == "24" ? "00:00" : hourRaw.length <= 1 ? `0${hourRaw}:00` : `${hourRaw}:00`;
+
+  return hour
+}
+
+
+const TimesChart = ({ times }: {
+  times: number[]
+}) => {
+  const [data, labels]: [number[], string[]] = [[], []];
+
+  times.map((time, index) => {
+    if (time > 0) {
+      data.push(time);
+      labels.push(parseHour(index));
+    }
+  })
+
+  
+  if (data.length <= 6) {
+    const start = (data.length > 0 ? data[0] : 0)
+    for (let i = start; i < start+(6-data.length); i++) {
+      data.push(0);
+      labels.push(parseHour(i))
+    }
+  }
+
   return (
     <LineChart
       series={[
-        { data: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], label: 'ยอดขาย' }
+        { data: data, label: 'ยอดขาย' }
       ]}
       xAxis={[{
         scaleType: 'point',
-        data: [
-          "6:00",
-          "7:00",
-          "9:00",
-          "10:00",
-          "11:00",
-          "12:00",
-          "13:00",
-          "14:00",
-          "15:00",
-          "16:00",
-          "17:00"
-        ]
+        data: labels
       }]}
     />
   )

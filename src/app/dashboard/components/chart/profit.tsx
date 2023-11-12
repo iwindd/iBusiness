@@ -1,28 +1,36 @@
 import React from 'react'
 import { LineChart } from '@mui/x-charts';
+import { useQuery } from '@tanstack/react-query';
 
-const ProfitChart = () => {
+const label_months = [
+  "มกราคม",
+  "กุมภาพันธ์",
+  "มีนาคม",
+  "เมษายน",
+  "พฤษภาคม",
+  "มิถุนายน",
+  "กรกฎาคม",
+  "สิงหาคม",
+  "กันยายน",
+  "ตุลาคม",
+  "พฤศจิกายน",
+  "ธันวาคม"
+]
+
+const ProfitChart = ({
+  sold, months
+}: {
+  sold: number[],
+  months: Date[]
+}) => {
   return (
     <LineChart
       series={[
-        { data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], label: 'กำไร' }
+        { data: sold, label: 'ยอดขาย' }
       ]}
       xAxis={[{
         scaleType: 'point',
-        data: [
-          "มกราคม",
-          "กุมภาพันธ์",
-          "มีนาคม",
-          "เมษายน",
-          "พฤษภาคม",
-          "มิถุนายน",
-          "กรกฎาคม",
-          "สิงหาคม",
-          "กันยายน",
-          "ตุลาคม",
-          "พฤศจิกายน",
-          "ธันวาคม"
-        ]
+        data: months.map((date, i) => label_months[i]+" "+ (new Date().getFullYear() != date.getFullYear() ? date.getFullYear().toString().slice(2) : ""))
       }]}
     />
   )

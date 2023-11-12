@@ -1,23 +1,27 @@
 import React from 'react'
 import { BarChart } from '@mui/x-charts';
 
-const WeekChart = () => {
+const weekLabels = [
+  "อาทิตย์",
+  "จันทร์",
+  "อังคาร",
+  "พุธ",
+  "พฤหัสบดี",
+  "ศุกร์",
+  "เสาร์"
+]
+
+const WeekChart = ({ week }: {
+  week: number[]
+}) => {
   return (
     <BarChart
       series={[
-        { data: [1,2,3,4,5,6,7], label: 'ยอดขาย' }
+        { data: week, label: 'ยอดขาย' }
       ]}
       xAxis={[{
         scaleType: 'band',
-        data: [
-          "อาทิตย์",
-          "จันทร์",
-          "อังคาร",
-          "พุธ",
-          "พฤหัสบดี",
-          "ศุกร์",
-          "เสาร์"
-        ]
+        data: weekLabels
       }]}
     />
   )
