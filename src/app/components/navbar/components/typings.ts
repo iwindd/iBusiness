@@ -1,27 +1,12 @@
-export interface NavButton {
-  type: "button",
-  label: string
-  onClick: () => void,
-}
-
-export interface NavRoute {
-  type: "route",
-  label: string
+export interface DrawerItem {
+  name: string,
+  label: string,
   route: string,
+  icon: JSX.Element
 }
 
-
-export interface NavCategories {
-  type: "categories",
-  label: string
-  items: NavRoute[]
-}
-
-export interface NavSwitch {
-  id?: string,
-  type: "switch",
-  value: boolean,
-  label: string
-  active: string,
-  unactive: string,
+export interface DrawerCategory {
+  name: string,
+  label: string,
+  items: DrawerItem[]
 }

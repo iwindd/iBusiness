@@ -1,10 +1,17 @@
 import './globals.css';
-import SessionProvider from './components/SessionProvider';
-import QueryProvider from './components/QueryProvider';
-import Authentication from './authentication';
-import Navbar from './components/navbar';
 import { getServerSession } from 'next-auth';
-import { InterfaceProvider } from './components/InterfaceProvider';
+
+/* LAYOUYS */
+import Authentication from './authentication';
+import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
+
+// PROVIDERS
+import { InterfaceProvider } from './providers/InterfaceProvider';
+import SessionProvider from './providers/SessionProvider';
+import QueryProvider from './providers/QueryProvider';
+
+/* COMPONENTS */
+import Navbar from './components/navbar';
 
 export const metadata = {
   title: 'iMall',
@@ -21,17 +28,21 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <InterfaceProvider>
-          <SessionProvider session={session}>
-            <QueryProvider>
-              {session ? (
-                <Navbar>{children}</Navbar>
-              ) : (
-                <Authentication />
-              )}
-            </QueryProvider>
-          </SessionProvider>
-        </InterfaceProvider>
+        <ThemeRegistry>
+          <InterfaceProvider>
+            <SessionProvider session={session}>
+              <QueryProvider>
+                {session ? (
+                  <Navbar>
+                    {children}
+                  </Navbar>
+                ) : (
+                  <Authentication />
+                )}
+              </QueryProvider>
+            </SessionProvider>
+          </InterfaceProvider>
+        </ThemeRegistry>
       </body>
     </html>
   );

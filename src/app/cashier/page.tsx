@@ -4,7 +4,7 @@ import Cart from './components/Cart';
 import Cashier from './components/Cashier';
 import { AddToCashier } from './action';
 import { useSession } from 'next-auth/react';
-import { useInterface } from '../components/InterfaceProvider';
+import { useInterface } from '../providers/InterfaceProvider';
 
 export interface CashierPageChildType {
   addProductToCart:  (serial: string) => void
