@@ -1,11 +1,16 @@
 "use client";
+import { Backdrop, CircularProgress } from '@mui/material';
 import React, { createContext, useContext, ReactNode } from 'react';
 
 interface ToastInterface {
   useToast: (message: string, className: string) => void
 }
 
-interface InterfaceData extends ToastInterface { }
+interface BackdropInterface {
+  useBackdrop: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+interface InterfaceData extends ToastInterface, BackdropInterface { };
 
 const InterfaceContext = createContext<InterfaceData | undefined>(undefined);
 
@@ -18,15 +23,16 @@ export function useInterface() {
 }
 
 let ToastIndex = 0;
-export function InterfaceProvider({ children }: {
-  children: ReactNode;
-}
-) {
+export function InterfaceProvider({ children }: { 
+  children: ReactNode; 
+}) {
+  const [isBackdrop, setBackdrop] = React.useState<boolean>(false);
   const [toasts, setToasts] = React.useState<{
     msg: string,
     className: string,
     index: number
   }[]>([])
+
 
   const useToast = (msg: string, className: string) => {
     ToastIndex++;
@@ -38,7 +44,8 @@ export function InterfaceProvider({ children }: {
   return <InterfaceContext.Provider
     value={
       {
-        useToast: useToast
+        useToast: useToast,
+        useBackdrop: setBackdrop
       }
     }
   >
@@ -54,6 +61,12 @@ export function InterfaceProvider({ children }: {
       }
     </div>
     {children}
+    <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={isBackdrop}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
   </InterfaceContext.Provider>;
 }
 
