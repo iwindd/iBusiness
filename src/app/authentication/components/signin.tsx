@@ -10,12 +10,14 @@ import {
   SignInSchema as Schema
 } from './schema';
 import { AuthPage } from '..';
+import { Button, Paper, TextField } from '@mui/material';
+import { useInterface } from '@/app/providers/InterfaceProvider';
 
-function SignIn({setPage}: {
+function SignIn({ setPage }: {
   setPage: React.Dispatch<React.SetStateAction<AuthPage>>
 }) {
-  const [isLoading, setLoading] = React.useState<boolean>(false);
   const router = useRouter()
+  const { useBackdrop } = useInterface();
 
   const {
     register,
@@ -26,7 +28,7 @@ function SignIn({setPage}: {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (payload) => {
-    setLoading(true)
+    useBackdrop(true)
     const resp = await signIn("credentials", {
       email: payload.email,
       password: payload.password,
@@ -36,42 +38,50 @@ function SignIn({setPage}: {
     if (!resp?.error) {
       return router.push("/");
     }
-
-    setLoading(false)
   }
 
   return (
-    <div className="container mx-auto mt-20">
-      <div className="mx-auto w-96">
-        <form onSubmit={handleSubmit(onSubmit)} >
-          <header className='flex justify-center'>
-            <h1 className='text-2xl bold'>Sign In</h1>
-          </header>
-          <div className="divider"></div>
-          <main className='space-y-2'>
-            <input disabled={isLoading} className='input input-bordered w-full disabled:opacity-50' placeholder='Email...' {...register("email")} />
-            <p className='text-error'>{errors.email?.message}</p>
-            <input disabled={isLoading} className='input input-bordered w-full disabled:opacity-50' placeholder='Password...' {...register("password")} />
-            <p className='text-error'>{errors.password?.message}</p>
-          </main>
-          <footer className='mt-4'>
-            <button
-              disabled={isLoading}
-              className="btn btn-primary w-full"
+    <Paper
+      className='w-96 mx-auto mt-24 px-4 py-4'
+    >
+      <form onSubmit={handleSubmit(onSubmit)} >
+        <header className='flex justify-center'>
+          <h1 className='text-2xl bold'>Sign In</h1>
+        </header>
+        <div className="divider"></div>
+        <main className='space-y-2 mt-6'>
+          <TextField
+            label="Email..."
+            fullWidth
+            {...register("email")}
+          />
+          <p className='text-error'>{errors.email?.message}</p>
+          <TextField
+            label="Password..."
+            fullWidth
+            {...register("password")}
+          />
+          <p className='text-error'>{errors.password?.message}</p>
+        </main>
+        <footer className='mt-4 flex justify-center flex-col'>
+          <Button
+            type='submit'
+            variant="outlined"
+          >
+            Sign in
+          </Button>
+          <section className='text-center mt-2'>
+            <Button
+              variant='text'
+              color='inherit'
+              onClick={() => setPage("signup")}
             >
-              {!isLoading ? (
-                "Sign in"
-              ) : (
-                <span className="loading loading-dots loading-lg "></span>
-              )}
-            </button>
-            <section className='text-center mt-2'>
-              <button onClick={() => setPage("signup")} className='text-secondary hover:text-primary transition-all'>ไม่มีชื่อผู้ใช้ ?</button>
-            </section>
-          </footer>
-        </form>
-      </div>
-    </div>
+              ไม่มีชื่อผู้ใช้ ?
+            </Button>
+          </section>
+        </footer>
+      </form>
+    </Paper>
   )
 }
 
