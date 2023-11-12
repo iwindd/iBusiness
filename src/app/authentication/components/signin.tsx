@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from "next-auth/react";
@@ -46,9 +45,8 @@ function SignIn({ setPage }: {
     >
       <form onSubmit={handleSubmit(onSubmit)} >
         <header className='flex justify-center'>
-          <h1 className='text-2xl bold'>Sign In</h1>
+          <h1 className='text-2xl bold'>Sign Up</h1>
         </header>
-        <div className="divider"></div>
         <main className='space-y-2 mt-6'>
           <TextField
             label="Email..."
