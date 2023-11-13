@@ -1,0 +1,43 @@
+import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
+import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import React from 'react'
+import { deleteProduct } from '../action';
+
+const Confirmation = (props: DialogProps<{
+  id: number,
+  title: string,
+  onDelete: (id: number, title: string) => void,
+  refetch: () => void
+}>) => {
+
+  const { useBackdrop } = useInterface();
+
+  const onDelete = async () => {
+    useBackdrop(true);
+    props.onClose();
+    const resp = await deleteProduct(props.data.id, props.data.title);
+
+    useBackdrop(false);
+    if (!resp.success) return  props.onOpen();
+    props.data.refetch()
+  }
+
+  return (
+    <>
+      <DialogTitle id="responsive-dialog-title">
+        {"แจ้งเตือน"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          คุณต้องการจะลบสินค้า {props.data.title} หรือไม่?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={props.onClose}>ยกเลิก</Button>
+        <Button autoFocus onClick={onDelete}>ยืนยัน</Button>
+      </DialogActions>
+    </>
+  )
+}
+
+export default Confirmation

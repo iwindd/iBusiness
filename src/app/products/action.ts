@@ -3,65 +3,60 @@ import Prisma from "@/libs/prisma";
 import { Inputs } from "./components/schema";
 import { getServerSession } from "@/libs/session";
 import { Activity } from "@/libs/activity";
+import { GridFilterModel, GridPaginationModel, GridSortModel } from "@mui/x-data-grid";
 
 export async function getProducts(
-  page: number,
-  size: number,
-  search: string,
-  sort: [string | null, "asc" | "desc"],
-  category: null | number
+  sort: GridSortModel,
+  pagination: GridPaginationModel,
+  filter: GridFilterModel,
+  filterCategory: number | null
 ) {
   try {
-    
+
     const orderBy: any = [{
       id: 'desc'
     }];
-    if (sort[0] != null) {
+
+    sort.map((sort) => {
       orderBy.unshift({
-        [(sort[0] as string)]: sort[1]
+        [sort.field]: sort.sort
       })
-    }
+    })
 
     const session = await getServerSession();
+    const query = {
+      application: session?.user.application as number,
+      retail: session?.user.retail as boolean,
+      ...(
+        filterCategory != 0 ? {
+          categoryId: filterCategory as number,
+        } : {}
+      ),
+      ...(
+        filter?.quickFilterValues?.[0] != undefined ?
+          ({
+            OR: [{
+              serial: {
+                contains: filter?.quickFilterValues?.[0]
+              },
+            }, {
+              title: {
+                contains: filter?.quickFilterValues?.[0]
+              }
+            }]
+          }) : ({})
+      )
+    }
+
     const products = await Prisma.$transaction([
       Prisma.product.count({
-        where: {
-          application: session?.user.application,
-          retail: session?.user.retail
-        }
+        where: query
       }),
       Prisma.product.findMany({
-        skip: (page - 1) * size,
-        take: size,
+        skip: pagination.page * pagination.pageSize,
+        take: pagination.pageSize,
         orderBy: orderBy,
-        where: {
-          application: session?.user.application,
-          retail: session?.user.retail,
-          ...(
-            category != 0 ? {
-              categoryId: category as number,
-            }:{}
-          ),
-          OR: [
-            {
-              serial: {
-                contains: search
-              },
-            },
-            {
-              title: {
-                contains: search
-              }
-            }
-          ]
-        },
-        include: {
-          category: {
-            select: {
-              title: true
-            }
-          }
-        }
+        where: query
       })
     ])
 
@@ -78,32 +73,19 @@ export async function getProducts(
   }
 }
 
-export async function getProduct(serial: string) {
+export async function addProduct(payload: Inputs) {
   try {
     const session = await getServerSession();
-    const product = await Prisma.product.findFirst({
+    const checkAlready = await Prisma.product.findFirst({
       where: {
-        serial: serial,
+        application: session?.user.application as number,
         retail: session?.user.retail,
-        application: session?.user.application
+        serial: payload.serial
       }
     })
 
-    return {
-      success: true,
-      data: product
-    }
-  } catch (error) {
-    return {
-      success: false,
-      error
-    }
-  }
-}
+    if (checkAlready) throw new Error("already_serial")
 
-export async function addProduct(payload: Inputs) {
-  try {
-    const session = await getServerSession()
     const product = await Prisma.product.create({
       data: {
         application: session?.user.application as number,
@@ -163,7 +145,7 @@ export async function saveProduct(payload: Inputs, id: number) {
         title: product.title
       }
     });
-    
+
     return {
       success: true,
       data: product
