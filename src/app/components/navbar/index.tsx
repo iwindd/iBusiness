@@ -90,7 +90,9 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
           transition: "all 0.25s ease",
         }}
       >
-        {children}
+        <div className="container p-4">
+          {children}
+        </div>
       </Box>
     </>
   )

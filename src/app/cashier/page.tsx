@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useInterface } from '../providers/InterfaceProvider';
 
 export interface CashierPageChildType {
-  addProductToCart:  (serial: string) => void
+  addProductToCart: (serial: string) => void
 }
 
 const CashierPage = () => {
@@ -27,7 +27,7 @@ const CashierPage = () => {
     const cart = session?.user.cart == null ? [] : session.user.cart;
 
     const product = cart.find(p => p.serial == serial && p.retail == session?.user.retail);
-    if (!product ) {
+    if (!product) {
       cart.push({
         id: resp.data?.id as number,
         serial: resp.data?.serial as string,
@@ -51,10 +51,10 @@ const CashierPage = () => {
   }
 
   return (
-    <div className='container p-4'>
+    <>
       <Cashier addProductToCart={addProductToCart} />
       <Cart addProductToCart={addProductToCart} />
-    </div>
+    </>
   )
 }
 
