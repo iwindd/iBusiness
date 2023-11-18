@@ -14,6 +14,7 @@ interface BackdropInterface {
 export interface DialogProps<T = any> {
   onOpen: () => void,
   onClose: () => void,
+  State: boolean,
   data: T
 }
 interface DialogInterface {
@@ -67,6 +68,7 @@ export function InterfaceProvider({ children }: {
         contents()
       },
       onClose: () => setDialog(false),
+      State: isDialog,
       data: data
     }
 
@@ -88,7 +90,7 @@ export function InterfaceProvider({ children }: {
     }
   >
     <div className="toast toast-end">
-      {
+{/*       {
         toasts.map((t) => {
           return (
             <div className={t.className}>
@@ -96,7 +98,7 @@ export function InterfaceProvider({ children }: {
             </div>
           )
         })
-      }
+      } */}
     </div>
     {children}
     <Backdrop

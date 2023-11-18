@@ -51,7 +51,7 @@ const CashierPage = () => {
   }
 
   return (
-    <div>
+    <div className='container p-4'>
       <Cashier addProductToCart={addProductToCart} />
       <Cart addProductToCart={addProductToCart} />
     </div>

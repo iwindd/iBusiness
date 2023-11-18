@@ -84,7 +84,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
       </Drawer>
       <Box
         sx={{
-          marginTop: 11,
+          marginTop: 9,
           marginLeft: isDrawer ? 30 : 1,
           transition: "all 0.25s ease"
         }}

@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React from 'react'
 import { setTimeout } from 'timers';
 
@@ -25,14 +26,14 @@ const ConfirmButton = (props: {
   }
 
   return (
-    <button
-      type="button"
+    <Button
       className={!state ? props.className : props.className2 || props.className}
       onClick={handle}
       disabled={props.disabled}
+      variant='contained'
     >
       {!state ? props.label : props.label2}
-    </button>
+    </Button>
   )
 }
 
