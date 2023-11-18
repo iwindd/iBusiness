@@ -23,7 +23,7 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
   }
 
   return (
-    <div className='container p-4 border border-b-0 '>
+    <div className=' p-4 border border-b-0 '>
       <CashierInput 
         addProductToCart={addProductToCart}
       />
@@ -35,7 +35,6 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
           label2="SURE ?"
         />
       </div>
-      <div className="divider"></div>
     </div >
   )
 }
