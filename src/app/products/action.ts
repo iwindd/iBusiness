@@ -73,6 +73,31 @@ export async function getProducts(
   }
 }
 
+export async function getCategories() {
+  try {
+    const session = await getServerSession();
+    const categories = await Prisma.category.findMany({
+      where: {
+        application: session?.user.application,
+      },
+      select: {
+        id: true,
+        title: true
+      }
+    })
+
+    return {
+      success: true,
+      data: categories
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error
+    }
+  }
+}
+
 export async function addProduct(payload: Inputs) {
   try {
     const session = await getServerSession();

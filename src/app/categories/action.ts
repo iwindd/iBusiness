@@ -3,45 +3,49 @@ import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
 import { Inputs } from "./components/schema";
 import { Activity } from "@/libs/activity";
+import { GridFilterModel, GridPaginationModel, GridSortModel } from "@mui/x-data-grid";
 
 export async function getCategories(
-  page: number,
-  size: number,
-  search: string,
-  sort: [string | null, "asc" | "desc"]
+  sort: GridSortModel,
+  pagination: GridPaginationModel,
+  filter: GridFilterModel
 ) {
   try {
 
     const orderBy: any = [{
       id: 'desc'
     }];
-    if (sort[0] != null) {
+
+    sort.map((sort) => {
       orderBy.unshift({
-        [(sort[0] as string)]: sort[1]
+        [sort.field]: sort.sort
       })
-    }
+    })
 
     const session = await getServerSession();
+    const query = {
+      application: session?.user.application as number,
+      ...(
+        filter?.quickFilterValues?.[0] != undefined ?
+          ({
+            OR: [{
+              title: {
+                contains: filter?.quickFilterValues?.[0]
+              }
+            }]
+          }) : ({})
+      )
+    }
+
     const categories = await Prisma.$transaction([
       Prisma.category.count({
-        where: {
-          application: Number(session?.user.application)
-        }
+        where: query
       }),
       Prisma.category.findMany({
-        skip: (page - 1) * size,
-        take: size,
+        skip: pagination.page * pagination.pageSize,
+        take: pagination.pageSize,
         orderBy: orderBy,
-        where: {
-          application: Number(session?.user.application),
-          OR: [
-            {
-              title: {
-                contains: search
-              },
-            }
-          ]
-        },
+        where: query,
         include: {
           products: {
             select: {
@@ -65,37 +69,12 @@ export async function getCategories(
   }
 }
 
-export async function getCategories2() {
-  try {
-    const session = await getServerSession();
-    const categories = await Prisma.category.findMany({
-      where: {
-        application: session?.user.application,
-      },
-      select: {
-        id: true,
-        title: true
-      }
-    })
-
-    return {
-      success: true,
-      data: categories
-    }
-  } catch (error) {
-    return {
-      success: false,
-      error
-    }
-  }
-}
-
 export async function addCategory(payload: Inputs) {
   try {
     const session = await getServerSession();
     const category = await Prisma.category.create({
       data: {
-        application: Number(session?.user.application),
+        application: session?.user.application as number,
         title: payload.title
       }
     })
@@ -121,15 +100,17 @@ export async function addCategory(payload: Inputs) {
   }
 }
 
-export async function updateCategory(id: number, payload: Inputs) {
+export async function saveCategory(payload: Inputs, id: number) {
   try {
     const session = await getServerSession();
     const category = await Prisma.category.update({
       where: {
         id: id,
-        application: Number(session?.user.application)
+        application: session?.user.application as number
       },
-      data: payload
+      data: {
+        title: payload.title
+      }
     })
 
     Activity({
@@ -159,7 +140,7 @@ export async function deleteCategory(id: number, title: string) {
     const category = await Prisma.category.delete({
       where: {
         id: id,
-        application: Number(session?.user.application)
+        application: session?.user.application as number
       }
     })
 
