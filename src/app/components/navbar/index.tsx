@@ -6,6 +6,7 @@ import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import { classNames } from '../../../libs/utils';
 
 export default function Navbar({ children }: { children: React.ReactNode }) {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
@@ -84,9 +85,9 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
       </Drawer>
       <Box
         sx={{
-          marginTop: 9,
-          marginLeft: isDrawer ? 30 : 1,
-          transition: "all 0.25s ease"
+          paddingTop: 9,
+          paddingLeft: isDrawer ? 30 : 1,
+          transition: "all 0.25s ease",
         }}
       >
         {children}
