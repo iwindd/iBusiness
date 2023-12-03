@@ -6,7 +6,6 @@ import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Inputs, Schema } from './schema';
 import { addProduct } from '../action';
-import { useQueryClient } from '@tanstack/react-query';
 
 const AddDialog = (props: DialogProps<{
   categories: { id: string, title: string }[],
@@ -15,11 +14,7 @@ const AddDialog = (props: DialogProps<{
 
   const {
     register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    reset,
-    control
+    handleSubmit
   } = useForm<Inputs>({
     resolver: zodResolver(Schema),
     defaultValues: {

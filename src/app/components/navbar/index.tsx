@@ -1,12 +1,80 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader } from '@mui/material'
-import { KeyboardArrowLeft, KeyboardArrowRight, Logout } from '@mui/icons-material';
+import { DarkMode, KeyboardArrowLeft, KeyboardArrowRight, LightMode, Logout, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
 import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
-import { classNames } from '../../../libs/utils';
+import { signOut, useSession } from 'next-auth/react';
+import { useInterface } from '@/app/providers/InterfaceProvider';
+import { useQueryClient } from '@tanstack/react-query';
+
+const ThemeSwitch = () => {
+
+  return (<></>)
+
+
+  /* waiting   
+  
+    const { theme, setTheme } = useInterface()
+  
+    const Switch = () => {
+      setTheme(theme == "light" ? "dark" : "light")
+    }
+  
+    return (
+      <IconButton onClick={Switch}>
+        {theme == "light" ? <LightMode /> : <DarkMode />}
+      </IconButton>
+    ) */
+}
+
+const ShopSwitch = () => {
+  const { shop, setShop } = useInterface()
+  const { data: session, update } = useSession();
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const queryClient = useQueryClient();
+
+  const Switch = async () => {
+    update({
+      ...session,
+      user: {
+        ...session?.user,
+        retail: shop == "retail" ? false : true
+      }
+    })
+
+
+    setShop(shop == "retail" ? "wholesale" : "retail");
+    await queryClient.refetchQueries({ type: 'active', queryKey: ['histories'] });
+    await queryClient.refetchQueries({ type: 'active', queryKey: ['products'] });
+    await queryClient.refetchQueries({ type: 'active', queryKey: ['AnalysisData'] });
+    
+  }
+
+
+  React.useEffect(() => {
+    if (session?.user.retail == undefined) {
+      setLoading(true);
+    } else {
+      setLoading(false)
+    }
+
+    if (session?.user.retail == false && shop == "retail") {
+      setShop(session.user.retail ? "retail" : "wholesale")
+    }
+  }, [session])
+
+  if (isLoading) {
+    return
+  }
+
+  return (
+    <IconButton onClick={Switch}>
+      {shop == "retail" ? <Storefront /> : <PointOfSale />}
+    </IconButton>
+  )
+}
 
 export default function Navbar({ children }: { children: React.ReactNode }) {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
@@ -31,6 +99,8 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
             </IconButton>
           </Box>
           <Box className="flex gap-2">
+            <ThemeSwitch />
+            <ShopSwitch />
             <IconButton onClick={() => signOut()}>
               <Logout />
             </IconButton>

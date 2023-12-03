@@ -1,6 +1,6 @@
 "use client";
 import { Backdrop, CircularProgress } from '@mui/material';
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import Dialog, { DialogProps as OriginalDialogProps } from '@mui/material/Dialog';
 
 interface ToastInterface {
@@ -9,6 +9,18 @@ interface ToastInterface {
 
 interface BackdropInterface {
   useBackdrop: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type theme = "light" | "dark";
+interface ThemeInterface{
+  theme: theme,
+  setTheme: React.Dispatch<React.SetStateAction<theme>>
+}
+
+type shopType = "retail" | "wholesale"
+interface ShopInterface{
+  shop: shopType,
+  setShop: React.Dispatch<React.SetStateAction<shopType>>
 }
 
 export interface DialogProps<T = any> {
@@ -21,7 +33,7 @@ interface DialogInterface {
   useDialog: (Content: React.FC<DialogProps>, data: any, size?: OriginalDialogProps['maxWidth']) => DialogProps
 }
 
-interface InterfaceData extends ToastInterface, BackdropInterface, DialogInterface { };
+interface InterfaceData extends ToastInterface, BackdropInterface, DialogInterface, ThemeInterface, ShopInterface {};
 
 const InterfaceContext = createContext<InterfaceData | undefined>(undefined);
 
@@ -39,6 +51,8 @@ export function InterfaceProvider({ children }: {
 }) {
   const [isBackdrop, setBackdrop] = React.useState<boolean>(false);
   const [isDialog, setDialog] = React.useState<boolean>(false);
+  const [theme, setTheme] = React.useState<theme>("light");
+  const [shop, setShop] = React.useState<shopType>("retail");
   const [DialogContent, setDialogContent] = React.useState<null | JSX.Element>(null);
   const [maxWidth, setMaxWidth] = React.useState<OriginalDialogProps['maxWidth']>('sm');
 
@@ -47,7 +61,6 @@ export function InterfaceProvider({ children }: {
     className: string,
     index: number
   }[]>([])
-
 
   const useToast = (msg: string, className: string) => {
     ToastIndex++;
@@ -85,7 +98,11 @@ export function InterfaceProvider({ children }: {
       {
         useToast: useToast,
         useBackdrop: setBackdrop,
-        useDialog: useDialog
+        useDialog: useDialog,
+        theme: theme,
+        setTheme: setTheme,
+        shop: shop,
+        setShop: setShop
       }
     }
   >

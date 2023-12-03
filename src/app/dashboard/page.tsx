@@ -2,7 +2,7 @@
 import React from 'react'
 import Stats from './components/stats'
 import { useSession } from 'next-auth/react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import ProfitChart from './components/chart/profit';
 import TimesChart from './components/chart/times';
 import WeekChart from './components/chart/week';
@@ -11,8 +11,6 @@ import ActivityTable from './components/helper/activity';
 import { getAnalysisData } from './action';
 
 const Dashboard = () => {
-  const session = useSession();
-
   const { data, isLoading, error } = useQuery({
     queryKey: ['AnalysisData'],
     queryFn: async () => {
@@ -22,8 +20,6 @@ const Dashboard = () => {
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error </p>
-
-  console.table(data?.data)
 
   return (
     <div>

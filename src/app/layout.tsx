@@ -28,8 +28,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeRegistry>
-          <InterfaceProvider>
+        <InterfaceProvider>
+          <ThemeRegistry>
             <SessionProvider session={session}>
               <QueryProvider>
                 {session ? (
@@ -41,8 +41,8 @@ export default async function RootLayout({
                 )}
               </QueryProvider>
             </SessionProvider>
-          </InterfaceProvider>
-        </ThemeRegistry>
+          </ThemeRegistry>
+        </InterfaceProvider>
       </body>
     </html>
   );

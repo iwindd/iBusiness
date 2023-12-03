@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridToolbar, GridRowParams } from '@mui/x-data-grid';
+import { DataGrid, GridSortModel, GridFilterModel, GridToolbar, GridRowParams } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
 import { getCategories, saveCategory } from '@/app/categories/action';
-import { Box, Button, Paper } from '@mui/material';
-import { Add, Delete, PlusOne, ViewAgenda, Watch } from '@mui/icons-material';
-import { Category, Product } from '@prisma/client';
+import { Box, Button } from '@mui/material';
+import { Add, Delete, ViewAgenda } from '@mui/icons-material';
+import { Category } from '@prisma/client';
 import Confirmation from './confirmation';
 import AddDialog from './add';
 import { useInterface } from '@/app/providers/InterfaceProvider';
@@ -91,16 +91,16 @@ const CategoryDataTable = () => {
       <header className='flex justify-end'>
         <section className='mb-2 flex justify-end'>
           <Button startIcon={<Add />} onClick={addDialog.onOpen}>
-            Add
+            เพิ่ม
           </Button>
           {selectRow ? (
             <>
               <Button startIcon={<Delete />} onClick={deleteDialog.onOpen}>
-                Delete
+                ลบ
               </Button>
               <Link href={`products?categoryFilter=${selectRow}`}>
                 <Button startIcon={<ViewAgenda />} >
-                  View
+                  ดูรายการสินค้า
                 </Button>
               </Link>
             </>
