@@ -55,7 +55,7 @@ const Stats = async () => {
   if (error) return <p>ERROR</p>;
 
   return (
-    <div className="stats w-full ">
+    <div className="stats w-full flex space-x-1">
       {
         Items.map((i) => {
           return (

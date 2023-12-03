@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { Breadcrumbs, Link, Typography } from '@mui/material';
+/* import Link from 'next/link' */
 
 export default async function Layout({
   children,
@@ -7,12 +8,12 @@ export default async function Layout({
 }) {
   return (
     <div className="container">
-      <div className="text-sm breadcrumbs">
-        <ul>
-          <li><Link href={'/histories'}>ประวัติการขายสินค้าทั้งหมด</Link></li>
-          <li>ประวัติการขายสินค้า</li>
-        </ul>
-      </div>
+      <Breadcrumbs>
+        <Link underline="hover" color="inherit" href="/histories">
+          ประวัติการขายสินค้าทั้งหมด
+        </Link>
+        <Typography color="text.primary">ประวัติการขายสินค้า</Typography>
+      </Breadcrumbs>
 
       <main>
         {children}

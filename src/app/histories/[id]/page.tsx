@@ -3,6 +3,9 @@ import React from 'react'
 import Prisma from '@/libs/prisma'
 import { getServerSession } from '@/libs/session';
 import { redirect } from 'next/navigation';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import Stat from '@/app/components/styled/Stat';
+
 const History = async ({ params: { id } }: {
   params: {
     id: number
@@ -26,73 +29,55 @@ const History = async ({ params: { id } }: {
   return (
     <>
       <div className="divider"></div>
-      <header className='flex justify-between'>
+      <header className='flex justify-between mb-2'>
         <div>
           <h1 className='text-2xl'>รายละเอียด </h1>
           <p className='text-gray-500'>
             {new Intl.DateTimeFormat('th-TH', { timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(history?.createdAt))}
-            <button className='ms-2'>ออกใบเสร็จ</button>
           </p>
         </div>
         <span className='text-xl'>#{history?.id.toLocaleString()}</span>
       </header>
-      <section>
-        <div className="stat">
-          <div className="stat-title">หมายเหตุ</div>
-          <div className="stat-value text-lg">{history?.note || "ไม่พบหมายเหตุ"}</div>
-        </div>
-      </section>
-      <article className='stats w-full flex'>
-        <div className="stat">
-          <div className="stat-title">ราคา</div>
-          <div className="stat-value text-lg">{history?.price.toLocaleString()} ฿</div>
-        </div>
-        <div className="stat">
-          <div className="stat-title">ต้นทุน</div>
-          <div className="stat-value text-lg">{history?.cost.toLocaleString()} ฿</div>
-        </div>
-        <div className="stat">
-          <div className="stat-title">กำไร</div>
-          <div className="stat-value text-lg">{history?.profit.toLocaleString()} ฿</div>
-        </div>
-        <div className="stat">
-          <div className="stat-title">สินค้าทั้งหมด</div>
-          <div className="stat-value text-lg">{history?.products.reduce((total, p) => total += p.count, 0)} รายการ</div>
-        </div>
+      <section><Stat title='หมายเหตุ' caption={history.note || "ไม่พบหมายเหตุ"} /></section>
+      <article className='w-full flex space-x-1 mt-1'>
+        <Stat title='ราคา' caption={history?.price.toLocaleString() + " ฿"} />
+        <Stat title='ต้นทุน' caption={history?.cost.toLocaleString() + " ฿"} />
+        <Stat title='กำไร' caption={history?.profit.toLocaleString() + " ฿"} />
+        <Stat title='สินค้าทั้งหมด' caption={history?.products.reduce((total, p) => total += p.count, 0) + " รายการ"} />
       </article>
       <div className="divider"></div>
-      <section>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>รหัสสินค้า</th>
-              <th>ชื่อสินค้า</th>
-              <th>ประเภทสินค้า</th>
-              <th>ราคา</th>
-              <th>ต้นทุน</th>
-              <th>กำไร</th>
-              <th>จำนวน</th>
-            </tr>
-          </thead>
-          <tbody>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>รหัสสินค้า</TableCell>
+              <TableCell>ชื่อสินค้า</TableCell>
+              <TableCell>ประเภทสินค้า</TableCell>
+              <TableCell>ราคา</TableCell>
+              <TableCell>ต้นทุน</TableCell>
+              <TableCell>กำไร</TableCell>
+              <TableCell>จำนวน</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {
               history?.products.map((p) => {
                 return (
-                  <tr key={p.id}>
-                    <td>{p.serial}</td>
-                    <td>{p.title}</td>
-                    <td>{p.category}</td>
-                    <td>{p.price.toLocaleString()} ฿</td>
-                    <td>{p.cost.toLocaleString()} ฿</td>
-                    <td>{(p.price - p.cost).toLocaleString()} ฿</td>
-                    <td>{p.count.toLocaleString()} รายการ</td>
-                  </tr>
+                  <TableRow key={p.id}>
+                    <TableCell>{p.serial}</TableCell>
+                    <TableCell>{p.title}</TableCell>
+                    <TableCell>{p.category}</TableCell>
+                    <TableCell>{p.price.toLocaleString()} ฿</TableCell>
+                    <TableCell>{p.cost.toLocaleString()} ฿</TableCell>
+                    <TableCell>{(p.price - p.cost).toLocaleString()} ฿</TableCell>
+                    <TableCell>{p.count.toLocaleString()} รายการ</TableCell>
+                  </TableRow>
                 )
               })
             }
-          </tbody>
-        </table>
-      </section>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }

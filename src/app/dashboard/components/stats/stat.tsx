@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link';
-
+import { Box, Typography } from '@mui/material';
+import { Dashboard } from '@mui/icons-material';
+import Stat from '@/app/components/styled/Stat';
 interface Props {
   title: string,
   value: string,
@@ -9,20 +11,17 @@ interface Props {
   icon: JSX.Element
 }
 
-const Stat = (props: Props) => {
+const DashboardStat = (props: Props) => {
   return (
     <Link
       href={props.route}
-      className="stat hover:bg-base-200 transition-all duration-250"
+      className='grow-1 flex-grow'
     >
-      <div className="stat-figure text-secondary">
-        {props.icon}
-      </div>
-      <div className="stat-title">{props.title}</div>
-      <div className="stat-value">{props.value}</div>
-      <div className="stat-desc">{props.desc}</div>
+      <Stat title={props.title} caption={props.value}><br />
+        <Typography variant="caption">{props.desc}</Typography>
+      </Stat>
     </Link>
   )
 }
 
-export default Stat
+export default DashboardStat

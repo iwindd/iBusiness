@@ -1,11 +1,13 @@
+import { Box, CircularProgress } from '@mui/material'
 import React from 'react'
+import { classNames } from '../libs/utils';
 
 const Loading = () => {
   return (
     <>
-      <div className='flex justify-center mt-5'>
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
+      <Box className="flex justify-center">
+        <CircularProgress />
+      </Box>
     </>
   )
 }

@@ -1,90 +1,67 @@
 "use server";
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
-import { Order } from "@prisma/client";
+import { GridFilterModel, GridPaginationModel, GridSortModel } from "@mui/x-data-grid";
 
 export async function getHistories(
-  page: number,
-  size: number,
-  search: string,
-  sort: [string | null, "asc" | "desc"],
-  scope: "today" | "week" | "month" | null
+  sort: GridSortModel,
+  pagination: GridPaginationModel,
+  filter: GridFilterModel
 ) {
   try {
-    const session = await getServerSession();
     const orderBy: any = [{
       id: 'desc'
     }];
 
-    if (sort[0] != null) {
+    sort.map((sort) => {
       orderBy.unshift({
-        [(sort[0] as string)]: sort[1]
+        [sort.field]: sort.sort
       })
-    }
-    const queryWhere = {
-      retail: session?.user.retail as boolean,
+    })
+
+    const session = await getServerSession();
+    const query = {
       application: session?.user.application as number,
-      createdAt: {}
+      retail: session?.user.retail as boolean,
+      ...(
+        filter?.quickFilterValues?.[0] != undefined ?
+          ({
+            OR: [
+              {
+                note: {
+                  contains: filter?.quickFilterValues?.[0]
+                },
+              }, {
+                productsText: {
+                  contains: filter?.quickFilterValues?.[0]
+                }
+              }
+            ]
+          }) : ({})
+      )
     }
 
-    if (scope != null) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      if (scope == "today") {
-        queryWhere.createdAt = {
-          gte: today,
-          lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
-        }
-      } else if (scope == "week") {
-        const oneWeekAgo = new Date(today);
-        oneWeekAgo.setDate(today.getDate() - 7);
-
-        queryWhere.createdAt = {
-          gte: oneWeekAgo,
-          lt: today,
-        }
-      } else if (scope == "month") {
-        const oneMonthAgo = new Date(today);
-        oneMonthAgo.setMonth(today.getMonth() - 1);
-
-        queryWhere.createdAt = {
-          gte: oneMonthAgo,
-          lt: today,
-        }
-      }
-    }
-
-    const histories = await Prisma.$transaction([
+    const orders = await Prisma.$transaction([
       Prisma.order.count({
-        where: queryWhere
+        where: query
       }),
       Prisma.order.findMany({
-        skip: (page - 1) * size,
-        take: size,
+        skip: pagination.page * pagination.pageSize,
+        take: pagination.pageSize,
         orderBy: orderBy,
-        where: {
-          ...queryWhere,
-          OR: [
-            {
-              note: {
-                contains: search
-              },
-            }
-          ]
-        }
+        where: query
       })
     ])
 
     return {
       success: true,
-      data: histories[1],
-      total: histories[0]
+      data: orders[1],
+      total: orders[0]
     }
   } catch (error) {
     return {
       success: false,
-      error: error
+      error
     }
   }
 }
