@@ -4,10 +4,11 @@ import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, Lis
 import { DarkMode, KeyboardArrowLeft, KeyboardArrowRight, LightMode, Logout, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 
 const ThemeSwitch = () => {
 
@@ -75,8 +76,8 @@ const ShopSwitch = () => {
 
 export default function Navbar({ children }: { children: React.ReactNode }) {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
-  const [isPage, setPage] = React.useState<string>('main.dashboard');
   const router = useRouter();
+  const pathname = usePathname();  
 
   return (
     <>
@@ -119,7 +120,9 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
         }}
       >
         <Box sx={{ padding: 2 }}>
-          <Typography variant='h4' className='text-center' >{'iStore'}</Typography>
+          <Link href="/">
+            <Typography variant='h4' className='text-center' >{'iStore'}</Typography>
+          </Link>
         </Box>
         <List
           subheader={<li />}
@@ -132,9 +135,8 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
                   {category.items.map((item, itemId) => (
                     <ListItemButton
                       key={`drawer-${categoryId}-${itemId}`}
-                      selected={isPage == `${category.name}.${item.name}`}
+                      selected={pathname.search(item.route) ? false: true}
                       onClick={() => {
-                        setPage(`${category.name}.${item.name}`);
                         router.push(item.route);
                       }}
                     >
