@@ -9,6 +9,8 @@ const ConfirmButton = (props: {
   label2: string,
   disabled?:boolean,
   duration?: number,
+  startIcon?: React.ReactNode,
+  variant?: 'text' | 'outlined' | 'contained'
   onClick: () => void
 }) => {
   const [state, setState] = React.useState<boolean>(false);
@@ -30,7 +32,8 @@ const ConfirmButton = (props: {
       className={!state ? props.className : props.className2 || props.className}
       onClick={handle}
       disabled={props.disabled}
-      variant='contained'
+      variant={props.variant || "contained"}
+      startIcon={props.startIcon}
     >
       {!state ? props.label : props.label2}
     </Button>
