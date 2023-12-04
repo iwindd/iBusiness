@@ -9,7 +9,7 @@ const Stat = (props: {
   return (
     <Paper className="w-full h-full p-4 rounded">
       <Typography variant="h6">{props.title}</Typography>
-      <Typography variant="caption">{props?.caption || "ไม่พบหมายเหตุ"}</Typography>
+      <Typography variant="body1">{props?.caption || "ไม่พบหมายเหตุ"}</Typography>
       {props?.children}
     </Paper>
   )

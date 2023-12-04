@@ -17,17 +17,17 @@ interface Stat {
 
 const Items: Stat[] = [
   {
-    title: "ยอดขายวันนี้", route: "/histories?scope=today", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (day) => {
+    title: "ยอดขายวันนี้", route: "/histories?scope=today", desc: "ยอดขายทั้งหมดภายในวันนี้", icon: <DocumentIcon className='h-10 w-10' />, format: (day) => {
       return day.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "ยอดขายอาทิตย์นี้", route: "/histories?scope=week", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (_, week) => {
+    title: "ยอดขายสัปดาห์นี้", route: "/histories?scope=week", desc: "ยอดขายทั้งหมดภายในสัปดาห์นี้", icon: <DocumentIcon className='h-10 w-10' />, format: (_, week) => {
       return week.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "ยอดขายเดือนนี้", route: "/histories?scope=month", desc: "", icon: <DocumentIcon className='h-10 w-10' />, format: (_, __, month) => {
+    title: "ยอดขายเดือนนี้", route: "/histories?scope=month", desc: "ยอดขายทั้งหมดภายในเดือนนี้", icon: <DocumentIcon className='h-10 w-10' />, format: (_, __, month) => {
       return month.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
