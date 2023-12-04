@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader } from '@mui/material'
-import { DarkMode, KeyboardArrowLeft, KeyboardArrowRight, LightMode, Logout, PointOfSale, Storefront } from '@mui/icons-material';
+import { Logout, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
 import { usePathname, useRouter } from 'next/navigation';
@@ -93,7 +93,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
         >
           <Box>
             <IconButton onClick={() => setDrawer(!isDrawer)}>
-              {isDrawer ? (<KeyboardArrowLeft />) : (<KeyboardArrowRight />)}
+              {isDrawer ? (<MenuOpen />) : (<Menu />)}
             </IconButton>
           </Box>
           <Box className="flex gap-2">
