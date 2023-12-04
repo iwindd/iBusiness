@@ -6,6 +6,7 @@ import { Order } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { getHistories } from '../action';
 import Header from '@/app/components/header';
+import CustomToolbar from '@/app/components/toolbar';
 
 const columns = [
   {
@@ -97,17 +98,17 @@ const Datatable = () => {
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <Header title='รายการประวัติการขาย'></Header>
-      <Box sx={{ height: 800, width: '100%' }} className="mt-4">
+      <Box sx={{ height: 750, width: '100%' }} className="mt-4">
         <DataGrid
           loading={isLoading}
-          rows={data ? (data.success ? (data.data as Order[]) : []) : []}
+          rows={isLoading ? [] : data?.data as Order[]}
           columns={columns}
-          rowCount={10}
+          rowCount={data?.total}
           density="compact"
 
-          onRowClick={onSelectRow}
+          onRowDoubleClick={onSelectRow}
 
-          pageSizeOptions={[15, 20]}
+          pageSizeOptions={[15, 30, 50, 100]}
           paginationModel={paginationModel}
           paginationMode="server"
           onPaginationModelChange={setPaginationModel}
@@ -119,7 +120,7 @@ const Datatable = () => {
           disableColumnSelector
           disableDensitySelector
           slots={{
-            toolbar: GridToolbar,
+            toolbar: CustomToolbar,
           }}
           slotProps={{ toolbar: { showQuickFilter: true } }}
           filterMode="server"

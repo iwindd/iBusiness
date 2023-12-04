@@ -10,6 +10,7 @@ import AddDialog from './add';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import Link from 'next/link';
 import Header from '@/app/components/header';
+import CustomToolbar from '@/app/components/toolbar';
 
 const columns = [
   { field: 'title', sortable: true, headerName: 'ประเภทสินค้า', flex: 3, editable: true }, {
@@ -108,10 +109,10 @@ const CategoryDataTable = () => {
         ) : null}
       </Header>
 
-      <Box sx={{ height: 800, width: '100%' }} className="mt-4">
+      <Box sx={{ height: 750, width: '100%' }} className="mt-4">
         <DataGrid
           loading={isLoading}
-          rows={data ? (data.success ? (data.data as Category[]) : []) : []}
+          rows={isLoading ? [] : data?.data as Category[]}
           columns={columns}
           rowCount={data?.total}
           density="compact"
@@ -119,7 +120,7 @@ const CategoryDataTable = () => {
           onRowClick={onSelectRow}
           processRowUpdate={onCommit}
 
-          pageSizeOptions={[15, 20]}
+          pageSizeOptions={[15, 30, 50, 100]}
           paginationModel={paginationModel}
           paginationMode="server"
           onPaginationModelChange={setPaginationModel}
@@ -131,7 +132,7 @@ const CategoryDataTable = () => {
           disableColumnSelector
           disableDensitySelector
           slots={{
-            toolbar: GridToolbar,
+            toolbar: CustomToolbar,
           }}
           slotProps={{ toolbar: { showQuickFilter: true } }}
           filterMode="server"

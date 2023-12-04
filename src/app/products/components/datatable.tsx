@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridToolbarContainer, GridToolbarExport, GridRowParams, GridFilterForm, GridToolbarQuickFilter, GridToolbar } from '@mui/x-data-grid';
-import { deleteProduct, getCategories, getProducts, saveProduct } from '../action';
+import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridRowParams, GridToolbar } from '@mui/x-data-grid';
+import { getCategories, getProducts, saveProduct } from '../action';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Inputs } from './schema';
@@ -11,6 +11,7 @@ import { Product } from '@prisma/client';
 import Confirmation from './confirmation';
 import AddDialog from './add';
 import Header from '../../components/header';
+import CustomToolbar from '../../components/toolbar';
 
 
 const ProductDataTable = () => {
@@ -96,18 +97,15 @@ const ProductDataTable = () => {
         ) : null}
       </Header>
 
-      <Box sx={{ height: 800, width: '100%' }} className="mt-4">
+      <Box sx={{ height: 750, width: '100%' }} className="mt-4">
         <DataGrid
           loading={isLoading}
-          rows={data ? (data.success ? (data.data as Inputs[]) : []) : []}
+          rows={isLoading ? [] : data?.data as Inputs[]}
+
           columns={[
             { field: 'serial', sortable: false, headerName: 'รหัสสินค้า', flex: 1 },
             { field: 'title', sortable: false, headerName: 'ชื่อสินค้า', flex: 1, editable: true },
-            {
-              field: 'categoryId',
-              sortable: false,
-              headerName: 'ประเภทสินค้า',
-              flex: 1,
+            { field: 'categoryId', sortable: false, headerName: 'ประเภทสินค้า', flex: 1,
               valueOptions: categories.map((c: { id: number }) => c.id),
               valueFormatter: (params) => categories.find((cc: { id: number }) => cc.id == params.value).title || params.value,
               getOptionLabel: (id) => categories.find((cc: { id: number }) => cc.id == id).title || id,
@@ -117,7 +115,6 @@ const ProductDataTable = () => {
             { field: 'price', sortable: true, headerName: 'ราคา', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
             { field: 'cost', sortable: true, headerName: 'ต้นทุน', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
             { field: 'stock', sortable: true, headerName: 'ของในสต๊อก', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
-
           ]}
           rowCount={data?.total}
           density="compact"
@@ -125,7 +122,7 @@ const ProductDataTable = () => {
           onRowClick={onSelectRow}
           processRowUpdate={onCommit}
 
-          pageSizeOptions={[15, 20]}
+          pageSizeOptions={[15, 30, 50, 100]}
           paginationModel={paginationModel}
           paginationMode="server"
           onPaginationModelChange={setPaginationModel}
@@ -137,7 +134,7 @@ const ProductDataTable = () => {
           disableColumnSelector
           disableDensitySelector
           slots={{
-            toolbar: GridToolbar,
+            toolbar: CustomToolbar,
           }}
           slotProps={{ toolbar: { showQuickFilter: true } }}
           filterMode="server"
