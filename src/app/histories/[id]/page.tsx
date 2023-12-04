@@ -67,12 +67,24 @@ const History = async ({ params: { id } }: {
         <span className='text-xl'>#{history?.id.toLocaleString()}</span>
       </Header>
       <main className='mt-4'>
-        <section><Stat title='หมายเหตุ' caption={history.note || "ไม่พบหมายเหตุ"} /></section>
+        <section>
+          <Stat title='หมายเหตุ' caption={history.note || "ไม่พบหมายเหตุ"} >
+            <Typography variant='caption'><i>-- ชื่อผู้ใช้ รหัสการสั่งจอง คำอธิบาย ข้อมูล คำชี้แจงเพิ่มเติม หรือ อื่นๆ</i></Typography>
+          </Stat>
+        </section>
         <article className='w-full flex space-x-1 mt-1'>
-          <Stat title='ราคา' caption={history?.price.toLocaleString() + " ฿"} />
-          <Stat title='ต้นทุน' caption={history?.cost.toLocaleString() + " ฿"} />
-          <Stat title='กำไร' caption={history?.profit.toLocaleString() + " ฿"} />
-          <Stat title='สินค้าทั้งหมด' caption={history?.products.reduce((total, p) => total += p.count, 0) + " รายการ"} />
+          <Stat title='ราคา' caption={history?.price.toLocaleString() + " ฿"} >
+            <Typography variant='caption'><i>-- ราคารวมของรายการนี้</i></Typography>
+          </Stat>
+          <Stat title='ต้นทุน' caption={history?.cost.toLocaleString() + " ฿"} >
+            <Typography variant='caption'><i>-- ต้นทุนของรายการนี้</i></Typography>
+          </Stat>
+          <Stat title='กำไร' caption={history?.profit.toLocaleString() + " ฿"} >
+            <Typography variant='caption'><i>-- กำไรของรายการนี้</i></Typography>
+          </Stat>
+          <Stat title='สินค้าทั้งหมด' caption={history?.products.reduce((total, p) => total += p.count, 0) + " รายการ"} >
+            <Typography variant='caption'><i>-- จำนวนสินค้าทั้งหมดภายในรายการนี้</i></Typography>
+          </Stat>
         </article>
         <TableContainer>
           <Table>
