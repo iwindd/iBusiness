@@ -9,77 +9,100 @@ import {
   SignInSchema as Schema
 } from './schema';
 import { AuthPage } from '..';
-import { Button, Paper, TextField } from '@mui/material';
+import { Button, Divider, Paper, TextField, Typography } from '@mui/material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
+import { Login } from '@mui/icons-material';
+import { useSnackbar } from 'notistack';
+
+const fields = [
+  { name: "email", label: "อีเมล", type: "email" },
+  { name: "password", label: "รหัสผ่าน", type: "password" },
+]
+type SchemaKey = keyof Inputs;
 
 function SignIn({ setPage }: {
   setPage: React.Dispatch<React.SetStateAction<AuthPage>>
 }) {
   const router = useRouter()
   const { useBackdrop } = useInterface();
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     register,
     handleSubmit,
+    setError,
+    resetField,
     formState: { errors }
   } = useForm<Inputs>({
     resolver: zodResolver(Schema)
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (payload) => {
+  const onSubmit: SubmitHandler<Inputs> = async (payload, e) => {
+    e?.preventDefault();
     useBackdrop(true)
     const resp = await signIn("credentials", {
       email: payload.email,
       password: payload.password,
-      redirect: true
+      redirect: false
     })
 
+    useBackdrop(false)
     if (!resp?.error) {
-      return router.push("/");
+      enqueueSnackbar("เข้าสู่ระบบสำเร็จแล้ว!", { variant: "success" })
+      return router.refresh();
+    } else {
+      resetField("password");
+
+      if (resp.status == 401) {
+        setError("email", {
+          type: "string",
+          message: "ไม่พบผู้ใช้งาน"
+        }, {
+          shouldFocus: true
+        })
+      }
     }
   }
 
   return (
-    <Paper
-      className='w-96 mx-auto mt-24 px-4 py-4'
-    >
-      <form onSubmit={handleSubmit(onSubmit)} >
-        <header className='flex justify-center'>
-          <h1 className='text-2xl bold'>Sign Up</h1>
-        </header>
-        <main className='space-y-2 mt-6'>
-          <TextField
-            label="Email..."
-            fullWidth
-            {...register("email")}
-          />
-          <p className='text-error'>{errors.email?.message}</p>
-          <TextField
-            label="Password..."
-            fullWidth
-            {...register("password")}
-          />
-          <p className='text-error'>{errors.password?.message}</p>
-        </main>
-        <footer className='mt-4 flex justify-center flex-col'>
-          <Button
-            type='submit'
-            variant="outlined"
-          >
-            Sign in
-          </Button>
-          <section className='text-center mt-2'>
-            <Button
-              variant='text'
-              color='inherit'
-              onClick={() => setPage("signup")}
-            >
-              ไม่มีชื่อผู้ใช้ ?
-            </Button>
-          </section>
-        </footer>
-      </form>
-    </Paper>
+    <>
+      <Paper
+        className='w-96 mx-auto mt-24 px-4 py-4'
+      >
+        <form onSubmit={handleSubmit(onSubmit)} >
+          <header className='mb-2'><Typography variant='h4'>เข้าสู่ระบบ</Typography></header>
+          <Divider />
+          <main className="mt-4 space-y-2">
+            {
+              fields.map((field) => {
+                return (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    type={field.type}
+                    label={field.label}
+                    error={(errors)[field.name as SchemaKey]?.message != undefined ? true : false}
+                    helperText={(errors)[field.name as SchemaKey]?.message}
+                    {...register(field.name as SchemaKey)}
+                  />
+                )
+              })
+            }
+          </main>
+          <footer className='flex mt-2'>
+            <Button variant="contained" className='grow' color="success" type='submit' endIcon={< Login />} >เข้าสู่ระบบ</Button>
+          </footer>
+        </form>
+      </Paper>
+      <section className='text-center mt-2'>
+        <Button
+          variant='text'
+          onClick={() => setPage("signup")}
+        >
+          ฉันไม่มีบัญชี ?
+        </Button>
+      </section>
+    </>
   )
 }
 
