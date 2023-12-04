@@ -1,12 +1,12 @@
 "use client"
 import React, { useState } from 'react';
-import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader } from '@mui/material'
-import { Logout, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
+import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions } from '@mui/material';
+import { Logout as LogoutIcon, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
 import { usePathname, useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-import { useInterface } from '@/app/providers/InterfaceProvider';
+import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
 import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 
@@ -74,10 +74,45 @@ const ShopSwitch = () => {
   )
 }
 
+const Logout = () => {
+  const { useDialog, useBackdrop } = useInterface();
+
+  const confirmation = useDialog((props: DialogProps<{}>) => {
+    const onLogout = async () => {
+      useBackdrop(true);
+      await signOut();
+      useBackdrop(false);
+    }
+
+    return (
+      <>
+        <DialogTitle id="responsive-dialog-title">
+          {"แจ้งเตือน"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            คุณต้องการออกจากระบบหรือไม่ ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={props.onClose}>ยกเลิก</Button>
+          <Button onClick={onLogout}>ยืนยัน</Button>
+        </DialogActions>
+      </>
+    )
+  }, {})
+
+  return (
+    <IconButton onClick={confirmation.onOpen}>
+      <LogoutIcon />
+    </IconButton>
+  )
+}
+
 export default function Navbar({ children }: { children: React.ReactNode }) {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
   const router = useRouter();
-  const pathname = usePathname();  
+  const pathname = usePathname();
 
   return (
     <>
@@ -99,9 +134,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
           <Box className="flex gap-2">
             <ThemeSwitch />
             <ShopSwitch />
-            <IconButton onClick={() => signOut()}>
-              <Logout />
-            </IconButton>
+            <Logout />
           </Box>
         </Toolbar>
       </AppBar>
@@ -135,7 +168,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
                   {category.items.map((item, itemId) => (
                     <ListItemButton
                       key={`drawer-${categoryId}-${itemId}`}
-                      selected={pathname.search(item.route) ? false: true}
+                      selected={pathname.search(item.route) ? false : true}
                       onClick={() => {
                         router.push(item.route);
                       }}
