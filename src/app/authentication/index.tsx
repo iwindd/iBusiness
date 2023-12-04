@@ -5,7 +5,7 @@ import SignUp from './components/signup';
 
 export type AuthPage = "signin" | "signup";
 function Authentication() {
-  const [page, setPage] = React.useState<AuthPage>("signin");
+  const [page, setPage] = React.useState<AuthPage>("signup");
 
   return (
     page == "signin" ? (
