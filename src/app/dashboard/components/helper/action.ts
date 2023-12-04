@@ -58,6 +58,7 @@ export async function getBestSeller() {
     }
   }
 }
+
 export async function getActivities() {
   try {
     const session = await getServerSession()
