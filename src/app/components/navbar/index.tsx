@@ -36,20 +36,17 @@ const ShopSwitch = () => {
   const queryClient = useQueryClient();
 
   const Switch = async () => {
-    update({
+    setShop(shop == "retail" ? "wholesale" : "retail");
+    await update({
       ...session,
       user: {
         ...session?.user,
         retail: shop == "retail" ? false : true
       }
     })
-
-
-    setShop(shop == "retail" ? "wholesale" : "retail");
     await queryClient.refetchQueries({ type: 'active', queryKey: ['histories'] });
     await queryClient.refetchQueries({ type: 'active', queryKey: ['products'] });
     await queryClient.refetchQueries({ type: 'active', queryKey: ['AnalysisData'] });
-    
   }
 
 
