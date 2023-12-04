@@ -1,21 +1,10 @@
 "use client";
-
-import { useSession } from "next-auth/react";
-import { getSessionAction } from "./action";
+import { useRouter } from "next/navigation";
+import Loading from "./loading";
 
 export default function Products() {
-  const { data: session } = useSession();
+  const router = useRouter();
 
-  const onGetServerSession = async () => {
-    const resp = await getSessionAction();
-  }
-
-  return (
-    <p>
-      {JSON.stringify(session)}
-
-      <br />
-      <button className="btn btn-primary" onClick={onGetServerSession}>get server session</button>
-    </p>
-  )
+  router.push("/dashboard")
+  return <Loading/>
 }
