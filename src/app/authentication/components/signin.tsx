@@ -77,6 +77,7 @@ function SignIn({ setPage }: {
               fields.map((field) => {
                 return (
                   <TextField
+                    key={field.name}
                     autoFocus
                     fullWidth
                     type={field.type}

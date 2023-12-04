@@ -143,6 +143,7 @@ function SignUp({ setPage }: {
                       category.fields.map((field) => {
                         return (
                           <TextField
+                            key={field.name}
                             autoFocus
                             fullWidth
                             type={field.type}
@@ -164,7 +165,6 @@ function SignUp({ setPage }: {
             <Button variant="contained" className='grow' color="success" disabled={step != fields.length - 1} type='submit' endIcon={< Lock />} >ลงทะเบียน</Button>
             <Button variant="contained" color="primary" disabled={step == fields.length - 1} onClick={onNext} endIcon={< NavigateNext />}>ถัดไป</Button>
           </footer>
-
         </form>
       </Paper >
       <section className='text-center mt-2'>
