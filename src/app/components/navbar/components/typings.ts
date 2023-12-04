@@ -2,7 +2,8 @@ export interface DrawerItem {
   name: string,
   label: string,
   route: string,
-  icon: JSX.Element
+  icon: JSX.Element,
+  desc?: string
 }
 
 export interface DrawerCategory {
