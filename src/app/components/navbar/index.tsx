@@ -111,6 +111,7 @@ const Logout = () => {
 
 export default function Navbar({ children }: { children: React.ReactNode }) {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
+  const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -154,7 +155,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
       >
         <Box sx={{ padding: 2 }}>
           <Link href="/">
-            <Typography variant='h4' className='text-center' >{'iStore'}</Typography>
+            <Typography variant='h4' className='text-center' >{session?.user.title}</Typography>
           </Link>
         </Box>
         <List
