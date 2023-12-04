@@ -6,6 +6,8 @@ import ConfirmButton from '@/app/components/confirm_button';
 import Payment from './childs/Payment';
 import CashierInput from './Input';
 import { useInterface } from '@/app/providers/InterfaceProvider';
+import { Divider } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 
 const Cashier = ({ addProductToCart }: CashierPageChildType) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -23,19 +25,23 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
   }
 
   return (
-    <div className=' p-4 border border-b-0 '>
-      <CashierInput 
+    <>
+      <CashierInput
         addProductToCart={addProductToCart}
       />
-      <div className="controllers space-x-1 mt-2 flex">
+      <div className="controllers space-x-1 mt-2 flex mb-2">
         <ConfirmButton
           className="btn btn-error"
           onClick={onClearCart}
           label="ล้างตะกร้า"
-          label2="SURE ?"
+          label2="ยืนยัน ?"
+          variant='outlined'
+          startIcon={<Delete />}
         />
       </div>
-    </div >
+
+      <Divider />
+    </>
   )
 }
 

@@ -9,25 +9,26 @@ const Cart = (props: CashierPageChildType) => {
   const { data: session } = useSession();
   const Cart = session?.user.cart ? session.user.cart : [];
 
+  const items = Cart.sort().filter(p => p.retail == session?.user.retail)
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className='mt-4'>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>รหัสสินค้า</TableCell>
-            <TableCell>ชื่อสินค้า</TableCell>
-            <TableCell>ประเภทสินค้า</TableCell>
-            <TableCell>ราคา</TableCell>
-            <TableCell>ราคา(รวม)</TableCell>
-            <TableCell>จำนวน</TableCell>
-            <TableCell>เครื่องมือ</TableCell>
+            <TableCell variant="head">รหัสสินค้า</TableCell>
+            <TableCell variant="head">ชื่อสินค้า</TableCell>
+            <TableCell variant="head">ประเภทสินค้า</TableCell>
+            <TableCell variant="head">ราคา</TableCell>
+            <TableCell variant="head">ราคา(รวม)</TableCell>
+            <TableCell variant="head">จำนวน</TableCell>
+            <TableCell variant="head">เครื่องมือ</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {
-            Cart.sort()
-              .filter(p => p.retail == session?.user.retail)
-              .map((product, index) => {
+            items.length > 0 ? (
+              items.map((product, index) => {
                 return (
                   <Item
                     key={`${product.serial}-${index}`}
@@ -37,6 +38,11 @@ const Cart = (props: CashierPageChildType) => {
                   />
                 )
               })
+            ):(
+              <TableRow>
+                <TableCell colSpan={7} variant='footer' align='center' >ไม่มีสินค้าภายในตะกร้า</TableCell>
+              </TableRow>
+            )
           }
         </TableBody>
       </Table>
