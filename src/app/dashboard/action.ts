@@ -1,6 +1,7 @@
 "use server";
 import { getServerSession } from "@/libs/session"
 import Prisma from "@/libs/prisma";
+import { getActivities, getBestSeller } from "./components/helper/action";
 
 const getDate12MonthsAgo = (point: Date): Date[] => {
   const currentMonth = point.getMonth();
@@ -82,6 +83,8 @@ export const getAnalysisData = async () => {
     return {
       success: true,
       data: {
+        bestSeller: await getBestSeller(),
+        activities: await getActivities(),
         months: months,
         sold: data.map(info => info.length),
         profit: data.map((info) => info.reduce((total, order) => total + order.profit, 0), 0),

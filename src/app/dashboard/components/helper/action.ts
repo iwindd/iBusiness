@@ -53,8 +53,8 @@ export async function getBestSeller() {
     }
   } catch (error) {
     return {
-      success: true,
-      data: {}
+      success: false,
+      data: []
     }
   }
 }
@@ -78,7 +78,7 @@ export async function getActivities() {
   } catch (error) {
     return {
       success: true,
-      data: {}
+      data: []
     }
   }
 }

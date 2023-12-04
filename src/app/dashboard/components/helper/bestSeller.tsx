@@ -7,21 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useQuery } from '@tanstack/react-query';
-import { BestSellerItem, getBestSeller } from './action';
+import { BestSellerItem} from './action';
 
-const BestSellerTable = () => {
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["Best Sellers"],
-    queryFn: async () => {
-      return await getBestSeller()
-    }
-  })
-  if (isLoading) return <p>loading...</p>
-  if (error) return <p>ERROR</p>
-  if (!data || !data.data) return <p>NO DATA</p>
-
+const BestSellerTable = ({ data }: {
+  data: BestSellerItem[]
+}) => {
   return (
     <>
       <TableContainer component={Paper} >
@@ -34,7 +24,7 @@ const BestSellerTable = () => {
           </TableHead>
           <TableBody>
             {
-              (data.data as BestSellerItem[])
+              (data)
                 .sort((a, b) => b.sold - a.sold)
                 .slice(0, 5)
                 .map((row) => (
