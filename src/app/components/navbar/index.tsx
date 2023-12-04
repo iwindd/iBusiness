@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions } from '@mui/material';
 import { Logout as LogoutIcon, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
@@ -109,7 +109,7 @@ const Logout = () => {
   )
 }
 
-export default function Navbar({ children }: { children: React.ReactNode }) {
+const Navbar = memo(({ children }: { children: React.ReactNode }) => {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
   const { data: session } = useSession();
   const router = useRouter();
@@ -155,7 +155,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
       >
         <Box sx={{ padding: 2 }}>
           <Link href="/">
-            <Typography variant='h4' className='text-center' >{session?.user.title}</Typography>
+            <Typography variant='h4' className='text-center' >{session?.user.title || "..."}</Typography>
           </Link>
         </Box>
         <List
@@ -199,4 +199,6 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
       </Box>
     </>
   )
-}
+})
+
+export default Navbar 
