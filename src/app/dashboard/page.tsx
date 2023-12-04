@@ -24,26 +24,22 @@ const Dashboard = () => {
   if (error) return <p>Error </p>
 
   return (
-    <div>
-      <div className="container px-6">
-        <div className="grid grid-cols-12">
-          <div className="col-span-9"><Stats /></div>
-          <div className="col-span-3 row-span-2 ps-2 space-y-2">
-            <BestSellerTable data={data?.data?.bestSeller.data as BestSellerItem[] } />
-            <ActivityTable activities={data?.data?.activities.data as Activity[]}/>
-          </div>
-          <div className="col-span-9 h-96">
-            <ProfitChart
-              sold={data?.data?.sold as number[]}
-              months={data?.data?.months as Date[]}
-            />
-          </div>
-          <div className="col-span-9 h-96">
-            <div className="grid grid-cols-2 h-96">
-              <section className='h-96'><TimesChart times={data?.data?.times as number[]} /></section>
-              <section className='h-96'><WeekChart week={data?.data?.week as number[]} /></section>
-            </div>
-          </div>
+    <div className="grid grid-cols-12">
+      <div className="col-span-9"><Stats /></div>
+      <div className="col-span-3 row-span-2 ps-2 space-y-2">
+        <BestSellerTable data={data?.data?.bestSeller.data as BestSellerItem[]} />
+        <ActivityTable activities={data?.data?.activities.data as Activity[]} />
+      </div>
+      <div className="col-span-9 h-96">
+        <ProfitChart
+          sold={data?.data?.sold as number[]}
+          months={data?.data?.months as Date[]}
+        />
+      </div>
+      <div className="col-span-9 h-96">
+        <div className="grid grid-cols-2 h-96">
+          <section className='h-96'><TimesChart times={data?.data?.times as number[]} /></section>
+          <section className='h-96'><WeekChart week={data?.data?.week as number[]} /></section>
         </div>
       </div>
     </div>
