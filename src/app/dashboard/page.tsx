@@ -26,7 +26,7 @@ const Dashboard = () => {
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-9"><Stats /></div>
-      <div className="col-span-3 row-span-2 ps-2 space-y-2">
+      <div className="col-span-3 row-span-2 ps-2 space-y-4">
         <BestSellerTable data={data?.data?.bestSeller.data as BestSellerItem[]} />
         <ActivityTable activities={data?.data?.activities.data as Activity[]} />
       </div>
