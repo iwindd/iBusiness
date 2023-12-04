@@ -13,7 +13,6 @@ const columns = [
     field: 'createdAt',
     sortable: true,
     headerName: 'วันทำรายการ',
-    type: "number",
     flex: 1,
     editable: false,
     valueFormatter: (data: any) => {
