@@ -168,7 +168,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
                   {category.items.map((item, itemId) => (
                     <ListItemButton
                       key={`drawer-${categoryId}-${itemId}`}
-                      selected={pathname.search(item.route) ? false : true}
+                      selected={pathname === item.route || (item.route === '/' && pathname === '/')}
                       onClick={() => {
                         router.push(item.route);
                       }}

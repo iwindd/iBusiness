@@ -1,4 +1,4 @@
-import { AddShoppingCart, Category, Dashboard, Inventory, ManageHistory} from "@mui/icons-material"
+import { AddShoppingCart, Category, Dashboard, Home, Inventory, ManageHistory} from "@mui/icons-material"
 import { DrawerCategory } from "./typings"
 
 export const DrawerItems: DrawerCategory[] = [
@@ -6,12 +6,8 @@ export const DrawerItems: DrawerCategory[] = [
     name: "main",
     label: "เมนูหลัก",
     items: [
-      {
-        name: "dashboard",
-        route: "/dashboard",
-        label: "แดชบอร์ด",
-        icon: <Dashboard />
-      }
+      { name: "index", route: "/", label: "หน้าแรก", icon: <Home /> },
+      { name: "dashboard", route: "/dashboard", label: "แดชบอร์ด", icon: <Dashboard /> }
     ]
   },
   {
