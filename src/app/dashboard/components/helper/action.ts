@@ -69,7 +69,7 @@ export async function getActivities() {
       orderBy: {
         createdAt: "desc"
       },
-      take: 10
+      take: 7
     })
 
     return {

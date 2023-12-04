@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material"
+import { Paper, Typography } from "@mui/material"
 import React from "react"
 
 const Stat = (props: {
@@ -7,11 +7,11 @@ const Stat = (props: {
   children?: React.ReactNode
 }) => {
   return (
-    <div className="w-full h-full border p-4 rounded">
+    <Paper className="w-full h-full p-4 rounded">
       <Typography variant="h6">{props.title}</Typography>
       <Typography variant="caption">{props?.caption || "ไม่พบหมายเหตุ"}</Typography>
       {props?.children}
-    </div>
+    </Paper>
   )
 }
 
