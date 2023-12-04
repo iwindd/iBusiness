@@ -8,12 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { BestSellerItem} from './action';
+import { Typography } from '@mui/material';
 
 const BestSellerTable = ({ data }: {
   data: BestSellerItem[]
 }) => {
   return (
-    <>
+    <main>
+      <Typography variant="caption">สินค้าขายดีประจำเดือน : </Typography>
       <TableContainer component={Paper} >
         <Table >
           <TableHead>
@@ -40,7 +42,7 @@ const BestSellerTable = ({ data }: {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </main>
   )
 }
 
