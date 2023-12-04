@@ -9,6 +9,7 @@ import Confirmation from './confirmation';
 import AddDialog from './add';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import Link from 'next/link';
+import Header from '@/app/components/header';
 
 const columns = [
   { field: 'title', sortable: true, headerName: 'ประเภทสินค้า', flex: 3, editable: true }, {
@@ -88,26 +89,26 @@ const CategoryDataTable = () => {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-      <header className='flex justify-end'>
-        <section className='mb-2 flex justify-end'>
-          <Button startIcon={<Add />} onClick={addDialog.onOpen}>
-            เพิ่ม
-          </Button>
-          {selectRow ? (
-            <>
-              <Button startIcon={<Delete />} onClick={deleteDialog.onOpen}>
-                ลบ
+      <Header title='รายการประเภทสินค้า' className='flex justify-end items-center gap-2'>
+        <Button startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
+          เพิ่มรายการ
+        </Button>
+        {selectRow ? (
+          <>
+            <Link href={`products?categoryFilter=${selectRow}`}>
+              <Button startIcon={<ViewAgenda />} variant="outlined">
+                ดูรายการสินค้า
               </Button>
-              <Link href={`products?categoryFilter=${selectRow}`}>
-                <Button startIcon={<ViewAgenda />} >
-                  ดูรายการสินค้า
-                </Button>
-              </Link>
-            </>
-          ) : null}
-        </section>
-      </header>
-      <Box sx={{ height: 800, width: '100%' }}>
+            </Link>
+            <Button startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
+              ลบรายการ
+            </Button>
+          </>
+
+        ) : null}
+      </Header>
+
+      <Box sx={{ height: 800, width: '100%' }} className="mt-4">
         <DataGrid
           loading={isLoading}
           rows={data ? (data.success ? (data.data as Category[]) : []) : []}

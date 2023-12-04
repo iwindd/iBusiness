@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import { Order } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { getHistories } from '../action';
+import Header from '@/app/components/header';
 
 const columns = [
   {
@@ -95,7 +96,8 @@ const Datatable = () => {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-      <Box sx={{ height: 800, width: '100%' }}>
+      <Header title='รายการประวัติการขาย'></Header>
+      <Box sx={{ height: 800, width: '100%' }} className="mt-4">
         <DataGrid
           loading={isLoading}
           rows={data ? (data.success ? (data.data as Order[]) : []) : []}

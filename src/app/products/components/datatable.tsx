@@ -10,6 +10,7 @@ import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Product } from '@prisma/client';
 import Confirmation from './confirmation';
 import AddDialog from './add';
+import Header from '../../components/header';
 
 
 const ProductDataTable = () => {
@@ -83,17 +84,19 @@ const ProductDataTable = () => {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-      <section className='mb-2 flex justify-end'>
-        <Button startIcon={<Add />} onClick={addDialog.onOpen}>
-          Add
+
+      <Header title='รายการสินค้า' className='flex justify-end items-center gap-2'>
+        <Button startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
+          เพิ่มรายการ
         </Button>
         {selectProduct ? (
-          <Button startIcon={<Delete />} onClick={deleteDialog.onOpen}>
-            Delete
+          <Button startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
+            ลบรายการ
           </Button>
         ) : null}
-      </section>
-      <Box sx={{ height: 800, width: '100%' }}>
+      </Header>
+
+      <Box sx={{ height: 800, width: '100%' }} className="mt-4">
         <DataGrid
           loading={isLoading}
           rows={data ? (data.success ? (data.data as Inputs[]) : []) : []}
