@@ -79,6 +79,7 @@ const Logout = () => {
 
   const confirmation = useDialog((props: DialogProps<{}>) => {
     const onLogout = async () => {
+      props.onClose();
       useBackdrop(true);
       await signOut();
       useBackdrop(false);
