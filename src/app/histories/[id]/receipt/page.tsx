@@ -1,5 +1,5 @@
 "use client";
-import React, { memo, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import PreviewReceipt from './components/preview'
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';

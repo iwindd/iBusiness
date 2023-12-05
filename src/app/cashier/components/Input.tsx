@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import { CashierPageChildType } from '../page';
 import Payment from './childs/Payment';
 import { useInterface } from '@/app/providers/InterfaceProvider';

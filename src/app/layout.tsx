@@ -14,7 +14,7 @@ import QueryProvider from './providers/QueryProvider';
 import Navbar from './components/navbar';
 
 export const metadata = {
-  title: 'iMall',
+  title: 'iStore',
   description: '',
 };
 

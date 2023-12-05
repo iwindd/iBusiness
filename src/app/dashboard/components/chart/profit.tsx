@@ -1,6 +1,5 @@
 import React from 'react'
 import { LineChart } from '@mui/x-charts';
-import { useQuery } from '@tanstack/react-query';
 
 const label_months = [
   "มกราคม",

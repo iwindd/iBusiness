@@ -29,7 +29,7 @@ const Navigation = (props: {
 }
 
 export default function Index() {
-  const navigations : DrawerItem[] = [...DrawerItems.map(a => a.items)].flat().filter(i => i.route != "/");
+  const navigations: DrawerItem[] = [...DrawerItems.map(a => a.items)].flat().filter(i => i.route != "/");
 
   return <>
     <div className="container">

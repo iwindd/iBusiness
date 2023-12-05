@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link';
-import { Box, Typography } from '@mui/material';
-import { Dashboard } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 import Stat from '@/app/components/styled/Stat';
 interface Props {
   title: string,

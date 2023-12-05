@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridRowParams, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridRowParams } from '@mui/x-data-grid';
 import { getCategories, getProducts, saveProduct } from '../action';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';

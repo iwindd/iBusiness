@@ -1,15 +1,9 @@
 "use client";
 import React from 'react'
 import { PaymentAction } from '../../action';
-import { useSession } from 'next-auth/react';
-import { Dialog, Transition } from '@headlessui/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Inputs, Schema } from '../buttons/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogActions, DialogTitle, Button, DialogContent, TextField, InputAdornment, ButtonGroup } from '@mui/material';
 import { Session } from 'next-auth';
 import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
-
 
 const Payment = (props: DialogProps<{
   session: Session,
