@@ -24,6 +24,7 @@ export const authOptions = {
           cart: token.cart,
           retail: token.retail,
           title: token.title,
+          displaytitle: token.displaytitle,
         }, ...user
       }
     },
@@ -57,7 +58,8 @@ export const authOptions = {
               id: String(user.id),
               application: user.id,
               retail: true,
-              title: user.title
+              title: user.title,
+              displaytitle: user.displaytitle
             }
             : null;
         } catch (error) {

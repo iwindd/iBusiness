@@ -93,11 +93,11 @@ function SignUp({ setPage }: {
       }, {
         shouldFocus: true
       });
-      useBackdrop(false);
     }
-
+    
     useBackdrop(false);
     if (!resp.success) return;
+    
     reset()
     setPage("signin");
     enqueueSnackbar("ลงทะเบียนเข้าใช้งานระบบเรียบร้อยแล้ว :)", { variant: "success" });

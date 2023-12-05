@@ -20,7 +20,7 @@ export async function useRegister(payload: Inputs) {
     }
   })
 
-  if (emailCheck != null) return useResponse(false, {type: "email", message: "Email already exists"})
+  if (emailCheck != null) return useResponse(false, { type: "email", message: "Email already exists" })
   if (result.success) {
     try {
       const user = await Prisma.user.create({
@@ -28,6 +28,7 @@ export async function useRegister(payload: Inputs) {
           email: payload.email,
           password: payload.password,
           title: payload.title,
+          displaytitle: payload.displaytitle,
           address: payload.address,
           area: payload.area,
           district: payload.district,
