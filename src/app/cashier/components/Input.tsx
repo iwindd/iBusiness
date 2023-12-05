@@ -17,7 +17,7 @@ const CashierInput = ({ addProductToCart }: CashierPageChildType) => {
   };
 
   const { setDialog } = useInterface();
-  const PaysdaentDialog = setDialog(Payment, {
+  const PaymentDialog = setDialog(Payment, {
     session: session,
     clear: () => update({
       ...session,
