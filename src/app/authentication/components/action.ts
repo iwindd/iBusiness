@@ -5,14 +5,14 @@ import {
   SignUpSchema as Schema
 } from './schema';
 
-const useResponse = (state: boolean, data: any) => {
+const response = (state: boolean, data: any) => {
   return {
     success: state,
     data: data
   }
 }
 
-export async function useRegister(payload: Inputs) {
+const Register = async (payload: Inputs) => {
   const result = Schema.safeParse(payload);
   const emailCheck = await Prisma.user.findFirst({
     where: {
@@ -20,7 +20,7 @@ export async function useRegister(payload: Inputs) {
     }
   })
 
-  if (emailCheck != null) return useResponse(false, { type: "email", message: "Email already exists" })
+  if (emailCheck != null) return response(false, { type: "email", message: "Email already exists" })
   if (result.success) {
     try {
       const user = await Prisma.user.create({
@@ -40,11 +40,13 @@ export async function useRegister(payload: Inputs) {
         }
       })
 
-      return useResponse(true, user);
+      return response(true, user);
     } catch (error) {
-      return useResponse(false, "");
+      return response(false, "");
     }
   } else {
-    return useResponse(false, result.error.format());
+    return response(false, result.error.format());
   }
 }
+
+export default Register

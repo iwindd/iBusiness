@@ -72,17 +72,23 @@ const CategoryDataTable = () => {
     return newData
   }
 
-  useEffect(() => { refetch() }, [paginationModel, sortModel, filterModel])
+  useEffect(() => {
+    const fetchData = async () => {
+      await refetch();
+    };
+
+    fetchData();
+  }, [paginationModel, sortModel, filterModel, refetch])
   const [selectRow, setSelectRow] = React.useState<number>(0);
-  const { useDialog } = useInterface();
+  const { setDialog } = useInterface();
   const onSelectRow = (params: GridRowParams) => setSelectRow(params.id as number)
-  const deleteDialog = useDialog(Confirmation, {
+  const deleteDialog = setDialog(Confirmation, {
     id: selectRow,
     title: ((data?.data || []) as Category[]).find(p => p.id == selectRow)?.title,
     refetch: refetch
   });
 
-  const addDialog = useDialog(AddDialog, {
+  const addDialog = setDialog(AddDialog, {
     refetch: refetch
   }, "sm")
 

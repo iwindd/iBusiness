@@ -66,17 +66,23 @@ const ProductDataTable = () => {
     return newData
   }
 
-  useEffect(() => { refetch() }, [paginationModel, sortModel, filterModel])
+  useEffect(() => {
+    const fetchData = async () => {
+      await refetch()
+    }
 
-  const { useDialog } = useInterface();
+    fetchData()
+  }, [paginationModel, sortModel, filterModel, refetch])
+
+  const { setDialog } = useInterface();
   const onSelectRow = (params: GridRowParams) => setSelectProduct(params.id as number)
-  const deleteDialog = useDialog(Confirmation, {
+  const deleteDialog = setDialog(Confirmation, {
     id: selectProduct,
     title: ((data?.data || []) as Product[]).find(p => p.id == selectProduct)?.title,
     refetch: refetch
   });
 
-  const addDialog = useDialog(AddDialog, {
+  const addDialog = setDialog(AddDialog, {
     categories: categoriesData?.data || [],
     refetch: refetch
   }, "sm")
@@ -105,7 +111,8 @@ const ProductDataTable = () => {
           columns={[
             { field: 'serial', sortable: false, headerName: 'รหัสสินค้า', flex: 1 },
             { field: 'title', sortable: false, headerName: 'ชื่อสินค้า', flex: 1, editable: true },
-            { field: 'categoryId', sortable: false, headerName: 'ประเภทสินค้า', flex: 1,
+            {
+              field: 'categoryId', sortable: false, headerName: 'ประเภทสินค้า', flex: 1,
               valueOptions: categories.map((c: { id: number }) => c.id),
               valueFormatter: (params) => categories.find((cc: { id: number }) => cc.id == params.value).title || params.value,
               getOptionLabel: (id) => categories.find((cc: { id: number }) => cc.id == id).title || id,

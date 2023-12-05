@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { Field } from '../page'
+import Image from 'next/image'
 
 interface Title {
   logo: File | null,
@@ -33,7 +34,8 @@ const PreviewReceipt = (props: Props) => {
             <section className='flex-grow flex gap-2 space-x-5'>
               <div className="avatar">
                 <div className="w-24 rounded-full">
-                  <img
+                  <Image
+                    alt='background'
                     src={
                       props.logo ? (
                         URL.createObjectURL(props.logo)
@@ -89,7 +91,7 @@ const PreviewReceipt = (props: Props) => {
                     {
                       cols.map((field) => {
                         return (
-                          <div className='flex-grow flex gap-2 '>
+                          <div className='flex-grow flex gap-2' key={row.id + "-" + field.id + field.fId}>
                             <b>{field.title}</b>
                             <div className='flex-grow border'>
                               <input

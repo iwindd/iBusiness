@@ -24,7 +24,7 @@ function SignIn({ setPage }: {
   setPage: React.Dispatch<React.SetStateAction<AuthPage>>
 }) {
   const router = useRouter()
-  const { useBackdrop } = useInterface();
+  const { setBackdrop } = useInterface();
   const { enqueueSnackbar } = useSnackbar()
 
   const {
@@ -39,14 +39,14 @@ function SignIn({ setPage }: {
 
   const onSubmit: SubmitHandler<Inputs> = async (payload, e) => {
     e?.preventDefault();
-    useBackdrop(true)
+    setBackdrop(true)
     const resp = await signIn("credentials", {
       email: payload.email,
       password: payload.password,
       redirect: false
     })
 
-    useBackdrop(false)
+    setBackdrop(false)
     if (!resp?.error) {
       enqueueSnackbar("เข้าสู่ระบบสำเร็จแล้ว!", { variant: "success" })
       return router.refresh();

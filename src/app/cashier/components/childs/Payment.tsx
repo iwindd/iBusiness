@@ -20,14 +20,14 @@ const Payment = (props: DialogProps<{
   const [type, setType] = React.useState<0 | 1>(0);
   const [note, setNote] = React.useState<string>("");
   const ref: any = React.useRef();
-  const { useBackdrop } = useInterface();
+  const { setBackdrop } = useInterface();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    useBackdrop(true);
+    setBackdrop(true);
     props.onClose();
     const resp = await PaymentAction({ type, note });
-    useBackdrop(false);
+    setBackdrop(false);
     if (!resp?.success) props.onOpen();
 
     props.data.clear()

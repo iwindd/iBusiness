@@ -37,7 +37,7 @@ export default function Index() {
         {
           navigations.map(nav => {
             return (
-              <Navigation startWith={nav.icon} href={nav.route} header={nav.label}>
+              <Navigation key={nav.name} startWith={nav.icon} href={nav.route} header={nav.label}>
                 <article className="p-2 px-3">
                   <Typography variant="caption">
                     <i>{nav.desc}</i>

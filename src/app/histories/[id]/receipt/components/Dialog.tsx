@@ -75,10 +75,10 @@ function DesignDialog({
     await queryClient.refetchQueries({ queryKey: ['OrderReceiptDesigns'], type: 'active' })
   }
 
-  React.useEffect(reset, [values])
+  React.useEffect(reset, [values, reset])
   React.useEffect(() => {
     if (values?.title) setValue("title", values.title);
-  }, [values])
+  }, [values, setValue])
 
   return (
     <Transition appear show={isOpen} as={React.Fragment}>

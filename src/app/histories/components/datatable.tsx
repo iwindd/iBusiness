@@ -88,7 +88,13 @@ const Datatable = () => {
     }
   })
 
-  useEffect(() => { refetch() }, [paginationModel, sortModel, filterModel])
+  useEffect(() => {
+    const fetchData = async () => {
+      await refetch()
+    }
+
+    fetchData()
+  }, [paginationModel, sortModel, filterModel, refetch])
 
   const onSelectRow = (params: GridRowParams) => router.push(`/histories/${params.id}`)
 

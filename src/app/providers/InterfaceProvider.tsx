@@ -5,7 +5,7 @@ import Dialog, { DialogProps as OriginalDialogProps } from '@mui/material/Dialog
 import { SnackbarProvider } from 'notistack';
 
 interface BackdropInterface {
-  useBackdrop: React.Dispatch<React.SetStateAction<boolean>>
+  setBackdrop: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type theme = "light" | "dark";
@@ -27,7 +27,7 @@ export interface DialogProps<T = any> {
   data: T
 }
 interface DialogInterface {
-  useDialog: (Content: React.FC<DialogProps>, data: any, size?: OriginalDialogProps['maxWidth']) => DialogProps
+  setDialog: (Content: React.FC<DialogProps>, data: any, size?: OriginalDialogProps['maxWidth']) => DialogProps
 }
 
 interface InterfaceData extends BackdropInterface, DialogInterface, ThemeInterface, ShopInterface { };
@@ -42,7 +42,6 @@ export function useInterface() {
   return context;
 }
 
-let ToastIndex = 0;
 export function InterfaceProvider({ children }: {
   children: ReactNode;
 }) {
@@ -53,7 +52,7 @@ export function InterfaceProvider({ children }: {
   const [DialogContent, setDialogContent] = React.useState<null | JSX.Element>(null);
   const [maxWidth, setMaxWidth] = React.useState<OriginalDialogProps['maxWidth']>('sm');
 
-  const useDialog = (
+  const setDialog_ = (
     Content: React.FC<DialogProps>,
     data: any,
     size: OriginalDialogProps['maxWidth'] = "sm"
@@ -81,8 +80,8 @@ export function InterfaceProvider({ children }: {
     <InterfaceContext.Provider
       value={
         {
-          useBackdrop: setBackdrop,
-          useDialog: useDialog,
+          setBackdrop: setBackdrop,
+          setDialog: setDialog_,
           theme: theme,
           setTheme: setTheme,
           shop: shop,

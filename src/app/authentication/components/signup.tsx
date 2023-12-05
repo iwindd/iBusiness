@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegister } from './action';
+import Register from './action';
 import {
   SignUpInputs as Inputs,
   SignUpSchema as Schema
@@ -57,7 +57,7 @@ type SchemaKey = keyof Inputs
 function SignUp({ setPage }: {
   setPage: React.Dispatch<React.SetStateAction<AuthPage>>
 }) {
-  const { useBackdrop } = useInterface();
+  const { setBackdrop } = useInterface();
   const [step, setStep] = React.useState<number>(0);
   const { enqueueSnackbar } = useSnackbar()
 
@@ -72,7 +72,7 @@ function SignUp({ setPage }: {
     resolver: zodResolver(Schema)
   })
 
-  const validateStep = (key: SchemaKey) => {
+  const validatingStep = (key: SchemaKey) => {
     const shouldStep = fields.findIndex((category) => {
       return category.fields.find(field => {
         return field.name == key
@@ -83,10 +83,10 @@ function SignUp({ setPage }: {
   }
 
   const onSubmit: SubmitHandler<Inputs> = async (payload) => {
-    useBackdrop(true)
-    const resp = await useRegister(payload);
+    setBackdrop(true)
+    const resp = await Register(payload);
     if (!resp.success && resp?.data?.type == "email") {
-      validateStep("email")
+      validatingStep("email")
       setError("email", {
         type: "string",
         message: resp.data.message
@@ -94,10 +94,10 @@ function SignUp({ setPage }: {
         shouldFocus: true
       });
     }
-    
-    useBackdrop(false);
+
+    setBackdrop(false);
     if (!resp.success) return;
-    
+
     reset()
     setPage("signin");
     enqueueSnackbar("ลงทะเบียนเข้าใช้งานระบบเรียบร้อยแล้ว :)", { variant: "success" });
@@ -117,10 +117,10 @@ function SignUp({ setPage }: {
     setStep(step + 1);
   }
 
-  useEffect(() => {
+  if (errors[Object.keys(errors)[0] as SchemaKey]) {
     const key: SchemaKey = Object.keys(errors)[0] as SchemaKey;
-    if (key != undefined && errors[key]) validateStep(key);
-  }, [errors])
+    if (key != undefined && errors[key]) validatingStep(key);
+  }
 
   return (
     <>

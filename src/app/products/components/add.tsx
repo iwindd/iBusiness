@@ -24,20 +24,20 @@ const AddDialog = (props: DialogProps<{
     }
   });
 
-  const { useBackdrop } = useInterface();
+  const { setBackdrop } = useInterface();
 
   const onAddProduct: SubmitHandler<Inputs> = async (payload: Inputs) => {
-    useBackdrop(true);
+    setBackdrop(true);
     props.onClose();
     const resp = await addProduct(payload);
     if (!resp.success){
-      useBackdrop(false);
+      setBackdrop(false);
       props.onOpen();
 
       return
     }
 
-    useBackdrop(false);
+    setBackdrop(false);
     props.data.refetch()
   }
 

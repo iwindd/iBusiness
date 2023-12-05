@@ -43,7 +43,7 @@ const Items: Stat[] = [
   }
 ]
 
-const Stats = async () => {
+const Stats = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['Stats'],
     queryFn: async () => {

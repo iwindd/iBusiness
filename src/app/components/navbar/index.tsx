@@ -1,5 +1,5 @@
 "use client"
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions } from '@mui/material';
 import { Logout as LogoutIcon, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
@@ -61,7 +61,7 @@ const ShopSwitch = () => {
     if (session?.user.retail == false && shop == "retail") {
       setShop(session.user.retail ? "retail" : "wholesale")
     }
-  }, [session])
+  }, [session, setShop, shop])
 
   if (isLoading) {
     return
@@ -75,14 +75,14 @@ const ShopSwitch = () => {
 }
 
 const Logout = () => {
-  const { useDialog, useBackdrop } = useInterface();
+  const { setDialog, setBackdrop } = useInterface();
 
-  const confirmation = useDialog((props: DialogProps<{}>) => {
+  const confirmation = setDialog((props: DialogProps<{}>) => {
     const onLogout = async () => {
       props.onClose();
-      useBackdrop(true);
+      setBackdrop(true);
       await signOut();
-      useBackdrop(false);
+      setBackdrop(false);
     }
 
     return (
@@ -110,7 +110,7 @@ const Logout = () => {
   )
 }
 
-const Navbar = memo(({ children }: { children: React.ReactNode }) => {
+const Navbar = ({ children }: { children: React.ReactNode }) => {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
   const { data: session } = useSession();
   const router = useRouter();
@@ -200,6 +200,6 @@ const Navbar = memo(({ children }: { children: React.ReactNode }) => {
       </Box>
     </>
   )
-})
+}
 
 export default Navbar 

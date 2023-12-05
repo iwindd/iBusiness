@@ -8,15 +8,15 @@ const AddDialog = (props: DialogProps<{
   refetch: () => void
 }>) => {
   const [input, setInput] = React.useState<string>("");
-  const { useBackdrop } = useInterface();
+  const { setBackdrop } = useInterface();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    useBackdrop(true);
+    setBackdrop(true);
     props.onClose();
 
     const resp = await addCategory({ title: input });
-    useBackdrop(false);
+    setBackdrop(false);
     if (!resp.success) props.onOpen()
     props.data.refetch()
   }

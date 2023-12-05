@@ -10,14 +10,14 @@ const Confirmation = (props: DialogProps<{
   refetch: () => void
 }>) => {
 
-  const { useBackdrop } = useInterface();
+  const { setBackdrop } = useInterface();
 
   const onDelete = async () => {
-    useBackdrop(true);
+    setBackdrop(true);
     props.onClose();
     const resp = await deleteCategory(props.data.id, props.data.title);
 
-    useBackdrop(false);
+    setBackdrop(false);
     if (!resp.success) return  props.onOpen();
     props.data.refetch()
   }

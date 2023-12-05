@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import PreviewReceipt from './components/preview'
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
@@ -13,6 +13,39 @@ export interface Field {
   id: string,
   fId: string,
   title: string
+}
+
+const FieldCompo = ({f, onRemoveField, setFields} : {
+  f: Field,
+  onRemoveField: (id: string) => void,
+  setFields: React.Dispatch<React.SetStateAction<Field[]>>
+}) => {
+  const [title, setTitle] = React.useState<string>(f.title);
+
+  return (
+    <li key={f.fId} className='flex-col'>
+      <div className=' px-2 flex justify-end'>
+        <button className='text-xs' onClick={() => onRemoveField(f.fId)}>ลบ Field</button>
+      </div>
+      <input
+        type="text"
+        className="input input-bordered w-full"
+        placeholder='หัวข้อ'
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        onBlur={(e) => {
+          setFields((fs) => {
+            return fs.map((f2) => {
+              if (f2.fId === f.fId) {
+                return { ...f2, title };
+              }
+              return f2;
+            });
+          });
+        }}
+      />
+    </li>
+  )
 }
 
 const Receipt = () => {
@@ -45,9 +78,26 @@ const Receipt = () => {
   const [cache, setCache] = React.useState<Design | null>();
   const [shouldCache, setShouldCache] = React.useState<boolean>(true);
 
+  const designObj = useMemo(() => {
+    return {
+      title: title,
+      subtitle: subtitle,
+      paragraph: paragraph,
+      rows: rows.length,
+      fields: fields.map(f => {
+        return {
+          row: rows.findIndex(r => r.id == f.id) + 1,
+          title: f.title
+        }
+      })
+    }
+  }, [title, subtitle, paragraph, rows, fields])
+
   React.useEffect(() => {
     const payload = data?.data?.find(d => String(d.id) == design);
-    if (shouldCache) { setCache(getDesignObj()); setShouldCache(false) };
+
+
+    if (shouldCache) { setCache(designObj); setShouldCache(false) };
     if (design == "-1") setShouldCache(true);
     if (!payload && cache == null) return onClearDesign();
     const info: Design = payload?.design ? JSON.parse(payload.design as string) : cache;
@@ -77,22 +127,7 @@ const Receipt = () => {
     }
 
     FixDetails()
-  }, [design])
-
-  const getDesignObj = () => {
-    return {
-      title: title,
-      subtitle: subtitle,
-      paragraph: paragraph,
-      rows: rows.length,
-      fields: fields.map(f => {
-        return {
-          row: rows.findIndex(r => r.id == f.id) + 1,
-          title: f.title
-        }
-      })
-    }
-  }
+  }, [design, cache, data, shouldCache, fields, paragraph, rows, subtitle, title, designObj])
 
   const onClearDesign = () => {
     setTitle("Title");
@@ -114,7 +149,7 @@ const Receipt = () => {
         state={isOpen}
         setState={setIsOpen}
         setDesign={setDesign}
-        design={getDesignObj()}
+        design={designObj}
         values={
           {
             title: data?.data?.find(d => String(d.id) == design)?.title as string
@@ -130,7 +165,7 @@ const Receipt = () => {
             {data?.data ? (
               data.data.map((design) => {
                 return (
-                  <option value={design.id}>{design.title}</option>
+                  <option value={design.id} key={design.id}>{design.title}</option>
                 )
               })
             ) : (
@@ -165,32 +200,7 @@ const Receipt = () => {
                                   {fields
                                     .filter((f) => f.id === row.id)
                                     .map((f) => {
-                                      const [title, setTitle] = React.useState<string>(f.title);
-
-                                      return (
-                                        <li key={f.fId} className='flex-col'>
-                                          <div className=' px-2 flex justify-end'>
-                                            <button className='text-xs' onClick={() => onRemoveField(f.fId)}>ลบ Field</button>
-                                          </div>
-                                          <input
-                                            type="text"
-                                            className="input input-bordered w-full"
-                                            placeholder='หัวข้อ'
-                                            value={title}
-                                            onChange={e => setTitle(e.target.value)}
-                                            onBlur={(e) => {
-                                              setFields((fs) => {
-                                                return fs.map((f2) => {
-                                                  if (f2.fId === f.fId) {
-                                                    return { ...f2, title };
-                                                  }
-                                                  return f2;
-                                                });
-                                              });
-                                            }}
-                                          />
-                                        </li>
-                                      )
+                                      return <FieldCompo key={f.fId} f={f} onRemoveField={onRemoveField} setFields={setFields} />
                                     })}
                                 </ul>
 
