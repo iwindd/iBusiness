@@ -5,13 +5,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Inputs } from './schema';
 import { Box, Button } from '@mui/material';
-import { Add, Delete } from '@mui/icons-material';
+import { Add, Delete, Inventory } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Product } from '@prisma/client';
 import Confirmation from './confirmation';
 import AddDialog from './add';
 import Header from '../../components/header';
 import CustomToolbar from '../../components/toolbar';
+import Link from 'next/link';
 
 
 const ProductDataTable = () => {
@@ -96,6 +97,11 @@ const ProductDataTable = () => {
         <Button startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
           เพิ่มรายการ
         </Button>
+        <Link href="/products/stock">
+          <Button startIcon={<Inventory />} variant="outlined">
+            จัดการสต๊อก
+          </Button>
+        </Link>
         {selectProduct ? (
           <Button startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
             ลบรายการ
