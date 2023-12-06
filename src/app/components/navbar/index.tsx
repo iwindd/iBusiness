@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions } from '@mui/material';
+import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, useMediaQuery } from '@mui/material';
 import { Logout as LogoutIcon, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
@@ -112,9 +112,17 @@ const Logout = () => {
 
 const Navbar = ({ children }: { children: React.ReactNode }) => {
   const [isDrawer, setDrawer] = React.useState<boolean>(true);
+  const isMobile = useMediaQuery('(max-width: 600px)'); // Adjust the breakpoint as needed
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+
+  React.useEffect(() => {
+    // Close the drawer when switching to mobile view
+    if (isMobile) {
+      setDrawer(false);
+    }
+  }, [isMobile]);
 
   return (
     <>
@@ -143,8 +151,9 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
       <Drawer
         open={isDrawer}
         color="default"
-        variant="persistent"
+        variant={isMobile ? 'temporary' : 'persistent'}
         anchor='left'
+        onClose={() => setDrawer(false)}
         sx={{
           width: 240,
           flexShrink: 0,
