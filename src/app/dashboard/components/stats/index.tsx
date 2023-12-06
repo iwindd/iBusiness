@@ -55,7 +55,7 @@ const Stats = () => {
   if (error) return <p>ERROR</p>;
 
   return (
-    <div className="stats w-full flex space-x-1">
+    <div className="grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-2">
       {
         Items.map((i) => {
           return (

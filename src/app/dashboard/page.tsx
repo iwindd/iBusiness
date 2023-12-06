@@ -25,23 +25,29 @@ const Dashboard = () => {
   if (error) return <p>Error </p>
 
   return (
-    <div className="grid grid-cols-12 gap-2">
-      <div className="col-span-9 space-y-2">
+    <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-2">
+      <div className="col-span-2 space-y-2">
         <Stats />
+      </div>
+      <div className="col-span-1 row-span-3 ">
+        <div className="grid lg:grid-cols-1 sm:grid-cols-2 gap-2">
+          <BestSellerTable data={data?.data?.bestSeller.data as BestSellerItem[]} />
+          <ActivityTable activities={data?.data?.activities.data as Activity[]} />
+        </div>
+      </div>
+      <div className="col-span-2">
         <Paper className='h-80'>
           <ProfitChart
             sold={data?.data?.sold as number[]}
             months={data?.data?.months as Date[]}
           />
         </Paper>
-        <Paper className='h-80 grid grid-cols-2'>
+      </div>
+      <div className="col-span-2">
+        <Paper className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1'>
           <Box><TimesChart times={data?.data?.times as number[]} /></Box>
           <Box><WeekChart week={data?.data?.week as number[]} /></Box>
         </Paper>
-      </div>
-      <div className="col-span-3 space-y-3">
-        <BestSellerTable data={data?.data?.bestSeller.data as BestSellerItem[]} />
-        <ActivityTable activities={data?.data?.activities.data as Activity[]} />
       </div>
     </div>
   )

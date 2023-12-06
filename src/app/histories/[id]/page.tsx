@@ -72,7 +72,7 @@ const History = async ({ params: { id } }: {
             <Typography variant='caption'><i>-- ชื่อผู้ใช้ รหัสการสั่งจอง คำอธิบาย ข้อมูล คำชี้แจงเพิ่มเติม หรือ อื่นๆ</i></Typography>
           </Stat>
         </section>
-        <article className='w-full flex space-x-1 mt-1'>
+        <article className='grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-2 mt-2'>
           <Stat title='ราคา' caption={history?.price.toLocaleString() + " ฿"} >
             <Typography variant='caption'><i>-- ราคารวมของรายการนี้</i></Typography>
           </Stat>

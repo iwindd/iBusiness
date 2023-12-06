@@ -48,7 +48,7 @@ const HeaderCompact = (props: HeaderCompact) => {
 
 export const HeaderRoot = ({ children }: { children: React.ReactNode }) => {
   return (
-    <header className='mb-2 grid grid-cols-2'>
+    <header className='mb-2 grid md:grid-cols-2 sm:grid-cols-1'>
       {children}
     </header>
   )

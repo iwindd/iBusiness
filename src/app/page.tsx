@@ -33,7 +33,7 @@ export default function Index() {
 
   return <>
     <div className="container">
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-2">
         {
           navigations.map(nav => {
             return (
