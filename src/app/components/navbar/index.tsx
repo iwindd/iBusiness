@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, useMediaQuery } from '@mui/material';
+import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, useMediaQuery, Tooltip } from '@mui/material';
 import { Logout as LogoutIcon, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
@@ -31,13 +31,11 @@ const ThemeSwitch = () => {
 }
 
 const ShopSwitch = () => {
-  const { shop, setShop } = useInterface()
   const { data: session, update } = useSession();
-  const [isLoading, setLoading] = useState<boolean>(true);
   const queryClient = useQueryClient();
+  const shop = session?.user.retail ? "retail" : "wholesale";
 
   const Switch = async () => {
-    setShop(shop == "retail" ? "wholesale" : "retail");
     await update({
       ...session,
       user: {
@@ -50,27 +48,12 @@ const ShopSwitch = () => {
     await queryClient.refetchQueries({ type: 'active', queryKey: ['AnalysisData'] });
   }
 
-
-  React.useEffect(() => {
-    if (session?.user.retail == undefined) {
-      setLoading(true);
-    } else {
-      setLoading(false)
-    }
-
-    if (session?.user.retail == false && shop == "retail") {
-      setShop(session.user.retail ? "retail" : "wholesale")
-    }
-  }, [session, setShop, shop])
-
-  if (isLoading) {
-    return
-  }
-
   return (
-    <IconButton onClick={Switch}>
-      {shop == "retail" ? <Storefront /> : <PointOfSale />}
-    </IconButton>
+    <Tooltip title={`สลับเป็น${shop == "retail" ? "ค้าส่ง" : "ค้าปลีก"}`}>
+      <IconButton onClick={Switch}>
+        {shop == "retail" ? <Storefront /> : <PointOfSale />}
+      </IconButton>
+    </Tooltip>
   )
 }
 
@@ -104,9 +87,11 @@ const Logout = () => {
   }, {})
 
   return (
-    <IconButton onClick={confirmation.onOpen}>
-      <LogoutIcon />
-    </IconButton>
+    <Tooltip title="ออกจากระบบ" >
+      <IconButton onClick={confirmation.onOpen}>
+        <LogoutIcon />
+      </IconButton>
+    </Tooltip>
   )
 }
 
