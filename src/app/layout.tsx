@@ -1,5 +1,5 @@
 import './globals.css';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from '@/libs/session';
 
 /* LAYOUYS */
 import Authentication from './authentication';
