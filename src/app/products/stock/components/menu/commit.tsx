@@ -1,6 +1,6 @@
 import React from 'react';
-import { Folder, OpenInBrowser, ProductionQuantityLimits, Upload } from '@mui/icons-material';
-import { Button, DialogContentText, DialogTitle, ListItemIcon, ListItemText, Menu, MenuItem, DialogContent, DialogActions } from '@mui/material';
+import { Upload } from '@mui/icons-material';
+import { Button, DialogContentText, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useStock } from '../../providers/StockProvider';
 import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
 import { useSnackbar } from 'notistack';
