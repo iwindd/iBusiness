@@ -8,6 +8,7 @@ import { commitStock, fetchingStock } from './action';
 import Header from '@/app/components/header';
 import { DataGrid } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
+import { useStock } from './providers/StockProvider';
 
 export interface data {
   id: number,
@@ -71,21 +72,15 @@ const Confirmation = (props: DialogProps<{
 
 const Stock = () => {
   const [file, setFile] = React.useState<File | null>(null);
-  const [data, setData] = React.useState<data[]>([]);
   const { enqueueSnackbar } = useSnackbar();
   const { setBackdrop, setDialog } = useInterface();
+  const { render, commit, items, setItem } = useStock();
   const router = useRouter();
 
   const confirmation = setDialog(Confirmation, {
     onCommit: async () => {
       setBackdrop(true);
-      const resp = await commitStock(data);
-      if (!resp.success) {
-        setBackdrop(false);
-        enqueueSnackbar("ไม่สามารถ commit ได้ในขณะนี้กรุณาลองอีกครั้งภายหลัง!", { variant: "error" });
-        return
-      }
-
+      await commit()
       enqueueSnackbar("จัดการสต๊อกสินค้าสำเร็จแล้ว!", { variant: "success" });
       router.push("/products")
       setBackdrop(false);
@@ -94,47 +89,12 @@ const Stock = () => {
 
   useEffect(() => {
     if (file) {
-      const Render = async () => {
+      const LoadItems = async () => {
         const content = await getFileContent(file as File);
 
         try {
           setBackdrop(true);
-          const lines = content.split(/\r?\n/);
-          const resultArray: Record<string, number> = {};
-
-          lines.forEach(line => {
-            const [id, valueStr] = line.split(' ');
-            const value = parseInt(valueStr);
-
-            if (isNaN(value)) {
-              throw new Error('Invalid value in the file.');
-            }
-
-            if (resultArray[id] !== undefined) {
-              resultArray[id] += value;
-            } else {
-              resultArray[id] = value;
-            }
-          });
-
-          const fetchingData = await fetchingStock(resultArray);
-          if (fetchingData.success && fetchingData.data) {
-            if (fetchingData?.data?.length > 0) {
-              setData(fetchingData.data.map((product) => {
-                return {
-                  ...product,
-                  payload: resultArray[product.serial],
-                  all: product.stock + resultArray[product.serial]
-                }
-              }))
-              enqueueSnackbar("เพิ่มข้อมูลสำเร็จ :)", { variant: "success" });
-            } else {
-              enqueueSnackbar("ไม่พบสินค้า!", { variant: "error" });
-            }
-          } else {
-            throw new Error(fetchingData.error as string);
-          }
-
+          await render(content)
           setBackdrop(false);
         } catch (error) {
           enqueueSnackbar("ไม่สามารถอ่านไฟล์ได้", { variant: "error" })
@@ -143,12 +103,12 @@ const Stock = () => {
         }
       }
 
-      Render()
+      LoadItems()
     }
   }, [file])
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData([]);
+    setItem([]);
     setFile(null);
 
     if (e.target.files && e.target.files.length > 0) {
@@ -169,7 +129,7 @@ const Stock = () => {
   const onUpdate = (newData: data, oldData: data) => {
     if (newData.all != oldData.all) {
       newData.payload = newData.payload + (newData.all - oldData.all)
-      setData((prevData) => {
+      setItem((prevData) => {
         const newData2 = [...prevData];
 
         const index = newData2.findIndex((data) => data.id === newData.id);
@@ -183,7 +143,7 @@ const Stock = () => {
   }
 
   return (
-    <div>
+    <>
       <Header title='จัดการสต๊อก' className='flex justify-end space-x-2'>
         <input
           accept=".txt"
@@ -203,7 +163,7 @@ const Stock = () => {
         </label>
         <label htmlFor="#">
           {
-            data.length > 0 ? (
+            items.length > 0 ? (
               <Button
                 variant="contained"
                 startIcon={<Upload />}
@@ -236,11 +196,11 @@ const Stock = () => {
             ]
           }
           density="compact"
-          rows={data}
+          rows={items}
           processRowUpdate={onUpdate}
         />
       </Box>
-    </div>
+    </>
   )
 }
 
