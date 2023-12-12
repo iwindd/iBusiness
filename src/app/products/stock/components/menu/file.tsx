@@ -79,7 +79,8 @@ const File = () => {
         &&
         (selectedFile instanceof Blob)
       ) {
-
+        e.target.value = '';
+        e.target.files = null;
         const content = await getFileContent(selectedFile);
 
         try {
@@ -93,9 +94,11 @@ const File = () => {
         }
       } else {
         e.target.value = '';
+        e.target.files = null;
         enqueueSnackbar("ไฟล์ไม่ถูกต้อง!", { variant: "error" })
       }
     }
+
   };
 
   return (
@@ -103,8 +106,8 @@ const File = () => {
       <input
         type="file"
         ref={fileInputRef}
-        style={{ display: 'none' }}
         onChange={handleFileChange}
+        hidden
         accept=".txt"
       />
       <Button
