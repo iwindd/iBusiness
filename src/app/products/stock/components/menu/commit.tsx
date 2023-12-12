@@ -1,24 +1,55 @@
 import React from 'react';
 import { Folder, OpenInBrowser, ProductionQuantityLimits, Upload } from '@mui/icons-material';
-import { Button, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import { Button, DialogContentText, DialogTitle, ListItemIcon, ListItemText, Menu, MenuItem, DialogContent, DialogActions } from '@mui/material';
 import { useStock } from '../../providers/StockProvider';
-import { useInterface } from '@/app/providers/InterfaceProvider';
+import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
+import { useSnackbar } from 'notistack';
+
+const Confirmation = (props: DialogProps<{
+  onCommit: () => void
+}>) => {
+
+  const onConfirm = () => {
+    props.onClose();
+    props.data.onCommit();
+  }
+
+  return (
+    <>
+      <DialogTitle id="responsive-dialog-title">
+        {"แจ้งเตือน"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          คุณต้องการจะจัดการสต๊อกหรือไม่ ?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={props.onClose}>ยกเลิก</Button>
+        <Button onClick={onConfirm}>ยืนยัน</Button>
+      </DialogActions>
+    </>
+  )
+}
 
 const Commit = () => {
   const { commit, setItem } = useStock();
-  const { setBackdrop } = useInterface();
+  const {enqueueSnackbar} = useSnackbar();
+  const { setBackdrop, setDialog } = useInterface();
 
-  const onCommit = async () => {
-    setBackdrop(true);
-    await commit()
-    setItem([]);
-    setBackdrop(false);
-  }
+  const confirmation = setDialog(Confirmation, {
+    onCommit: async () => {
+      setBackdrop(true);
+      await commit()
+      enqueueSnackbar("จัดการสต๊อกสินค้าสำเร็จแล้ว!", { variant: "success" });
+      setBackdrop(false);
+    }
+  })
 
   return (
     <div>
       <Button
-        onClick={onCommit}
+        onClick={confirmation.onOpen}
         variant='text'
         startIcon={<Upload />}
       >
