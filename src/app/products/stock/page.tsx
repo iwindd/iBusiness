@@ -1,10 +1,8 @@
 "use client";
 import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
-import { ImportExport, Upload } from '@mui/icons-material'
-import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@mui/material';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react'
-import { commitStock, fetchingStock } from './action';
 import { HeaderRoot as Header } from '@/app/components/header';
 import { DataGrid } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
@@ -20,59 +18,10 @@ export interface data {
   all: number
 }
 
-const Confirmation = (props: DialogProps<{
-  onCommit: () => void
-}>) => {
 
-  const onConfirm = () => {
-    props.onClose();
-    props.data.onCommit();
-  }
-
-  return (
-    <>
-      <DialogTitle id="responsive-dialog-title">
-        {"แจ้งเตือน"}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          คุณต้องการจะจัดการสต๊อกหรือไม่ ?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={props.onClose}>ยกเลิก</Button>
-        <Button onClick={onConfirm}>ยืนยัน</Button>
-      </DialogActions>
-    </>
-  )
-}
 
 const Stock = () => {
-  const [file, setFile] = React.useState<File | null>(null);
-  const { enqueueSnackbar } = useSnackbar();
-  const { setBackdrop, setDialog } = useInterface();
-  const { render, commit, items, setItem } = useStock();
-  const router = useRouter();
-
-  const confirmation = setDialog(Confirmation, {
-    onCommit: async () => {
-      setBackdrop(true);
-      await commit()
-      enqueueSnackbar("จัดการสต๊อกสินค้าสำเร็จแล้ว!", { variant: "success" });
-      router.push("/products")
-      setBackdrop(false);
-    }
-  })
-
-  useEffect(() => {
-    if (file) {
-      const LoadItems = async () => {
-
-      }
-
-      LoadItems()
-    }
-  }, [file])
+  const { items, setItem } = useStock();
 
   const onUpdate = (newData: data, oldData: data) => {
     if (newData.all != oldData.all) {
@@ -92,6 +41,7 @@ const Stock = () => {
 
   return (
     <>
+
       <Header>
         <Menu />
       </Header>
