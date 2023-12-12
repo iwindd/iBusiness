@@ -1,5 +1,6 @@
 import React from 'react'
 import { Divider, Typography } from '@mui/material';
+import { classNames } from '../../libs/utils';
 
 interface Header {
   children?: React.ReactNode,
@@ -46,9 +47,9 @@ const HeaderCompact = (props: HeaderCompact) => {
   )
 }
 
-export const HeaderRoot = ({ children }: { children: React.ReactNode }) => {
+export const HeaderRoot = ({ children, className }: { children: React.ReactNode, className?: string }) => {
   return (
-    <header className='mb-2 grid md:grid-cols-2 sm:grid-cols-1'>
+    <header className={`mb-2 grid md:grid-cols-2 sm:grid-cols-1 selection:` + className}>
       {children}
     </header>
   )

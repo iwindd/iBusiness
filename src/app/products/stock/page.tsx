@@ -5,7 +5,7 @@ import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText,
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react'
 import { commitStock, fetchingStock } from './action';
-import Header from '@/app/components/header';
+import { HeaderRoot as Header } from '@/app/components/header';
 import { DataGrid } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
 import { useStock } from './providers/StockProvider';
@@ -144,7 +144,7 @@ const Stock = () => {
 
   return (
     <>
-      <Header title='จัดการสต๊อก' className='flex justify-end space-x-2'>
+      <Header>
         <input
           accept=".txt"
           style={{ display: 'none' }}
