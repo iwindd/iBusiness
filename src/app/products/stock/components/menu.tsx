@@ -1,8 +1,11 @@
 import React from 'react'
+import File from './menu/file'
 
 const Menu = () => {
   return (
-    <div>Menu</div>
+    <section className='flex justify-between'>
+      <File />
+    </section>
   )
 }
 

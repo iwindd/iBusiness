@@ -9,6 +9,7 @@ import { HeaderRoot as Header } from '@/app/components/header';
 import { DataGrid } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
 import { useStock } from './providers/StockProvider';
+import Menu from './components/menu';
 
 export interface data {
   id: number,
@@ -18,30 +19,6 @@ export interface data {
   payload: number,
   all: number
 }
-
-const getFileContent = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    if (!(file instanceof Blob)) {
-      reject(new Error('Invalid file type. Expected a Blob.'));
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      if (event.target) {
-        const content = event.target.result as string;
-        resolve(content);
-      }
-    };
-
-    reader.onerror = (error) => {
-      reject(error);
-    };
-
-    reader.readAsText(file);
-  });
-};
 
 const Confirmation = (props: DialogProps<{
   onCommit: () => void
@@ -90,41 +67,12 @@ const Stock = () => {
   useEffect(() => {
     if (file) {
       const LoadItems = async () => {
-        const content = await getFileContent(file as File);
 
-        try {
-          setBackdrop(true);
-          await render(content)
-          setBackdrop(false);
-        } catch (error) {
-          enqueueSnackbar("ไม่สามารถอ่านไฟล์ได้", { variant: "error" })
-          setBackdrop(false);
-          return;
-        }
       }
 
       LoadItems()
     }
   }, [file])
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem([]);
-    setFile(null);
-
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      if (
-        (selectedFile.type === 'text/plain' || selectedFile.name.endsWith('.txt'))
-        &&
-        (selectedFile instanceof Blob)
-      ) {
-        setFile(selectedFile);
-      } else {
-        e.target.value = '';
-        enqueueSnackbar("ไฟล์ไม่ถูกต้อง!", { variant: "error" })
-      }
-    }
-  };
 
   const onUpdate = (newData: data, oldData: data) => {
     if (newData.all != oldData.all) {
@@ -145,36 +93,7 @@ const Stock = () => {
   return (
     <>
       <Header>
-        <input
-          accept=".txt"
-          style={{ display: 'none' }}
-          id="payload"
-          type="file"
-          onChange={handleFileChange}
-        />
-        <label htmlFor="payload">
-          <Button
-            variant="contained"
-            component="span"
-            startIcon={<ImportExport />}
-          >
-            Import
-          </Button>
-        </label>
-        <label htmlFor="#">
-          {
-            items.length > 0 ? (
-              <Button
-                variant="contained"
-                startIcon={<Upload />}
-                onClick={confirmation.onOpen}
-                color="success"
-              >
-                Commit
-              </Button>
-            ) : (null)
-          }
-        </label>
+        <Menu />
       </Header>
       <Box sx={{ height: 750, width: '100%' }} className="mt-4">
         <DataGrid
