@@ -1,7 +1,8 @@
 "use client";
-import React, { SetStateAction, createContext, useContext } from "react";
+import React, { SetStateAction, createContext, useContext, useEffect } from "react";
 import { commitStock, fetchingStock } from "../action";
 import { useSnackbar } from "notistack";
+import { useStorage } from "@/storage";
 
 const stockContext = createContext<{
   items: item[],
@@ -28,10 +29,13 @@ export const useStock = () => {
 }
 
 const StockProvider = ({ children }: { children: React.ReactNode }) => {
-  const [items, setItem] = React.useState<item[]>([]);
+  const { use, track } = useStorage("stock");
+  const [items, setItem] = React.useState<item[]>(use("stock", []));
   const { enqueueSnackbar } = useSnackbar();
 
-  const render = async (payload : string) => {
+  track("stock", items);
+
+  const render = async (payload: string) => {
     const lines = payload.split(/\r?\n/);
     const resultArray: Record<string, number> = {};
 
@@ -68,7 +72,7 @@ const StockProvider = ({ children }: { children: React.ReactNode }) => {
       throw new Error(fetchingData.error as string);
     }
   }
-  
+
   const commit = async (payload?: item[]) => {
     await commitStock(payload || items);
     setItem([]);
