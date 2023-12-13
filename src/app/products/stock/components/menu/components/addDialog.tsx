@@ -10,7 +10,7 @@ const AddItemDialog = (props: DialogProps<{
 }>) => {
   const [selectedOption, setSelectedOption] = React.useState<Option | null>(null);
   const [options, setOptions] = React.useState<Option[]>([]);
-  const [filter, onFilter] = React.useState<string>("");
+  const [filter, onFilter] = React.useState<string>("1");
   const [changedBy, setChangedBy] = React.useState<string>("");
 
   const onConfirm = () => {
@@ -22,7 +22,7 @@ const AddItemDialog = (props: DialogProps<{
     setSelectedOption(newValue);
   };
 
-  useEffect(() => {
+  const FilterOptions = () => {
     if (filter.length > 0) {
       const filtering = async (filter: string) => {
         const resp = await SelectizeProductFilter(filter);
@@ -47,7 +47,10 @@ const AddItemDialog = (props: DialogProps<{
 
       filtering(filter)
     }
-  }, [filter])
+  }
+
+  useEffect(() => FilterOptions(), [filter])
+  useEffect(() => FilterOptions(), [])
 
   return (
     <>
