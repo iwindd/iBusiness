@@ -162,18 +162,19 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
                 <ul>
                   <ListSubheader>{category.label}</ListSubheader>
                   {category.items.map((item, itemId) => (
-                    <ListItemButton
+                    <Link
                       key={`drawer-${categoryId}-${itemId}`}
-                      selected={pathname === item.route || (item.route === '/' && pathname === '/')}
-                      onClick={() => {
-                        router.push(item.route);
-                      }}
+                      href={item.route}
                     >
-                      <ListItemIcon>
-                        {item.icon}
-                      </ListItemIcon>
-                      <ListItemText primary={item.label} />
-                    </ListItemButton>
+                      <ListItemButton
+                        selected={pathname === item.route || (item.route === '/' && pathname === '/')}
+                      >
+                        <ListItemIcon>
+                          {item.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={item.label} />
+                      </ListItemButton>
+                    </Link>
                   ))}
                 </ul>
               </li>
