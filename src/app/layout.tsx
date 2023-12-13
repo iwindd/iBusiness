@@ -9,6 +9,7 @@ import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import { InterfaceProvider } from './providers/InterfaceProvider';
 import SessionProvider from './providers/SessionProvider';
 import QueryProvider from './providers/QueryProvider';
+import { StorageProvider } from '@/storage';
 
 /* COMPONENTS */
 import Navbar from './components/navbar';
@@ -31,15 +32,17 @@ export default async function RootLayout({
         <InterfaceProvider>
           <ThemeRegistry>
             <SessionProvider session={session}>
-              <QueryProvider>
-                {session ? (
-                  <Navbar>
-                    {children}
-                  </Navbar>
-                ) : (
-                  <Authentication />
-                )}
-              </QueryProvider>
+              <StorageProvider>
+                <QueryProvider>
+                  {session ? (
+                    <Navbar>
+                      {children}
+                    </Navbar>
+                  ) : (
+                    <Authentication />
+                  )}
+                </QueryProvider>
+              </StorageProvider>
             </SessionProvider>
           </ThemeRegistry>
         </InterfaceProvider>
