@@ -5,17 +5,24 @@ import { Button } from '@mui/material';
 import AddItemDialog from './components/addDialog';
 import { SelectizeGetProductData } from './action';
 import { useStock } from '../../providers/StockProvider';
+import { enqueueSnackbar } from 'notistack';
 
 const Controller = () => {
   const { setDialog, setBackdrop } = useInterface();
-  const { setItem } = useStock();
+  const { setItem, items } = useStock();
 
   const AddDialog = setDialog(AddItemDialog, {
     onAdd: async (serial: string, changedBy: number) => {
       if (!serial || serial == "") return;
       setBackdrop(true);
       const resp = await SelectizeGetProductData(serial);
+      setBackdrop(false);
+
       if (resp.success && resp.data && resp.data) {
+        if (items.find(item => item.id == resp.data?.id)) {
+          return enqueueSnackbar("มีสินค้านี้ในรายการอยู่แล้ว!", { variant: "error" })
+        }
+
         setItem(prevItems => {
           const payload = {
             id: resp.data?.id as number,
@@ -28,7 +35,6 @@ const Controller = () => {
 
           return [...prevItems, payload]
         })
-        setBackdrop(false);
       }
     }
   }, "xs");
