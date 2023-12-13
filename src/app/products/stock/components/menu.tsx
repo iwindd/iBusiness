@@ -5,12 +5,12 @@ import Controller from './menu/controller'
 
 const Menu = () => {
   return (
-    <section className='space-x-2 grid md:grid-cols-2 sm:grid-cols-1'>
+    <section className='space-x-2 grid grid-cols-2 col-span-2 '>
       <section className='flex'>
         <File />
         <Commit />
       </section>
-      <section className='flex md:justify-end sm:justify-start'>
+      <section className='flex justify-end'>
         <Controller />
       </section>
     </section>

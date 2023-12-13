@@ -45,7 +45,7 @@ const Stock = () => {
       <Header>
         <Menu />
       </Header>
-      <Box sx={{ height: 750, width: '100%' }} className="mt-4">
+      <Box sx={{ height: 750, width: '100%' }} >
         <DataGrid
           columns={
             [

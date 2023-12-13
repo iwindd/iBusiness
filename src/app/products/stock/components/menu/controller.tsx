@@ -15,7 +15,7 @@ const Controller = () => {
       if (!serial || serial == "") return;
       setBackdrop(true);
       const resp = await SelectizeGetProductData(serial);
-      if (resp.success && resp.data && resp.data)  {
+      if (resp.success && resp.data && resp.data) {
         setItem(prevItems => {
           const payload = {
             id: resp.data?.id as number,
@@ -34,11 +34,11 @@ const Controller = () => {
   }, "xs");
 
   return (
-    <section className='flex justify-end' >
+    <>
       <Button startIcon={<Add />} onClick={AddDialog.onOpen}>
         Add
       </Button>
-    </section>
+    </>
   )
 }
 
