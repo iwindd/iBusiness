@@ -1,6 +1,6 @@
 "use client";
 import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
-import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@mui/material';
+import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText, DialogActions, Toolbar } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react'
 import { HeaderRoot as Header } from '@/app/components/header';
@@ -8,6 +8,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
 import { useStock } from './providers/StockProvider';
 import Menu from './components/menu';
+import CustomToolbar from '@/app/components/toolbar';
 
 export interface data {
   id: number,
@@ -67,6 +68,9 @@ const Stock = () => {
           density="compact"
           rows={items}
           processRowUpdate={onUpdate}
+          slots={{
+            toolbar: CustomToolbar,
+          }}
         />
       </Box>
     </>
