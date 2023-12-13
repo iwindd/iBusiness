@@ -1,10 +1,9 @@
 'use client';
 import * as React from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material/styles';
 import NextAppDirEmotionCacheProvider from './EmotionCache';
-import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Sarabun } from 'next/font/google';
+import { colors } from '../../../tailwind.config';
 
 const sarabun = Sarabun({
   weight: ['300', '400', '500', '700'],
@@ -13,27 +12,23 @@ const sarabun = Sarabun({
 });
 
 export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
-  const { theme: theme_ } = useInterface();
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: theme_ == "dark" ? 'dark' : 'light',
-        },
-        typography: {
-          fontFamily: sarabun.style.fontFamily,
-        }
-      }),
-    [theme_],
-  );
+  const theme = createTheme({
+    palette: {
+      mode: "light",
+      ...colors
+    },
+    typography: {
+      fontFamily: sarabun.style.fontFamily,
+    }
+  })
 
   return (
     <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          {children}
+        </ThemeProvider>
+      </StyledEngineProvider>
     </NextAppDirEmotionCacheProvider>
   );
 }
