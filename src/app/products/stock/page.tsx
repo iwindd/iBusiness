@@ -4,11 +4,12 @@ import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText,
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react'
 import { HeaderRoot as Header } from '@/app/components/header';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
 import { useStock } from './providers/StockProvider';
 import Menu from './components/menu';
 import CustomToolbar from '@/app/components/toolbar';
+import { Delete } from '@mui/icons-material';
 
 export interface data {
   id: number,
@@ -18,8 +19,6 @@ export interface data {
   payload: number,
   all: number
 }
-
-
 
 const Stock = () => {
   const { items, setItem } = useStock();
@@ -62,7 +61,28 @@ const Stock = () => {
                   )
                 }
               },
-              { field: "all", flex: 1, sortable: true, editable: true, headerName: "รวม", renderCell: ({ value }) => (value as number).toLocaleString() }
+              { field: "all", flex: 1, sortable: true, editable: true, headerName: "รวม", renderCell: ({ value }) => (value as number).toLocaleString() },
+              {
+                field: 'actions',
+                type: 'actions',
+                flex: 1, 
+                headerName: 'เครื่องมือ',
+                cellClassName: 'actions',
+                getActions: ({ id }) => {
+                  return [
+                    <GridActionsCellItem
+                      icon={<Delete />}
+                      label="Delete"
+                      onClick={() => {
+                        setItem((prev) => {
+                          return [...prev].filter(i => i.id != id);
+                        })
+                      }}
+                      color="inherit"
+                    />,
+                  ];
+                },
+              },
             ]
           }
           density="compact"
