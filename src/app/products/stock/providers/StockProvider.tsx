@@ -71,6 +71,7 @@ const StockProvider = ({ children }: { children: React.ReactNode }) => {
   
   const commit = async (payload?: item[]) => {
     await commitStock(payload || items);
+    setItem([]);
   }
 
   return (
