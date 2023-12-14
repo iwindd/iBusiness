@@ -5,11 +5,15 @@ const CustomToolbar = () => {
   return (
     <GridToolbarContainer className='flex justify-between'>
       <GridToolbarExportContainer>
+
+        {/* CSV EXPORT */}
         <GridCsvExportMenuItem options={
           {
             utf8WithBom: true,
           }
         } />
+
+        {/* PRINT EXPORT */}
         <GridPrintExportMenuItem options={
           {
             hideFooter: true,
