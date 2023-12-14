@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridRowParams } from '@mui/x-data-grid';
-import { getProducts, saveProduct } from '../action';
+import { getProducts, saveProduct, setFavorite } from '../action';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Inputs } from './schema';
@@ -13,6 +13,7 @@ import AddDialog from './add';
 import Header from '../../components/header';
 import CustomToolbar from '../../components/toolbar';
 import Link from 'next/link';
+import Favorite from './favorite';
 
 
 const ProductDataTable = () => {
@@ -76,6 +77,8 @@ const ProductDataTable = () => {
     refetch: refetch
   }, "sm")
 
+
+
   if (error) return <p>ERROR</p>
 
   return (
@@ -103,6 +106,16 @@ const ProductDataTable = () => {
           rows={isLoading ? [] : data?.data as Inputs[]}
 
           columns={[
+            {
+              field: 'favorite', sortable: true, headerName: "",
+              renderCell: (e) => {
+                const onChange = (state: boolean) => {
+                  return setFavorite(e.row.id, state)
+                }
+
+                return <Favorite onChange={onChange} default={e.row.favorite} />
+              }
+            },
             { field: 'serial', sortable: false, headerName: 'รหัสสินค้า', flex: 1 },
             { field: 'title', sortable: false, headerName: 'ชื่อสินค้า', flex: 1, editable: true },
             {

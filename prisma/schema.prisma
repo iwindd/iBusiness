@@ -14,7 +14,7 @@ model User {
   id                 Int                  @id @default(autoincrement())
   email              String               @unique
   password           String
-  displaytitle       String 
+  displaytitle       String
   title              String
   address            String
   area               String
@@ -51,6 +51,7 @@ model Product {
   application Int
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
+  favorite    Boolean  @default(false)
 }
 
 model Order {

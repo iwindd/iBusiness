@@ -83,6 +83,31 @@ export async function getProducts(
   }
 }
 
+export async function setFavorite(id: number, state: boolean) {
+  try {
+    const session = await getServerSession();
+
+    return {
+      success: true,
+      data: await Prisma.product.update({
+        where: {
+          application: session?.user.application,
+          retail: session?.user.retail,
+          id: id
+        },
+        data: {
+          favorite: state
+        }
+      })
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error
+    }
+  }
+}
+
 export async function addProduct(payload: Inputs) {
   try {
     const session = await getServerSession();
