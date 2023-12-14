@@ -17,7 +17,6 @@ import Link from 'next/link';
 
 const ProductDataTable = () => {
   /* CATEGORY */
-  const [categories, setCategories] = React.useState<any>([]);
   const [selectProduct, setSelectProduct] = React.useState<number>(0);
 
   /* DATAGRID */
