@@ -73,6 +73,7 @@ const Stock = () => {
                     <GridActionsCellItem
                       icon={<Delete />}
                       label="Delete"
+                      key={"delete"}
                       onClick={() => {
                         setItem((prev) => {
                           return [...prev].filter(i => i.id != id);
