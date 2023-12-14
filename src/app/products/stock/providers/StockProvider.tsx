@@ -29,11 +29,13 @@ export const useStock = () => {
 }
 
 const StockProvider = ({ children }: { children: React.ReactNode }) => {
-  const { use, track } = useStorage("stock");
+  const { use, declare } = useStorage("stock");
   const [items, setItem] = React.useState<item[]>(use("stock", []));
   const { enqueueSnackbar } = useSnackbar();
 
-  track("stock", items);
+  useEffect(() => {
+    declare("stock", items)
+  }, [declare, items])
 
   const render = async (payload: string) => {
     const lines = payload.split(/\r?\n/);

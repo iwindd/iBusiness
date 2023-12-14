@@ -4,7 +4,6 @@ import React, { ReactNode, useEffect } from "react";
 const StorageContext = React.createContext<{
   use: (channel: string, key: string, defaultValue?: any) => any,
   declare: (channel: string, key: string, val: any) => void,
-  track: (channel: string, key: string, state: any) => void,
   unused: (channel: string, key: string) => void,
   has: (channel: string, key: string) => boolean
 } | undefined>(undefined);
@@ -29,7 +28,6 @@ export const useStorage = (channel?: string) => {
   return {
     use: (key: string, defaultValue?: any) => context.use(channel as string, key, defaultValue),
     declare: (key: string, val: any) => context.declare(channel as string, key, val),
-    track: (key: string, state: any) => context.track(channel as string, key, state),
     unused: (key: string) => context.unused(channel as string, key),
     has: (key: string) => context.has(channel as string, key)
   }
@@ -62,12 +60,6 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const track = (channel: string, key: string, state: any) => {
-    return useEffect(() => {
-      declare(channel, key, state)
-    }, [state])
-  }
-
   const unused = (channel: string, key: string) => {
     return localStorage.removeItem(`${channel}-${key}`);
   }
@@ -78,7 +70,7 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <StorageContext.Provider
-      value={{ use, declare, unused, has, track }}
+      value={{ use, declare, unused, has }}
     >
       {children}
     </StorageContext.Provider>
