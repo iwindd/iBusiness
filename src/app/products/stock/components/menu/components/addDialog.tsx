@@ -49,8 +49,8 @@ const AddItemDialog = (props: DialogProps<{
     }
   }
 
-  useEffect(() => FilterOptions(), [filter])
-  useEffect(() => FilterOptions(), [])
+  useEffect(() => FilterOptions(), [filter, FilterOptions])
+  useEffect(() => FilterOptions(), [FilterOptions])
 
   return (
     <>
