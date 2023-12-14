@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridRowParams } from '@mui/x-data-grid';
-import { getCategories, getProducts, saveProduct } from '../action';
+import { getProducts, saveProduct } from '../action';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Inputs } from './schema';
@@ -19,17 +19,6 @@ const ProductDataTable = () => {
   /* CATEGORY */
   const [categories, setCategories] = React.useState<any>([]);
   const [selectProduct, setSelectProduct] = React.useState<number>(0);
-  const { data: categoriesData } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      return await getCategories()
-    }
-  })
-
-  useEffect(() => {
-    if (!categoriesData?.data) return
-    setCategories(categoriesData.data);
-  }, [categoriesData])
 
   /* DATAGRID */
   const params = useSearchParams()
@@ -84,7 +73,7 @@ const ProductDataTable = () => {
   });
 
   const addDialog = setDialog(AddDialog, {
-    categories: categoriesData?.data || [],
+    categories: data?.categories || [],
     refetch: refetch
   }, "sm")
 
@@ -119,11 +108,11 @@ const ProductDataTable = () => {
             { field: 'title', sortable: false, headerName: 'ชื่อสินค้า', flex: 1, editable: true },
             {
               field: 'categoryId', sortable: false, headerName: 'ประเภทสินค้า', flex: 1,
-              valueOptions: categories.map((c: { id: number }) => c.id),
-              valueFormatter: (params) => categories.find((cc: { id: number }) => cc.id == params.value).title || params.value,
-              getOptionLabel: (id) => categories.find((cc: { id: number }) => cc.id == id).title || id,
+              valueOptions: data?.categories?.map(c => c.id),
+              valueFormatter: (params) => data?.categories?.find(c => c.id == params.value)?.title || "-",
+              getOptionLabel: (id) => data?.categories?.find(c => c.id == id)?.title || "-",
               type: "singleSelect",
-              editable: categories.length > 0,
+              editable: data?.categories?.length != undefined,
             },
             { field: 'price', sortable: true, headerName: 'ราคา', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
             { field: 'cost', sortable: true, headerName: 'ต้นทุน', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },

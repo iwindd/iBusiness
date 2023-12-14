@@ -48,52 +48,37 @@ export async function getProducts(
       )
     }
 
-    const products = await Prisma.$transaction([
-      Prisma.product.count({
-        where: query
-      }),
+    const resp = await Prisma.$transaction([
       Prisma.product.findMany({
         skip: pagination.page * pagination.pageSize,
         take: pagination.pageSize,
         orderBy: orderBy,
         where: query
+      }),
+      Prisma.product.count({
+        where: query
+      }),
+      Prisma.category.findMany({
+        where: {
+          application: session?.user.application,
+        },
+        select: {
+          id: true,
+          title: true
+        }
       })
     ])
 
     return {
       success: true,
-      data: products[1],
-      total: products[0]
+      data: resp[0],
+      total: resp[1],
+      categories: resp[2]
     }
   } catch (error) {
     return {
       success: false,
       data: error
-    }
-  }
-}
-
-export async function getCategories() {
-  try {
-    const session = await getServerSession();
-    const categories = await Prisma.category.findMany({
-      where: {
-        application: session?.user.application,
-      },
-      select: {
-        id: true,
-        title: true
-      }
-    })
-
-    return {
-      success: true,
-      data: categories
-    }
-  } catch (error) {
-    return {
-      success: false,
-      error
     }
   }
 }
