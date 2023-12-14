@@ -117,6 +117,16 @@ const ProductDataTable = () => {
               field: 'favorite', sortable: true, headerName: "",
               renderCell: (e) => {
                 const onChange = (state: boolean) => {
+
+                  setProducts((prev) => {
+                    return [...prev].map(p => {
+                      return {
+                        ...p,
+                        favorite: p.id == e.row.id ? state : p.favorite
+                      }
+                    })
+                  })
+
                   return setFavorite(e.row.id, state)
                 }
 
