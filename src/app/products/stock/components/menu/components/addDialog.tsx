@@ -22,7 +22,7 @@ const AddItemDialog = (props: DialogProps<{
     setSelectedOption(newValue);
   };
 
-  const FilterOptions = () => {
+  useEffect(() => {
     if (filter.length > 0) {
       const filtering = async (filter: string) => {
         const resp = await SelectizeProductFilter(filter);
@@ -47,10 +47,7 @@ const AddItemDialog = (props: DialogProps<{
 
       filtering(filter)
     }
-  }
-
-  useEffect(() => FilterOptions(), [filter, FilterOptions])
-  useEffect(() => FilterOptions(), [FilterOptions])
+  }, [filter])
 
   return (
     <>
