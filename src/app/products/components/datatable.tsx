@@ -19,6 +19,7 @@ import Favorite from './favorite';
 const ProductDataTable = () => {
   /* CATEGORY */
   const [selectProduct, setSelectProduct] = React.useState<number>(0);
+  const [products, setProducts] = React.useState<Product[]>([]);
 
   /* DATAGRID */
   const params = useSearchParams()
@@ -49,6 +50,12 @@ const ProductDataTable = () => {
     }
   })
 
+  useEffect(() => {
+    if (data?.data) {
+      setProducts(data.data as Product[])
+    }
+  }, [data])
+
   const onCommit = async (newData: any, oldData: any) => {
     const resp = await saveProduct(newData, oldData.id);
 
@@ -68,7 +75,7 @@ const ProductDataTable = () => {
   const onSelectRow = (params: GridRowParams) => setSelectProduct(params.id as number)
   const deleteDialog = setDialog(Confirmation, {
     id: selectProduct,
-    title: ((data?.data || []) as Product[]).find(p => p.id == selectProduct)?.title,
+    title: products.find(p => p.id == selectProduct)?.title,
     refetch: refetch
   });
 
@@ -103,7 +110,7 @@ const ProductDataTable = () => {
       <Box sx={{ height: 750, width: '100%' }} className="mt-4">
         <DataGrid
           loading={isLoading}
-          rows={isLoading ? [] : data?.data as Inputs[]}
+          rows={products}
 
           columns={[
             {
