@@ -7,7 +7,7 @@ import { Inputs } from './schema';
 import { Box, Button } from '@mui/material';
 import { Add, Delete, Inventory } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
-import { Product } from '@prisma/client';
+import { Category, Product } from '@prisma/client';
 import Confirmation from './confirmation';
 import AddDialog from './add';
 import Header from '../../components/header';
@@ -20,6 +20,7 @@ const ProductDataTable = () => {
   /* CATEGORY */
   const [selectProduct, setSelectProduct] = React.useState<number>(0);
   const [products, setProducts] = React.useState<Product[]>([]);
+  const [categories, setCategories] = React.useState<Category[]>([]);
 
   /* DATAGRID */
   const params = useSearchParams()
@@ -52,7 +53,8 @@ const ProductDataTable = () => {
 
   useEffect(() => {
     if (data?.data) {
-      setProducts(data.data as Product[])
+      setProducts(data.data as Product[]);
+      setCategories(data.categories as Category[]);
     }
   }, [data])
 
@@ -80,7 +82,7 @@ const ProductDataTable = () => {
   });
 
   const addDialog = setDialog(AddDialog, {
-    categories: data?.categories || [],
+    categories: categories,
     refetch: refetch
   }, "sm")
 
@@ -137,11 +139,11 @@ const ProductDataTable = () => {
             { field: 'title', sortable: false, headerName: 'ชื่อสินค้า', flex: 1, editable: true },
             {
               field: 'categoryId', sortable: false, headerName: 'ประเภทสินค้า', flex: 1,
-              valueOptions: data?.categories?.map(c => c.id),
-              valueFormatter: (params) => data?.categories?.find(c => c.id == params.value)?.title || "-",
-              getOptionLabel: (id) => data?.categories?.find(c => c.id == id)?.title || "-",
+              valueOptions: categories?.map(c => c.id),
+              valueFormatter: (params) => categories.find(c => c.id == params.value)?.title || "-",
+              getOptionLabel: (id) => categories.find(c => c.id == id)?.title || "-",
               type: "singleSelect",
-              editable: data?.categories?.length != undefined,
+              editable: categories.length != undefined,
             },
             { field: 'price', sortable: true, headerName: 'ราคา', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
             { field: 'cost', sortable: true, headerName: 'ต้นทุน', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
