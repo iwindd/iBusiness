@@ -53,8 +53,8 @@ const ProductDataTable = () => {
 
   useEffect(() => {
     if (data?.data) {
-      setProducts(data.data as Product[]);
-      setCategories(data.categories as Category[]);
+      if (data.data)  setProducts(data.data as Product[]);
+      if (data.categories) setCategories(data.categories as Category[]);
     }
   }, [data])
 
