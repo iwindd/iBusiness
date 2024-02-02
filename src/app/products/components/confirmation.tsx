@@ -29,7 +29,7 @@ const Confirmation = (props: DialogProps<{
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          คุณต้องการจะลบสินค้า {props.data.title} หรือไม่?
+          คุณต้องการจะลบสินค้าหรือไม่?
         </DialogContentText>
       </DialogContent>
       <DialogActions>

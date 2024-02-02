@@ -138,3 +138,26 @@ export const PaymentAction = async (paymentPayload: {
     }
   }
 }
+
+export const getFavoriteItems = async () => {
+  try {
+    const session = await getServerSession()
+    const products = await Prisma.product.findMany({
+      where: {
+        application: session?.user.application,
+        retail: session?.user.retail,
+        favorite: true
+      }
+    })
+
+    return {
+      success: true,
+      data: products
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error
+    }
+  }
+}

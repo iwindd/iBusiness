@@ -77,7 +77,7 @@ const ProductDataTable = () => {
   const onSelectRow = (params: GridRowParams) => setSelectProduct(params.id as number)
   const deleteDialog = setDialog(Confirmation, {
     id: selectProduct,
-    title: products.find(p => p.id == selectProduct)?.title,
+    title: "",
     refetch: refetch
   });
 

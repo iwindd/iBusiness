@@ -8,6 +8,7 @@ import CashierInput from './Input';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Divider } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import FavoritePage from './Favorite';
 
 const Cashier = ({ addProductToCart }: CashierPageChildType) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -29,6 +30,7 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
       <CashierInput
         addProductToCart={addProductToCart}
       />
+      <FavoritePage/>
       <div className="controllers space-x-1 mt-2 flex mb-2">
         <ConfirmButton
           className="btn btn-error"
