@@ -82,9 +82,11 @@ export async function getHistory(id: number) {
       data: product
     }
   } catch (error) {
+    console.error(error);
+    
     return {
       success: false,
-      error
+      error: "error"
     }
   }
 }

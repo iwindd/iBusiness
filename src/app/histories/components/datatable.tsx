@@ -74,6 +74,7 @@ const Datatable = () => {
     page: 0,
   });
 
+  const [histories, setHistories] = React.useState<Order[]>([]);
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
     items: [],
     quickFilterExcludeHiddenColumns: true,
@@ -86,6 +87,12 @@ const Datatable = () => {
       return await getHistories(sortModel, paginationModel, filterModel);
     }
   })
+
+  useEffect(() => {
+    if (data?.success && data.data) {
+      setHistories(data.data)
+    }
+  }, [histories, data])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,7 +110,7 @@ const Datatable = () => {
     <Box sx={{ height: 750, width: '100%' }} className="mt-4">
       <DataGrid
         loading={isLoading}
-        rows={isLoading ? [] : data?.data as Order[]}
+        rows={histories}
         columns={columns}
         rowCount={data?.total}
         density="compact"
