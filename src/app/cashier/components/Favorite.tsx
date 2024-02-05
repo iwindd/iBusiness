@@ -3,8 +3,9 @@ import { Product } from '@prisma/client';
 import { Chip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { AddToCashier, getFavoriteItems } from '../action';
+import { CashierPageChildType } from '../page';
 
-const FavoritePage = () => {
+const FavoritePage = ({addProductToCart} : CashierPageChildType) => {
   const [items, setItems] = React.useState<Product[]>([]);
 
   const {data, refetch} = useQuery({
@@ -21,14 +22,7 @@ const FavoritePage = () => {
   }, [data, setItems])
 
   const onAddItem = async (serial : string) => {
-    try {
-      const resp = await AddToCashier({ serial })
-      console.log(resp);
-      
-      refetch()
-    } catch (error) {
-      
-    }
+    addProductToCart(serial)
   }
 
   return (
