@@ -53,7 +53,7 @@ const Commit = () => {
         variant='text'
         startIcon={<Upload />}
       >
-        Commit
+        จัดการสต๊อก
       </Button>
     </div>
   );

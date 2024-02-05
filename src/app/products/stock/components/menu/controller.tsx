@@ -42,7 +42,7 @@ const Controller = () => {
   return (
     <>
       <Button startIcon={<Add />} onClick={AddDialog.onOpen}>
-        Add
+        รายการใหม่
       </Button>
     </>
   )

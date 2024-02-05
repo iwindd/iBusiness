@@ -115,7 +115,7 @@ const File = () => {
         variant='text'
         startIcon={<Folder />}
       >
-        FILE
+        ไฟล์
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -126,14 +126,14 @@ const File = () => {
           <ListItemIcon>
             <OpenInBrowser fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Open</ListItemText>
+          <ListItemText>นำเข้า</ListItemText>
 
         </MenuItem>
         <MenuItem onClick={Export}>
           <ListItemIcon>
             <ImportExport fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Export</ListItemText>
+          <ListItemText>บันทึก</ListItemText>
         </MenuItem>
       </Menu>
     </div>
