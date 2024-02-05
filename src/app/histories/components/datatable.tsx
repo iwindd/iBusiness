@@ -91,8 +91,8 @@ const Datatable = () => {
 
   useEffect(() => {
     if (data?.success && data.data) {
-      setHistories(data.data)
-      setTotal(data.total)
+      setHistories(data.data);
+      if (data.total) setTotal(data.total);
     }
   }, [histories, data])
 
