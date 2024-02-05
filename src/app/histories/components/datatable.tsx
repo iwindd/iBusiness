@@ -74,6 +74,7 @@ const Datatable = () => {
     page: 0,
   });
 
+  const [total, setTotal] = React.useState<number>(0);
   const [histories, setHistories] = React.useState<Order[]>([]);
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
     items: [],
@@ -91,6 +92,7 @@ const Datatable = () => {
   useEffect(() => {
     if (data?.success && data.data) {
       setHistories(data.data)
+      setTotal(data.total)
     }
   }, [histories, data])
 
@@ -112,7 +114,7 @@ const Datatable = () => {
         loading={isLoading}
         rows={histories}
         columns={columns}
-        rowCount={data?.total}
+        rowCount={total}
         density="compact"
 
         onRowDoubleClick={onSelectRow}
