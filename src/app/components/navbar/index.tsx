@@ -127,8 +127,8 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
             </IconButton>
           </Box>
           <Box className="flex gap-2">
-            <ThemeSwitch />
-            <ShopSwitch />
+{/*             <ThemeSwitch />
+            <ShopSwitch /> */}
             <Logout />
           </Box>
         </Toolbar>
