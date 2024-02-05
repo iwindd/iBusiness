@@ -1,5 +1,5 @@
 import { DialogProps } from "@/app/providers/InterfaceProvider";
-import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@mui/material";
 import Selectize, { Option } from "./selectize";
 import React, { useEffect } from "react";
 import { SelectizeProductFilter } from "../action";
@@ -68,6 +68,12 @@ const AddItemDialog = (props: DialogProps<{
             onChange={(e) => setChangedBy(e.target.value)}
             fullWidth
           />
+          <Typography
+            variant="caption"
+            className="p-2"
+          >
+            <i>i</i> : สามารถใช้สูตรทางคณิตศาสตร์ได้ เช่น 6 * 12
+          </Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
