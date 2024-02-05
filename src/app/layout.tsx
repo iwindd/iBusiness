@@ -17,6 +17,18 @@ import Navbar from './components/navbar';
 export const metadata = {
   title: 'iStore',
   description: '',
+  icons: {
+    icon: [
+      '/favicon.ico?v=1'
+    ],
+    apple: [
+      '/apple-touch-icon.png?v=1',
+    ],
+    shortcut: [
+      '/apple-touch-icon.png',
+    ]
+  },
+  manifest: "/site.webmanifest"
 };
 
 export default async function RootLayout({
