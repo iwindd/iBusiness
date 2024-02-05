@@ -94,7 +94,9 @@ const ProductDataTable = () => {
     <div style={{ height: '100%', width: '100%' }}>
 
       <Header title='รายการสินค้า' className='flex justify-end items-center gap-2'>
-        <Button startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
+        <Button
+          disabled={isLoading}
+          startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
           เพิ่มรายการ
         </Button>
         <Link href="/products/stock">
@@ -103,7 +105,7 @@ const ProductDataTable = () => {
           </Button>
         </Link>
         {selectProduct ? (
-          <Button startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
+          <Button disabled={isLoading} startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
             ลบรายการ
           </Button>
         ) : null}
