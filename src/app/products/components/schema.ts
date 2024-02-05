@@ -12,4 +12,5 @@ export const Schema = z.object({
   cost: z.number(),
   stock: z.number(),
   categoryId: z.number(),
+  keywords: z.string()
 })

@@ -53,7 +53,7 @@ const ProductDataTable = () => {
 
   useEffect(() => {
     if (data?.data) {
-      if (data.data)  setProducts(data.data as Product[]);
+      if (data.data) setProducts(data.data as Product[]);
       if (data.categories) setCategories(data.categories as Category[]);
     }
   }, [data])
@@ -84,7 +84,7 @@ const ProductDataTable = () => {
   const addDialog = setDialog(AddDialog, {
     categories: categories,
     refetch: refetch
-  }, "sm")
+  }, "lg")
 
 
 
@@ -144,6 +144,10 @@ const ProductDataTable = () => {
               getOptionLabel: (id) => categories.find(c => c.id == id)?.title || "-",
               type: "singleSelect",
               editable: categories.length != undefined,
+            },
+            {
+              field: 'keywords', sortable: true, headerName: 'คีย์เวิร์ด', flex: 1, editable: true,
+              valueFormatter: (data: any) => data.value.length <= 0 ? "-" : data.value
             },
             { field: 'price', sortable: true, headerName: 'ราคา', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
             { field: 'cost', sortable: true, headerName: 'ต้นทุน', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },

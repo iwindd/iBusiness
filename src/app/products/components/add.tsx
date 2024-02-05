@@ -30,7 +30,7 @@ const AddDialog = (props: DialogProps<{
     setBackdrop(true);
     props.onClose();
     const resp = await addProduct(payload);
-    if (!resp.success){
+    if (!resp.success) {
       setBackdrop(false);
       props.onOpen();
 
@@ -49,9 +49,9 @@ const AddDialog = (props: DialogProps<{
         </DialogTitle>
         <DialogContent>
           <div className='mt-2'>
-            <FormControl className='space-y-2 w-full'>
+            <FormControl className='w-full grid grid-cols-2 gap-2'>
               <TextField fullWidth label="รหัสสินค้า"  {...register("serial")} autoFocus />
-              <TextField fullWidth label="ชืนสินค้า"  {...register("title")} />
+              <TextField fullWidth label="ชื่อสินค้า"  {...register("title")} />
               <FormControl>
                 <InputLabel>ประเภทสินค้า</InputLabel>
                 <Select
@@ -66,6 +66,7 @@ const AddDialog = (props: DialogProps<{
               <TextField fullWidth label="ราคาสินค้า"  {...register("price", { valueAsNumber: true })} />
               <TextField fullWidth label="ราคาต้นทุนสินค้า"  {...register("cost", { valueAsNumber: true })} />
               <TextField fullWidth label="สินค้าในสต๊อก"  {...register("stock", { valueAsNumber: true })} />
+              <TextField fullWidth label="คีย์เวิร์ด"  {...register("keywords")} />
             </FormControl>
           </div>
         </DialogContent>

@@ -3,6 +3,7 @@ import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
 
 export const SelectizeProductFilter = async (filter: string) => {
+
   try {
     const session = await getServerSession()
     const data = await Prisma.product.findMany({
@@ -12,7 +13,8 @@ export const SelectizeProductFilter = async (filter: string) => {
         application: session?.user.application,
         OR: [
           { serial: { contains: filter }, },
-          { title: { contains: filter } }
+          { title: { contains: filter } },
+          { keywords: { contains: filter } }
         ]
       },
       select: {

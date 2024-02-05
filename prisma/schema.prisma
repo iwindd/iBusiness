@@ -52,6 +52,7 @@ model Product {
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
   favorite    Boolean  @default(false)
+  keywords    String   @default("")
 }
 
 model Order {

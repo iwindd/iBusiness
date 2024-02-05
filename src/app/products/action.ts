@@ -128,6 +128,7 @@ export async function addProduct(payload: Inputs) {
         serial: payload.serial,
         title: payload.title,
         price: payload.price,
+        keywords: payload.keywords || "",
         cost: payload.cost,
         stock: payload.stock,
         categoryId: Number(payload.categoryId)
@@ -148,6 +149,8 @@ export async function addProduct(payload: Inputs) {
       data: product
     }
   } catch (error) {
+    console.error(error);
+    
     return {
       success: false,
       error: error
@@ -168,6 +171,7 @@ export async function saveProduct(payload: Inputs, id: number) {
         price: payload.price,
         cost: payload.cost,
         stock: payload.stock,
+        keywords: payload.keywords,
         categoryId: Number(payload.categoryId)
       }
     })
