@@ -6,6 +6,7 @@ import { debounce } from 'lodash';
 export interface Option {
   label: string;
   value: string;
+  keywords: string;
 }
 
 interface SelectizeProps {
@@ -20,7 +21,8 @@ const Selectize: React.FC<SelectizeProps> = (props) => {
     return options.filter(
       (option) =>
         option.label.toLowerCase().includes(inputValue.toLowerCase()) ||
-        option.value.toLowerCase().includes(inputValue.toLowerCase())
+        option.value.toLowerCase().includes(inputValue.toLowerCase()) ||
+        option.keywords.toLowerCase().includes(inputValue.toLowerCase())
     );
   };
 

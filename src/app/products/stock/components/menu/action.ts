@@ -19,7 +19,8 @@ export const SelectizeProductFilter = async (filter: string) => {
       },
       select: {
         serial: true,
-        title: true
+        title: true,
+        keywords: true
       }
     })
 

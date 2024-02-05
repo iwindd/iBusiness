@@ -32,7 +32,8 @@ const AddItemDialog = (props: DialogProps<{
             const newData = resp.data.map(p => {
               return {
                 label: p.title,
-                value: p.serial
+                value: p.serial,
+                keywords: p.keywords,
               }
             })
 
