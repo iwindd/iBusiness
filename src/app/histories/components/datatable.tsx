@@ -5,7 +5,6 @@ import { Box } from '@mui/material';
 import { Order } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { getHistories } from '../action';
-import Header from '@/app/components/header';
 import CustomToolbar from '@/app/components/toolbar';
 
 const columns = [
@@ -101,39 +100,36 @@ const Datatable = () => {
   if (error) return <p>ERROR</p>
 
   return (
-    <div style={{ height: '100%', width: '100%' }}>
-      <Header title='รายการประวัติการขาย'></Header>
-      <Box sx={{ height: 750, width: '100%' }} className="mt-4">
-        <DataGrid
-          loading={isLoading}
-          rows={isLoading ? [] : data?.data as Order[]}
-          columns={columns}
-          rowCount={data?.total}
-          density="compact"
+    <Box sx={{ height: 750, width: '100%' }} className="mt-4">
+      <DataGrid
+        loading={isLoading}
+        rows={isLoading ? [] : data?.data as Order[]}
+        columns={columns}
+        rowCount={data?.total}
+        density="compact"
 
-          onRowDoubleClick={onSelectRow}
+        onRowDoubleClick={onSelectRow}
 
-          pageSizeOptions={[15, 30, 50, 100]}
-          paginationModel={paginationModel}
-          paginationMode="server"
-          onPaginationModelChange={setPaginationModel}
+        pageSizeOptions={[15, 30, 50, 100]}
+        paginationModel={paginationModel}
+        paginationMode="server"
+        onPaginationModelChange={setPaginationModel}
 
-          sortingMode="server"
-          onSortModelChange={setSortModel}
+        sortingMode="server"
+        onSortModelChange={setSortModel}
 
-          disableColumnFilter
-          disableColumnSelector
-          disableDensitySelector
-          slots={{
-            toolbar: CustomToolbar,
-          }}
-          slotProps={{ toolbar: { showQuickFilter: true } }}
-          filterMode="server"
-          filterModel={filterModel}
-          onFilterModelChange={(newModel) => setFilterModel(newModel)}
-        />
-      </Box>
-    </div>
+        disableColumnFilter
+        disableColumnSelector
+        disableDensitySelector
+        slots={{
+          toolbar: CustomToolbar,
+        }}
+        slotProps={{ toolbar: { showQuickFilter: true } }}
+        filterMode="server"
+        filterModel={filterModel}
+        onFilterModelChange={(newModel) => setFilterModel(newModel)}
+      />
+    </Box>
   )
 }
 
