@@ -4,7 +4,7 @@ import { getProducts, saveProduct, setFavorite } from '../action';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Inputs } from './schema';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import { Add, Delete, Inventory } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Category, Product } from '@prisma/client';
@@ -93,25 +93,27 @@ const ProductDataTable = () => {
   return (
     <div style={{ height: '100%', width: '100%' }}>
 
-      <Header title='รายการสินค้า' className='flex justify-end items-center gap-2'>
-        <Button
-          disabled={isLoading}
-          startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
-          เพิ่มรายการ
-        </Button>
-        <Link href="/products/stock">
-          <Button startIcon={<Inventory />} variant="outlined">
-            จัดการสต๊อก
+      <Paper className='p-2'>
+        <Header title='รายการสินค้า' className='flex justify-end items-center gap-2'>
+          <Button
+            disabled={isLoading}
+            startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
+            เพิ่มรายการ
           </Button>
-        </Link>
-        {selectProduct ? (
-          <Button disabled={isLoading} startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
-            ลบรายการ
-          </Button>
-        ) : null}
-      </Header>
+          <Link href="/products/stock">
+            <Button startIcon={<Inventory />} variant="outlined">
+              จัดการสต๊อก
+            </Button>
+          </Link>
+          {selectProduct ? (
+            <Button disabled={isLoading} startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
+              ลบรายการ
+            </Button>
+          ) : null}
+        </Header>
+      </Paper>
 
-      <Box sx={{ height: 750, width: '100%' }} className="mt-4">
+      <Paper sx={{ height: 750, width: '100%' }} className="mt-2 ">
         <DataGrid
           loading={isLoading}
           rows={products}
@@ -180,7 +182,7 @@ const ProductDataTable = () => {
           filterModel={filterModel}
           onFilterModelChange={(newModel) => setFilterModel(newModel)}
         />
-      </Box>
+      </Paper>
 
     </div>
   )

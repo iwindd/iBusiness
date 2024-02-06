@@ -9,7 +9,16 @@ import Paper from '@mui/material/Paper';
 import { Activity } from '@prisma/client';
 import { ActivityPayload } from '@/libs/activity';
 import { ParseActivity } from '@/libs/activityClient';
-import { Typography } from '@mui/material';
+import { Typography, styled } from '@mui/material';
+
+export const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(even)': {
+    border: `1px solid ${theme.palette.divider}`,
+    background: theme.palette.background.default,
+    borderTop: "0px",
+    borderBottom: "0px",
+  }
+}));
 
 const ActivityTable = ({ activities }: {
   activities: Activity[]
@@ -21,9 +30,8 @@ const ActivityTable = ({ activities }: {
         <Table>
           <TableBody>
             {activities.map((payload) => (
-              <TableRow
+              <StyledTableRow
                 key={payload.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {ParseActivity({
@@ -32,7 +40,7 @@ const ActivityTable = ({ activities }: {
                     data: JSON.parse(payload.payload as any)
                   } as ActivityPayload)}
                 </TableCell>
-              </TableRow>
+              </StyledTableRow>
             ))}
           </TableBody>
         </Table>

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, useMediaQuery, Tooltip } from '@mui/material';
+import { Drawer, Box, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, ListItemIcon, ListSubheader, DialogTitle, DialogContent, DialogContentText, Button, DialogActions, useMediaQuery, Tooltip, Paper } from '@mui/material';
 import { Logout as LogoutIcon, Menu, MenuOpen, PointOfSale, Storefront } from '@mui/icons-material';
 import { AppBar } from './components/AppBar';
 import { DrawerItems } from './components/config';
@@ -116,10 +116,12 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
         open={isDrawer}
         enableColorOnDark
         color="default"
+        className='m-0 p-0'
       >
         <Toolbar
           color="#fffff"
           className='flex justify-between'
+          
         >
           <Box>
             <IconButton onClick={() => setDrawer(!isDrawer)}>
@@ -184,14 +186,14 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
       </Drawer>
       <Box
         sx={{
-          paddingTop: 9,
+          paddingTop: 8.2,
           paddingLeft: isDrawer ? 30 : 1,
           transition: "all 0.25s ease",
         }}
       >
-        <div className="container p-4">
+        <Paper className='m-2 p-2  bg-transparent border-none '>
           {children}
-        </div>
+        </Paper>
       </Box>
     </>
   )

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { DataGrid, GridSortModel, GridRowParams, GridFilterModel } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { Order } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { getHistories } from '../action';
@@ -109,7 +109,7 @@ const Datatable = () => {
   if (error) return <p>ERROR</p>
 
   return (
-    <Box sx={{ height: 750, width: '100%' }} className="mt-4">
+    <Paper sx={{ height: 750, width: '100%' }} className="mt-2">
       <DataGrid
         loading={isLoading}
         rows={histories}
@@ -138,7 +138,7 @@ const Datatable = () => {
         filterModel={filterModel}
         onFilterModelChange={(newModel) => setFilterModel(newModel)}
       />
-    </Box>
+    </Paper>
   )
 }
 

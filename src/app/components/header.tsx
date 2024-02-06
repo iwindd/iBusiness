@@ -26,7 +26,6 @@ export const Header = (props : HeaderCustom) => {
           {props.children}
         </article>
       </HeaderRoot>
-      <Divider />
     </>
   )
 }
@@ -42,14 +41,13 @@ const HeaderCompact = (props: HeaderCompact) => {
           {props.children}
         </article>
       </HeaderRoot>
-      <Divider />
     </>
   )
 }
 
 export const HeaderRoot = ({ children, className }: { children: React.ReactNode, className?: string }) => {
   return (
-    <header className={`mb-2 grid md:grid-cols-2 sm:grid-cols-1 selection:` + className}>
+    <header className={` grid md:grid-cols-2 sm:grid-cols-1 selection:` + className}>
       {children}
     </header>
   )

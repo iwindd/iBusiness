@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { DataGrid, GridSortModel, GridFilterModel, GridRowParams } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
 import { getCategories, saveCategory } from '@/app/categories/action';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import { Add, Delete, ViewAgenda } from '@mui/icons-material';
 import { Category } from '@prisma/client';
 import Confirmation from './confirmation';
@@ -96,26 +96,28 @@ const CategoryDataTable = () => {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-      <Header title='รายการประเภทสินค้า' className='flex justify-end items-center gap-2'>
-        <Button startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
-          เพิ่มรายการ
-        </Button>
-        {selectRow ? (
-          <>
-            <Link href={`products?categoryFilter=${selectRow}`}>
-              <Button startIcon={<ViewAgenda />} variant="outlined">
-                ดูรายการสินค้า
+      <Paper className='p-2'>
+        <Header title='รายการประเภทสินค้า' className='flex justify-end items-center gap-2'>
+          <Button startIcon={<Add />} onClick={addDialog.onOpen} variant="outlined">
+            เพิ่มรายการ
+          </Button>
+          {selectRow ? (
+            <>
+              <Link href={`products?categoryFilter=${selectRow}`}>
+                <Button startIcon={<ViewAgenda />} variant="outlined">
+                  ดูรายการสินค้า
+                </Button>
+              </Link>
+              <Button startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
+                ลบรายการ
               </Button>
-            </Link>
-            <Button startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
-              ลบรายการ
-            </Button>
-          </>
+            </>
 
-        ) : null}
-      </Header>
+          ) : null}
+        </Header>
+      </Paper>
 
-      <Box sx={{ height: 750, width: '100%' }} className="mt-4">
+      <Paper sx={{ height: 750, width: '100%' }} className="mt-2 ">
         <DataGrid
           loading={isLoading}
           rows={isLoading ? [] : data?.data as Category[]}
@@ -145,7 +147,7 @@ const CategoryDataTable = () => {
           filterModel={filterModel}
           onFilterModelChange={(newModel) => setFilterModel(newModel)}
         />
-      </Box>
+      </Paper>
     </div>
   )
 }

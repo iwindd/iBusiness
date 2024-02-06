@@ -1,5 +1,6 @@
 import React from 'react'
 import { LineChart } from '@mui/x-charts';
+import { useTheme } from '@mui/material';
 
 const label_months = [
   "มกราคม",
@@ -22,10 +23,12 @@ const ProfitChart = ({
   sold: number[],
   months: Date[]
 }) => {
+  const theme = useTheme();
+
   return (
     <LineChart
       series={[
-        { data: sold, label: 'ยอดขาย' }
+        { data: sold, label: 'ยอดขาย', color: theme.palette.primary.main}
       ]}
       xAxis={[{
         scaleType: 'point',

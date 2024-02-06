@@ -1,5 +1,6 @@
 import React from 'react'
 import { LineChart } from '@mui/x-charts';
+import { useTheme } from '@mui/material';
 
 const parseHour = (index: number) => {
   const hourRaw = (index++).toString();
@@ -13,6 +14,7 @@ const TimesChart = ({ times }: {
   times: number[]
 }) => {
   const [data, labels]: [number[], string[]] = [[], []];
+  const theme = useTheme();
 
   times.map((time, index) => {
     if (time > 0) {
@@ -33,7 +35,7 @@ const TimesChart = ({ times }: {
   return (
     <LineChart
       series={[
-        { data: data, label: 'ยอดขาย' }
+        { data: data, label: 'ยอดขาย', color: theme.palette.primary.main }
       ]}
       xAxis={[{
         scaleType: 'point',

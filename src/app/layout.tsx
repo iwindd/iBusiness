@@ -13,6 +13,7 @@ import { StorageProvider } from '@/storage';
 
 /* COMPONENTS */
 import Navbar from './components/navbar';
+import { CssBaseline } from '@mui/material';
 
 export const metadata = {
   title: 'iStore',
@@ -43,6 +44,7 @@ export default async function RootLayout({
       <body>
         <InterfaceProvider>
           <ThemeRegistry>
+            <CssBaseline />
             <SessionProvider session={session}>
               <StorageProvider>
                 <QueryProvider>

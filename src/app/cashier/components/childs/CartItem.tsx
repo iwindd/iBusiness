@@ -87,7 +87,7 @@ export const Item = (props: ItemProps) => {
 
   return (
     <TableRow
-      className={(grow ? 'bg-red-100' : '')}
+      className={(grow ? 'bg-base-divider' : '')}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell component="th" scope="row" >

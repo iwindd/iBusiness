@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Typography } from '@mui/material';
+import { Divider, Paper, Typography } from '@mui/material';
 import { DrawerItems } from "./components/navbar/components/config";
 import { DrawerItem } from "./components/navbar/components/typings";
 
@@ -12,18 +12,19 @@ const Navigation = (props: {
   children: React.ReactNode
 }) => {
   return (
-    <Link href={props.href}>
-      <div
-        className={`border rounded cursor-pointer shadow-sm transition-all hover:shadow-md overflow-hidden`}
+    <Link href={props.href} className="hover:translate-y-1 transition-all duration-200 ">
+      <Paper
+        className={`border p-3 cursor-pointer space-y-1 transition-all overflow-hidden`}
       >
-        <header className="p-1 px-3 border-b flex items-center gap-2">
+        <header className="p-1 px-3 flex items-center gap-2 bg-common-main">
           {props.startWith}
           <Typography variant="h6">{props.header}</Typography>
         </header>
+        <Divider/>
         <article className="bg-white">
           {props.children}
         </article>
-      </div>
+      </Paper>
     </Link>
   )
 }
@@ -39,9 +40,7 @@ export default function Index() {
             return (
               <Navigation key={nav.name} startWith={nav.icon} href={nav.route} header={nav.label}>
                 <article className="p-2 px-3">
-                  <Typography variant="caption">
-                    <i>{nav.desc}</i>
-                  </Typography>
+                  <Typography variant="body2">{nav.desc}</Typography>
                 </article>
               </Navigation>
             )

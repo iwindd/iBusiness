@@ -5,7 +5,7 @@ export const colors = {
   ...muiColors,
   primary: {
     light: "#1769aa",
-    main: "#2196f3",
+    main: muiColors.cyan[700],
     dark: "#4dabf5"
   },
   secondary: {
@@ -32,6 +32,14 @@ export const colors = {
     light: "#81c784",
     main: "#66bb6a",
     dark: "#388e3c"
+  },
+  base: {
+    main: "rgb(245, 253, 251)",
+    divider: "#d1e7e1"
+  },
+  common: {
+    ...muiColors.common,
+    main: "#fff",
   }
 }
 
@@ -51,9 +59,10 @@ const config: Config = {
       xl: "1536px"
     },
     extend: {
-      colors: {
-        ...muiColors,
-      }
+      colors: colors,
+      borderColor: {
+        DEFAULT: colors.base.divider,
+      },
     }
   },
   plugins: [],
