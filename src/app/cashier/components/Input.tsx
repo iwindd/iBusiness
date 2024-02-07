@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField } from '@mui/material';
+import { Paper, TextField } from '@mui/material';
 import { CashierPageChildType } from '../page';
 import Payment from './childs/Payment';
 import { useInterface } from '@/app/providers/InterfaceProvider';
@@ -39,14 +39,17 @@ const CashierInput = ({ addProductToCart }: CashierPageChildType) => {
       e.preventDefault()
       onSubmit()
     }}>
-      <TextField
-        label="รหัสสินค้า"
-        value={serial}
-        onChange={e => setSerial(e.target.value)}
-        onKeyDown={handleKeyDown}
-        fullWidth
-        autoFocus
-      />
+      <Paper className='border-none'>
+        <TextField
+          className='outline-none ring-0 border-0'
+          label="รหัสสินค้า"
+          value={serial}
+          onChange={e => setSerial(e.target.value)}
+          onKeyDown={handleKeyDown}
+          fullWidth
+          autoFocus
+        />
+      </Paper>
     </form>
   )
 }
