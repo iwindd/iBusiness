@@ -169,7 +169,7 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
                       href={item.route}
                     >
                       <ListItemButton
-                        selected={pathname === item.route || (item.route === '/' && pathname === '/')}
+                        selected={(pathname === "/" && item.route === "/") ? true : (pathname.includes(item.route) && item.route !== "/" ? true : false)}
                       >
                         <ListItemIcon>
                           {item.icon}
