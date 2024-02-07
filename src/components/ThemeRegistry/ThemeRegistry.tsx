@@ -53,6 +53,15 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
             border: `1px solid ${colors.base.divider}`
           },
         },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: ({ ownerState }) => ({
+            ...(ownerState.selected && {
+              color: colors.primary.main,
+            })
+          }),
+        },
       }
     }
   })
