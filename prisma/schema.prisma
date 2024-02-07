@@ -82,6 +82,7 @@ model OrderProduct {
   cost      Int
   count     Int
   createdAt DateTime @default(now())
+  overStock Boolean  @default(false)
 }
 
 model OrderReceiptDesign {

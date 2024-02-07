@@ -94,14 +94,16 @@ export const PaymentAction = async (paymentPayload: {
     const products = data
       .filter(p => p.retail == session?.user.retail)
       .map((product) => {
+        const count = (payload.find(p => p.id == product.id) as Product).count
         return {
           serial: product.serial,
           title: product.title,
           price: product.price,
           cost: product.cost,
-          count: (payload.find(p => p.id == product.id) as Product).count,
+          count: count,
           category: product.category.title,
-          retail: product.retail
+          retail: product.retail,
+          overStock: count > product.stock
         }
       })
 
