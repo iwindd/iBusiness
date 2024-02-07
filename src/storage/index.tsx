@@ -42,7 +42,7 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
         payload = JSON.parse(payload)
       }
 
-      return payload
+      return !payload ? defaultValue : payload
     } catch (error) {
       return defaultValue
     }
