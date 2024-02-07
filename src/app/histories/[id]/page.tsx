@@ -106,7 +106,7 @@ const History = async ({ params: { id } }: {
                 {
                   history?.products.map((p) => {
                     return (
-                      <TableRow key={p.id}>
+                      <TableRow key={p.id} className={p.overStock ? "bg-red-100" : ""}>
                         <TableCell>{p.serial}</TableCell>
                         <TableCell>{p.title}</TableCell>
                         <TableCell>{p.category}</TableCell>
