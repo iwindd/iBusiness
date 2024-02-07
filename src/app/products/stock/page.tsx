@@ -1,6 +1,6 @@
 "use client";
 import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
-import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText, DialogActions, Toolbar } from '@mui/material';
+import { Button, Typography, Box, DialogTitle, DialogContent, DialogContentText, DialogActions, Toolbar, Paper } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react'
 import { HeaderRoot as Header } from '@/app/components/header';
@@ -42,10 +42,12 @@ const Stock = () => {
   return (
     <>
 
-      <Header>
-        <Menu />
-      </Header>
-      <Box sx={{ height: 750, width: '100%' }} >
+      <Paper className='p-2'>
+        <Header>
+          <Menu />
+        </Header>
+      </Paper>
+      <Paper sx={{ height: 750, width: '100%' }} className='mt-2' >
         <DataGrid
           columns={
             [
@@ -65,7 +67,7 @@ const Stock = () => {
               {
                 field: 'actions',
                 type: 'actions',
-                flex: 1, 
+                flex: 1,
                 headerName: 'เครื่องมือ',
                 cellClassName: 'actions',
                 getActions: ({ id }) => {
@@ -93,7 +95,7 @@ const Stock = () => {
             toolbar: CustomToolbar,
           }}
         />
-      </Box>
+      </Paper>
     </>
   )
 }
