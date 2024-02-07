@@ -6,6 +6,7 @@ export interface CartItem {
   title: string,
   price: number,
   count: number,
+  stock: number,
   category: string,
   retail: boolean
 }

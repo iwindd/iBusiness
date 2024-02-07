@@ -24,28 +24,12 @@ const CashierPage = () => {
 
       return
     };
-    
-    const cart = session?.user.cart == null ? [] : session.user.cart;
-    const product = cart.find(p => p.serial == serial && p.retail == session?.user.retail);
-    if (!product) {
-      cart.push({
-        id: resp.data?.id as number,
-        serial: resp.data?.serial as string,
-        title: resp.data?.title as string,
-        price: resp.data?.price as number,
-        count: 1,
-        category: resp.data?.category.title as string,
-        retail: session?.user.retail as boolean
-      })
-    } else {
-      product.count++
-    }
 
     await update({
       ...session,
       user: {
         ...session?.user,
-        cart
+        cart: resp.cart
       }
     })
   }

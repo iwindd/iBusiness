@@ -15,7 +15,7 @@ interface Product extends CartItem {
 export const AddToCashier = async (payload: Inputs) => {
   try {
     const session = await getServerSession();
-    const product = await Prisma.product.findFirst({
+    const data = await Prisma.product.findFirst({
       where: {
         serial: payload.serial,
         retail: session?.user.retail,
@@ -26,16 +26,32 @@ export const AddToCashier = async (payload: Inputs) => {
       }
     })
 
-    if (!product) {
+    if (!data) {
       return {
         success: false,
         error: "no_found_product"
       }
     }
 
+    const cart = session?.user.cart == null ? [] : session.user.cart
+    const product = cart.find(p => p.serial == data.serial && p.retail == session?.user.retail);
+
+    if (!product) {
+      cart.push({
+        id: data.id,
+        serial: data.serial,
+        title: data.title,
+        price: data.price,
+        count: 1,
+        category: data.category.title,
+        retail: session?.user.retail || true,
+        stock: data.stock
+      })
+    } else { product.count++ }
+
     return {
       success: true,
-      data: product
+      cart: cart
     }
   } catch (error) {
     return {
@@ -123,7 +139,7 @@ export const PaymentAction = async (paymentPayload: {
       category: "Cashier",
       type: "PAYMENT",
       data: {
-        id: Order.id, 
+        id: Order.id,
       }
     })
 
