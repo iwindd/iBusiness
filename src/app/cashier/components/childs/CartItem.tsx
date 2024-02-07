@@ -85,9 +85,11 @@ export const Item = (props: ItemProps) => {
     }, 200)
   }, [props.count])
 
+  const isOverstock = props.count > props.stock
+
   return (
     <TableRow
-      className={(grow ? 'bg-base-divider' : '')}
+      className={(grow ? isOverstock ? 'bg-red-300' : 'bg-base-divider' : isOverstock ? "bg-red-100" : "")}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell component="th" scope="row" >
@@ -106,7 +108,7 @@ export const Item = (props: ItemProps) => {
       </TableCell>
       <TableCell>
         <ConfirmButton
-          className="btn btn-error"
+          className={isOverstock ? "border-red-300 text-red-500 hover:border-red-700" : ""}
           onClick={onDelete}
           startIcon={<Delete />}
           variant='outlined'
