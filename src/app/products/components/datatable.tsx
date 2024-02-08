@@ -14,9 +14,22 @@ import Header from '../../components/header';
 import CustomToolbar from '../../components/toolbar';
 import Link from 'next/link';
 import Favorite from './favorite';
-
+import { useBarcode } from 'next-barcode';
+import { isValidEAN } from '@/libs/utils';
+import { useSnackbar } from 'notistack';
 
 const ProductDataTable = () => {
+  /* BARCODE */
+  const [barcode, setBarcode] = React.useState<string>("0000000000000");
+  const { inputRef } = useBarcode({
+    value: barcode,
+    options: {
+      format: "EAN13"
+    }
+  });
+
+  const { enqueueSnackbar } = useSnackbar()
+
   /* CATEGORY */
   const [selectProduct, setSelectProduct] = React.useState<number>(0);
   const [products, setProducts] = React.useState<Product[]>([]);
@@ -86,15 +99,29 @@ const ProductDataTable = () => {
     refetch: refetch
   }, "lg")
 
-  const onCreateQRCode = () => {
-
+  const onCreateQRCode = async () => {
+    const product = products.find(p => p.id == selectProduct);
+    if (!product) return enqueueSnackbar("ไม่พบสินค้าที่จะทำ Barcode", { variant: "error" });
+    if (!isValidEAN(product.serial)) return enqueueSnackbar("Serial ของสินค้าไม่ถูกต้องที่จะทำ Barcode", { variant: "error" });
+    await setBarcode(product.serial);
+    const canvas = document.getElementById("mybarcode") as HTMLCanvasElement;
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${product.title}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    enqueueSnackbar("Barcode created!", { variant: "success" });
   }
 
   if (error) return <p>ERROR</p>
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-
+      <canvas ref={inputRef} id='mybarcode' className='hidden' />
       <Paper className='p-2'>
         <Header title='รายการสินค้า' className='flex justify-end items-center gap-2'>
           <Button
