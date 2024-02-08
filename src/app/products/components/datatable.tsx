@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Inputs } from './schema';
 import { Box, Button, Paper } from '@mui/material';
-import { Add, Delete, Inventory } from '@mui/icons-material';
+import { Add, Delete, Inventory, QrCode } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Category, Product } from '@prisma/client';
 import Confirmation from './confirmation';
@@ -86,7 +86,9 @@ const ProductDataTable = () => {
     refetch: refetch
   }, "lg")
 
+  const onCreateQRCode = () => {
 
+  }
 
   if (error) return <p>ERROR</p>
 
@@ -106,9 +108,10 @@ const ProductDataTable = () => {
             </Button>
           </Link>
           {selectProduct ? (
-            <Button disabled={isLoading} startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">
-              ลบรายการ
-            </Button>
+            <>
+              <Button disabled={isLoading} startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">ลบรายการ</Button>
+              <Button disabled={isLoading} startIcon={<QrCode />} onClick={onCreateQRCode} variant='outlined' color='info'>BARCODE</Button>
+            </>
           ) : null}
         </Header>
       </Paper>
