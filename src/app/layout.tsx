@@ -42,11 +42,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <InterfaceProvider>
-          <ThemeRegistry>
-            <CssBaseline />
-            <SessionProvider session={session}>
-              <StorageProvider>
+        <StorageProvider>
+          <InterfaceProvider>
+            <ThemeRegistry>
+              <CssBaseline />
+              <SessionProvider session={session}>
                 <QueryProvider>
                   {session ? (
                     <Navbar>
@@ -56,10 +56,10 @@ export default async function RootLayout({
                     <Authentication />
                   )}
                 </QueryProvider>
-              </StorageProvider>
-            </SessionProvider>
-          </ThemeRegistry>
-        </InterfaceProvider>
+              </SessionProvider>
+            </ThemeRegistry>
+          </InterfaceProvider>
+        </StorageProvider>
       </body>
     </html>
   );
