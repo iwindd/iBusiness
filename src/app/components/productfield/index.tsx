@@ -14,25 +14,26 @@ const ProductField = (props: ProductFieldProps) => {
 
   const filtering = async (filter: string) => {
     if (filter.length <= 0) return;
-
     const resp = await SelectizeProductFilter(filter);
 
     if (resp.success && resp.data && resp.data.length > 0) {
       setOptions((prevData) => {
-        const newData = resp.data.map(p => {
-          return {
-            label: p.title,
-            value: p.serial,
-            keywords: p.keywords,
-          }
-        })
-
-        const uniqueNewData = newData.filter(newOption =>
+        const newData = resp.data.map(p => ({
+          label: p.title,
+          value: p.serial,
+          keywords: p.keywords,
+        }));
+    
+        const uniqueOptions = newData.filter(newOption =>
           !prevData.some(prevOption => prevOption.value === newOption.value)
         );
-
-        return [...prevData, ...uniqueNewData];
-      })
+    
+        const updatedOptions = prevData.filter(prevOption =>
+          !newData.some(newOption => newOption.value === prevOption.value)
+        );
+    
+        return [...updatedOptions, ...uniqueOptions];
+      });
     }
   }
 
@@ -41,8 +42,10 @@ const ProductField = (props: ProductFieldProps) => {
   };
 
   React.useEffect(() => {
-    filtering(filter)
-  }, [filter, filtering])
+    if (filtering){
+      filtering(filter)
+    }
+  }, [filter])
 
   React.useEffect(() => declare("options", options), [options])
 
