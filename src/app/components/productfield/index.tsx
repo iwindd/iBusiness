@@ -18,21 +18,38 @@ const ProductField = (props: ProductFieldProps) => {
 
     if (resp.success && resp.data && resp.data.length > 0) {
       setOptions((prevData) => {
+        const currentTime = new Date().getTime(); 
+
         const newData = resp.data.map(p => ({
           label: p.title,
           value: p.serial,
           keywords: p.keywords,
+          uptime: currentTime
         }));
-    
+      
         const uniqueOptions = newData.filter(newOption =>
           !prevData.some(prevOption => prevOption.value === newOption.value)
         );
-    
+      
         const updatedOptions = prevData.filter(prevOption =>
           !newData.some(newOption => newOption.value === prevOption.value)
         );
-    
-        return [...updatedOptions, ...uniqueOptions];
+      
+
+        const updatedOptionsWithTime = updatedOptions.map(option => ({
+          ...option,
+          uptime: currentTime 
+        }));
+
+        const allOptions = [...updatedOptionsWithTime, ...uniqueOptions];
+
+        if (allOptions.length > 50) {
+          allOptions.sort((a, b) => new Date(a.uptime).getTime() - new Date(b.uptime).getTime());
+      
+          allOptions.splice(0, allOptions.length - 50);
+        }
+
+        return allOptions;
       });
     }
   }

@@ -7,6 +7,7 @@ export interface Option {
   label: string;
   value: string;
   keywords: string;
+  uptime: number;
 }
 
 interface SelectizeProps {
