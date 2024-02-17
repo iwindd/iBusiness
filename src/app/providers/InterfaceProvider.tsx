@@ -1,8 +1,9 @@
 "use client";
 import { Backdrop, CircularProgress } from '@mui/material';
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import Dialog, { DialogProps as OriginalDialogProps } from '@mui/material/Dialog';
 import { SnackbarProvider } from 'notistack';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface BackdropInterface {
   setBackdrop: React.Dispatch<React.SetStateAction<boolean>>
@@ -51,6 +52,7 @@ export function InterfaceProvider({ children }: {
   const [shop, setShop] = React.useState<shopType>("retail");
   const [DialogContent, setDialogContent] = React.useState<null | JSX.Element>(null);
   const [maxWidth, setMaxWidth] = React.useState<OriginalDialogProps['maxWidth']>('sm');
+  const pathname = usePathname();
 
   const setDialog_ = (
     Content: React.FC<DialogProps>,
@@ -75,6 +77,10 @@ export function InterfaceProvider({ children }: {
 
     return dialogProps
   }
+
+  useEffect(() => {
+    if (isDialog) {setDialog(false)}
+  }, [pathname])
 
   return (
     <InterfaceContext.Provider
