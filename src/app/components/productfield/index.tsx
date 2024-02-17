@@ -4,7 +4,10 @@ import { SelectizeProductFilter } from './action';
 import { useStorage } from '@/storage';
 
 interface ProductFieldProps {
-  onSelected: (payload: Option) => void
+  onSelected: (payload: Option) => void,
+  
+  addProductToCart?: (serial : string) => void,
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 const ProductField = (props: ProductFieldProps) => {
@@ -69,6 +72,8 @@ const ProductField = (props: ProductFieldProps) => {
   return (
     <Selectize
       options={options}
+      addProductToCart={props.addProductToCart}
+      onKeyDown={props.onKeyDown}
       onChange={handleSelectChange}
       onFilter={onFilter}
       placeholder="ค้นหาสินค้า"

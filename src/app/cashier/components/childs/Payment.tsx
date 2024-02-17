@@ -58,8 +58,8 @@ const Payment = (props: DialogProps<{
           fullWidth
         />
         <ButtonGroup fullWidth>
-          <Button variant={type == 0 ? "contained" : "outlined"} onClick={() => setType(0)}>เงินสด</Button>
-          <Button variant={type == 1 ? "contained" : "outlined"} onClick={() => setType(1)}>ธนาคาร</Button>
+          <Button variant={type == 0 ? "contained" : "outlined"} color='success' onClick={() => setType(0)}>เงินสด</Button>
+          <Button variant={type == 1 ? "contained" : "outlined"} color='success' onClick={() => setType(1)}>ธนาคาร</Button>
         </ButtonGroup>
       </DialogContent>
       <DialogActions>

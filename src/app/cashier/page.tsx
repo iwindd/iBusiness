@@ -16,13 +16,13 @@ const CashierPage = () => {
 
   const addProductToCart = async (serial: string) => {
     const resp = await AddToCashier({ serial });
-
+    
     if (!resp.success || session?.user.retail == undefined) {
       if (resp.error == "no_found_product") {
         enqueueSnackbar(`ไม่พบสินค้า ${serial}`, { variant: "error" })
       }
 
-      return
+      return false
     };
 
     await update({
@@ -32,6 +32,8 @@ const CashierPage = () => {
         cart: resp.cart
       }
     })
+
+    return true
   }
 
   return (
