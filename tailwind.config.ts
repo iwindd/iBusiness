@@ -50,6 +50,9 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   important: 'body',
+  corePlugins: {
+    preflight: false,
+  },
   theme: {
     screens: {
       xs: "0px",
