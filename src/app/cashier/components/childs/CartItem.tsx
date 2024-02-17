@@ -113,7 +113,7 @@ export const Item = (props: ItemProps) => {
           startIcon={<Delete />}
           variant='outlined'
           label='ลบ'
-          label2='ยืนยัน ?'
+          label2={`คุณต้องการจะลบสินค้า ${props.title} ออกจากตะกร้าหรือไม่?`}
         />
       </TableCell>
     </TableRow>

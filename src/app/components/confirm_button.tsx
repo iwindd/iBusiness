@@ -1,41 +1,62 @@
-import { Button } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import React from 'react'
 import { setTimeout } from 'timers';
+import { DialogProps, useInterface } from '../providers/InterfaceProvider';
+
+const Confirmation = (props: DialogProps<{
+  onOpen: () => void,
+  onClose: () => void,
+  State: boolean,
+  title: string,
+  onConfirm: () => void
+}>) => {
+  return (
+    <>
+      <DialogTitle id="responsive-dialog-title">
+        {"แจ้งเตือน"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          {props.data.title}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={props.onClose}>ยกเลิก</Button>
+        <Button autoFocus onClick={props.data.onConfirm}>ยืนยัน</Button>
+      </DialogActions>
+    </>
+  )
+}
 
 const ConfirmButton = (props: {
   className?: string,
   className2?: string,
   label: string,
   label2: string,
-  disabled?:boolean,
+  disabled?: boolean,
   duration?: number,
   startIcon?: React.ReactNode,
   variant?: 'text' | 'outlined' | 'contained'
   onClick: () => void
 }) => {
-  const [state, setState] = React.useState<boolean>(false);
-  const handle = () => {
-    if (state) {
+  const { setDialog } = useInterface();
+  const Dialog = setDialog(Confirmation, {
+    onConfirm: () => {
+      Dialog.onClose()
       props.onClick()
-      setState(false);
-      return
-    }
-
-    setState(true);
-    setTimeout(() => {
-      setState(false)
-    }, props.duration || 1000)
-  }
+    },
+    title: props.label2
+  }, "xs");
+  const handle = () => Dialog.onOpen()
 
   return (
     <Button
-      className={!state ? props.className : props.className2 || props.className}
       onClick={handle}
       disabled={props.disabled}
       variant={props.variant || "contained"}
       startIcon={props.startIcon}
     >
-      {!state ? props.label : props.label2}
+      {props.label}
     </Button>
   )
 }

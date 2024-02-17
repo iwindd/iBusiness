@@ -34,7 +34,7 @@ const Cashier = ({ addProductToCart }: CashierPageChildType) => {
           className="btn btn-error"
           onClick={onClearCart}
           label="ล้างตะกร้า"
-          label2="ยืนยัน ?"
+          label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
           variant='outlined'
           startIcon={<Delete />}
         />
