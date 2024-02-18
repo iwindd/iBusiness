@@ -11,6 +11,14 @@ export interface CartItem {
   retail: boolean
 }
 
+export interface Address{
+  etc: string,
+  district: string,
+  provice: string,
+  area: string,
+  postalcode: string
+}
+
 declare module "next-auth" {
   interface Session {
     user: {
@@ -20,7 +28,8 @@ declare module "next-auth" {
       title: string,
       displaytitle: string,
       cart: CartItem[],
-      retail: boolean
+      retail: boolean,
+      addressOBJ: Address
     }
   }
 }

@@ -71,9 +71,11 @@ export async function getHistory(id: number) {
     const session = await getServerSession();
     const product = await Prisma.order.findFirst({
       where: {
-        id: id,
-        retail: session?.user.retail as boolean,
-        application: session?.user.application as number
+        application: session?.user.application,
+        id: Number(id)
+      },
+      include: {
+        products: true
       }
     })
 

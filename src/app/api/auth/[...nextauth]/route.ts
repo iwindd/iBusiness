@@ -25,6 +25,7 @@ export const authOptions = {
           retail: token.retail,
           title: token.title,
           displaytitle: token.displaytitle,
+          addressOBJ: token.addressOBJ
         }, ...user
       }
     },
@@ -59,7 +60,14 @@ export const authOptions = {
               application: user.id,
               retail: true,
               title: user.title,
-              displaytitle: user.displaytitle
+              displaytitle: user.displaytitle,
+              addressOBJ: {
+                etc: user.address,
+                district: user.district,
+                provice: user.provice,
+                area: user.area,
+                postalcode: user.postalcode
+              }
             }
             : null;
         } catch (error) {
