@@ -2,6 +2,7 @@ import React from 'react'
 import Selectize, { Option } from './selectize'
 import { SelectizeProductFilter } from './action';
 import { useStorage } from '@/storage';
+import { Product } from '@prisma/client';
 
 interface ProductFieldProps {
   onSelected: (payload: Option) => void,
@@ -13,6 +14,7 @@ interface ProductFieldProps {
 const ProductField = (props: ProductFieldProps) => {
   const { use, declare } = useStorage('ProductField');
   const [filter, onFilter] = React.useState<string>("1");
+  const [favorites, setFavorites] = React.useState<Option[]>([]);
   const [options, setOptions] = React.useState<Option[]>(use('options', []));
 
   const filtering = async (filter: string) => {
@@ -20,6 +22,16 @@ const ProductField = (props: ProductFieldProps) => {
     const resp = await SelectizeProductFilter(filter);
 
     if (resp.success && resp.data && resp.data.length > 0) {
+      const favoriteOptions = resp.favorites?.map(p => {
+        return {
+          label: `+ ${p.title}`,
+          value: p.serial,
+          keywords: p.keywords,
+          uptime: new Date().getTime()
+        }
+      }) || []
+      
+      setFavorites(favoriteOptions)
       setOptions((prevData) => {
         const currentTime = new Date().getTime(); 
 
@@ -31,14 +43,14 @@ const ProductField = (props: ProductFieldProps) => {
         }));
       
         const uniqueOptions = newData.filter(newOption =>
-          !prevData.some(prevOption => prevOption.value === newOption.value)
+          !prevData.some(prevOption => prevOption.value === newOption.value) &&
+          !favoriteOptions.some(favOption => favOption.value === newOption.value)
         );
-      
+          
         const updatedOptions = prevData.filter(prevOption =>
           !newData.some(newOption => newOption.value === prevOption.value)
         );
       
-
         const updatedOptionsWithTime = updatedOptions.map(option => ({
           ...option,
           uptime: currentTime 
@@ -52,7 +64,7 @@ const ProductField = (props: ProductFieldProps) => {
           allOptions.splice(0, allOptions.length - 50);
         }
 
-        return allOptions;
+        return [...allOptions];
       });
     }
   }
@@ -71,7 +83,7 @@ const ProductField = (props: ProductFieldProps) => {
 
   return (
     <Selectize
-      options={options}
+      options={[...favorites, ...options]}
       addProductToCart={props.addProductToCart}
       onKeyDown={props.onKeyDown}
       onChange={handleSelectChange}

@@ -12,7 +12,7 @@ const Cart = (props: CashierPageChildType) => {
   const items = Cart.sort().filter(p => p.retail == session?.user.retail)
 
   return (
-    <TableContainer component={Paper} className='mt-4'>
+    <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>

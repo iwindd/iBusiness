@@ -165,6 +165,11 @@ export const getFavoriteItems = async () => {
         application: session?.user.application,
         retail: session?.user.retail,
         favorite: true
+      },
+      select: {
+        serial: true,
+        title: true,
+        keywords: true
       }
     })
 

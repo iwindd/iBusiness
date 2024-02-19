@@ -2,46 +2,47 @@
 import React, { FormEvent, FormEventHandler, useRef } from 'react'
 import { CashierPageChildType } from '../page';
 import { useSession } from 'next-auth/react';
-import ConfirmButton from '@/app/components/confirm_button';
-import CashierInput from './Input';
-import { Divider } from '@mui/material';
-import { Delete } from '@mui/icons-material';
-import FavoritePage from './Favorite';
+import { Paper } from '@mui/material';
+import ProductField from '@/app/components/productfield';
+import { Option } from '@/app/components/productfield/selectize';
 
-const Cashier = ({ addProductToCart }: CashierPageChildType) => {
+interface CashierProp extends CashierPageChildType{
+  PaymentDialog: () => void
+}
+
+const Cashier = ({ addProductToCart, PaymentDialog }: CashierProp) => {
+  const [serial, setSerial] = React.useState<string>("");
   const { data: session, update } = useSession();
 
-  const onClearCart = () => {
-    update({
-      ...session,
-      user: {
-        ...session?.user,
-        cart: []
-      }
-    })
+  const onSubmit = async () => {
+    if (serial.length <= 0) return;
+
+    addProductToCart(serial);
+    setSerial("");
+  };
+
+  const onSelected = async (product: Option) => {
+    if (product.value.length <= 0) return;
+
+    addProductToCart(product.value);
   }
 
-  return (
-    <>
-      <CashierInput
-        addProductToCart={addProductToCart}
-      />
-      <FavoritePage 
-        addProductToCart={addProductToCart}
-      />
-      <div className="controllers space-x-1 mt-2 flex mb-2">
-        <ConfirmButton
-          className="btn btn-error"
-          onClick={onClearCart}
-          label="ล้างตะกร้า"
-          label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
-          variant='outlined'
-          startIcon={<Delete />}
-        />
-      </div>
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== ' ') return;
+    e.preventDefault();
+    PaymentDialog();
+  };
 
-      <Divider />
-    </>
+
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      onSubmit()
+    }}>
+      <Paper className='border-none '>
+        <ProductField onKeyDown={handleKeyDown}  onSelected={onSelected} addProductToCart={addProductToCart} />
+      </Paper>
+    </form>
   )
 }
 
