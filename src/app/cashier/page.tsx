@@ -10,6 +10,7 @@ import { Delete, PaymentOutlined } from '@mui/icons-material';
 import { Button, Divider } from '@mui/material';
 import { useInterface } from '../providers/InterfaceProvider';
 import Payment from './components/childs/Payment';
+import Activity from './components/Activity';
 
 export interface CashierPageChildType {
   addProductToCart: (serial: string) => void
@@ -41,7 +42,6 @@ const CashierPage = () => {
 
     return true
   }
-
 
   const onClearCart = () => {
     update({
@@ -79,16 +79,18 @@ const CashierPage = () => {
             <Cart addProductToCart={addProductToCart} />
           </div>
 
-          <div className="col-span-3 space-x-1">
-            <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button>
-            <ConfirmButton
-              onClick={onClearCart}
-              label="ล้างตะกร้า"
-              label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
-              variant='outlined'
-              startIcon={<Delete />}
-            />
-
+          <div className="col-span-3 space-y-1">
+            <div className='space-x-1'>
+              <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button>
+              <ConfirmButton
+                onClick={onClearCart}
+                label="ล้างตะกร้า"
+                label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
+                variant='outlined'
+                startIcon={<Delete />}
+              />
+            </div>
+            <Activity />
           </div>
         </div>
       </div>

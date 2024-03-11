@@ -184,3 +184,30 @@ export const getFavoriteItems = async () => {
     }
   }
 }
+
+export const getLastCashierActivity = async () => {
+  try {
+    const session = await getServerSession()
+    const activities = await Prisma.activity.findMany({
+      where: {
+        application: session?.user.application as number,
+        category: "Cashier",
+        type: "PAYMENT"
+      },
+      orderBy: {
+        createdAt: "desc"
+      },
+      take: 5
+    })
+
+    return {
+      success: true,
+      data: activities
+    }
+  } catch (error) {
+    return {
+      success: false,
+      data: []
+    }
+  }
+}
