@@ -10,7 +10,6 @@ import { Delete, PaymentOutlined } from '@mui/icons-material';
 import { Button, Divider } from '@mui/material';
 import { useInterface } from '../providers/InterfaceProvider';
 import Payment from './components/childs/Payment';
-import Activity from './components/Activity';
 
 export interface CashierPageChildType {
   addProductToCart: (serial: string) => void
@@ -90,7 +89,6 @@ const CashierPage = () => {
                 startIcon={<Delete />}
               />
             </div>
-            <Activity />
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import Receipter from './components/receipter';
 import { useReactToPrint } from 'react-to-print';
 import { useInterface } from '@/app/providers/InterfaceProvider';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const HistoryHeader = ({ caption }: { caption: string }) => {
   return (
@@ -33,7 +34,6 @@ const History = async ({ params: { id } }: {
     id: number
   }
 }) => {
-
   const [history, setHistory] = useState<Order | null>(null)
   const [products, setProducts] = useState<OrderProduct[]>([]);
   const receipterRef = useRef(null);
@@ -45,25 +45,36 @@ const History = async ({ params: { id } }: {
   })
 
   const { setBackdrop } = useInterface();
-
+  const router = useRouter();
+  const autoReceipter = useSearchParams().get('receipter');
   const handlePrint = useReactToPrint({
     documentTitle: "ใบกำกับภาษีอย่างย่อ",
     onBeforePrint: () => setBackdrop(true),
-    onAfterPrint: () => setBackdrop(false),
+    onAfterPrint: () => {
+      if (autoReceipter == "1") router.push("/cashier");
+      setBackdrop(false);
+    },
     removeAfterPrint: true,
   });
-
   useEffect(() => {
     if (data?.success && data.data) {
       setHistory(data.data)
       setProducts(data.data.products)
-    }else{
-      
     }
+
+    if (autoReceipter == "1") WaitToExport()
   }, [data])
 
   const ReceiptExport = () => {
     handlePrint(null, () => receipterRef.current);
+  }
+
+  const WaitToExport = () => {
+    if (receipterRef.current) {
+      handlePrint(null, () => receipterRef.current);
+    } else {
+      setTimeout(WaitToExport, 1)
+    }
   }
 
 
