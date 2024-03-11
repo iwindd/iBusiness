@@ -37,6 +37,8 @@ export default function Index() {
       <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-2">
         {
           navigations.map(nav => {
+            if (nav.shortcut == false) return;
+            
             return (
               <Navigation key={nav.name} startWith={nav.icon} href={nav.route} header={nav.label}>
                 <article className="p-2 px-3">

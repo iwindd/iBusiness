@@ -1,4 +1,4 @@
-import { AddShoppingCart, Category, Dashboard, Home, Inventory, ManageHistory } from "@mui/icons-material"
+import { AddShoppingCart, Category, Dashboard, Home, Inventory, ManageHistory, Store } from "@mui/icons-material"
 import { DrawerCategory } from "./typings"
 
 export const DrawerItems: DrawerCategory[] = [
@@ -18,6 +18,13 @@ export const DrawerItems: DrawerCategory[] = [
       { name: "products", label: 'สินค้า', route: "/products", icon: <Inventory />, desc: "การจัดการสินค้าภายในร้านเป็นส่วนสำคัญที่สำคัญในการให้บริการและเพิ่มประสิทธิภาพในการขายของธุรกิจของคุณ. นี่คือบางแนวทางที่คุณสามารถพิจารณาเพื่อจัดการสินค้าของคุณ" },
       { name: "categories", label: 'ประเภทสินค้า', route: "/categories", icon: <Category />, desc: "การแบ่งสินค้าออกเป็นกลุ่มหรือประเภทต่าง ๆ ตามลักษณะ, ลักษณะการใช้งาน, หรือลักษณะทางธุรกิจ เพื่อให้การจัดการสินค้าเป็นไปอย่างมีระเบียบและง่ายต่อการค้นหา" },
       { name: "histories", label: 'ประวัติการขาย', route: "/histories", icon: <ManageHistory />, desc: "การบันทึกหรือประวัติเหตุการณ์ที่เกี่ยวข้องกับกระบวนการขายสินค้าของธุรกิจ. ประวัติการขายสินค้ามักจะรวมถึงข้อมูลต่าง ๆ เกี่ยวกับการตลาด, การสร้างความสนใจ, การส่งเสริมการขาย, การทำธุรกรรม, และผลการขายเพื่อให้ภาพรวมทั่วไปเกี่ยวกับประสิทธิภาพของกิจการ" }
+    ]
+  },
+  {
+    name: "account",
+    label: "บัญชี",
+    items: [
+      { name: "profile", label: "ร้านค้า", route: "/account/store", icon: <Store/>, desc: "", shortcut: false}
     ]
   }
 ]

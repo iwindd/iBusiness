@@ -29,7 +29,12 @@ declare module "next-auth" {
       displaytitle: string,
       cart: CartItem[],
       retail: boolean,
-      addressOBJ: Address
+      addressOBJ: Address,
+      account: {
+        store: {
+          linetoken: string
+        }
+      }
     }
   }
 }

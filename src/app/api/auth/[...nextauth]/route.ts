@@ -25,7 +25,8 @@ export const authOptions = {
           retail: token.retail,
           title: token.title,
           displaytitle: token.displaytitle,
-          addressOBJ: token.addressOBJ
+          addressOBJ: token.addressOBJ,
+          account: token.account
         }, ...user
       }
     },
@@ -67,6 +68,11 @@ export const authOptions = {
                 provice: user.provice,
                 area: user.area,
                 postalcode: user.postalcode
+              },
+              account: {
+                store: {
+                  linetoken: user.lineNotify
+                }
               }
             }
             : null;

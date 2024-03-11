@@ -3,7 +3,8 @@ export interface DrawerItem {
   label: string,
   route: string,
   icon: JSX.Element,
-  desc?: string
+  desc?: string,
+  shortcut?: boolean
 }
 
 export interface DrawerCategory {

@@ -1,4 +1,6 @@
 "use server";
+import { ParseActivity } from "./activityServer";
+import { push } from "./line";
 import Prisma from "./prisma";
 import { getServerSession } from "./session";
 
@@ -34,6 +36,8 @@ export const Activity = async (
 ) => {
   const session = await getServerSession();
   if (!session?.user.application) return
+
+  push(await ParseActivity(payload))
 
   return await Prisma.activity.create({
     data: {
