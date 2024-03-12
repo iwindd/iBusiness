@@ -7,10 +7,10 @@ import Time from './components/Time';
 
 const StorePage = () => {
   return (
-    
+
     <Grid container gap={1}>
-      <Grid xs={12} md={5}><LineNotification /></Grid>
       <Grid xs={12} md={5}><Time /></Grid>
+      <Grid xs={12} md={5}><LineNotification /></Grid>
     </Grid>
   )
 }
