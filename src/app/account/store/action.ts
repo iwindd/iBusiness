@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 export const lineConnect = async (token: string) => {
   const session = await getServerSession();
   if (!session) return false;
+  if (session.user.account.store.linetoken == token) return true
 
   try {
 
