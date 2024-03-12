@@ -26,7 +26,8 @@ export const authOptions = {
           title: token.title,
           displaytitle: token.displaytitle,
           addressOBJ: token.addressOBJ,
-          account: token.account
+          account: token.account,
+          time: token.time
         }, ...user
       }
     },
@@ -69,6 +70,7 @@ export const authOptions = {
                 area: user.area,
                 postalcode: user.postalcode
               },
+              time: user.time,
               account: {
                 store: {
                   linetoken: user.lineNotify

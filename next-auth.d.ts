@@ -34,7 +34,8 @@ declare module "next-auth" {
         store: {
           linetoken: string
         }
-      }
+      },
+      time: string
     }
   }
 }

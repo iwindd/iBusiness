@@ -1,5 +1,6 @@
 import './globals.css';
 import { getServerSession } from '@/libs/session';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 /* LAYOUYS */
 import Authentication from './authentication';
@@ -14,6 +15,7 @@ import { StorageProvider } from '@/storage';
 /* COMPONENTS */
 import Navbar from './components/navbar';
 import { CssBaseline } from '@mui/material';
+import LocalizationProvider from './providers/LocalizationProvider';
 
 export const metadata = {
   title: 'iStore',
@@ -43,22 +45,24 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <StorageProvider>
-          <InterfaceProvider>
-            <ThemeRegistry>
-              <CssBaseline />
-              <SessionProvider session={session}>
-                <QueryProvider>
-                  {session ? (
-                    <Navbar>
-                      {children}
-                    </Navbar>
-                  ) : (
-                    <Authentication />
-                  )}
-                </QueryProvider>
-              </SessionProvider>
-            </ThemeRegistry>
-          </InterfaceProvider>
+          <LocalizationProvider >
+            <InterfaceProvider>
+              <ThemeRegistry>
+                <CssBaseline />
+                <SessionProvider session={session}>
+                  <QueryProvider>
+                    {session ? (
+                      <Navbar>
+                        {children}
+                      </Navbar>
+                    ) : (
+                      <Authentication />
+                    )}
+                  </QueryProvider>
+                </SessionProvider>
+              </ThemeRegistry>
+            </InterfaceProvider>
+          </LocalizationProvider>
         </StorageProvider>
       </body>
     </html>

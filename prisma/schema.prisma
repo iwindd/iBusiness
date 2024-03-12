@@ -24,7 +24,8 @@ model User {
   postalcode         String
   provice            String
   tel                String
-  lineNotify         String @default("")
+  lineNotify         String               @default("")
+  time               Json                 @default("[]")
   Product            Product[]
   Order              Order[]
   OrderReceiptDesign OrderReceiptDesign[]
