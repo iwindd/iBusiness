@@ -57,6 +57,15 @@ model Product {
   keywords    String   @default("")
 }
 
+model ProductSuggestion {
+  id     Int    @id @default(autoincrement())
+  serial String
+  title  String
+  price  String
+  cost   Int    @default(0)
+  stock  Int    @default(0)
+}
+
 model Order {
   id           Int            @id @default(autoincrement())
   retail       Boolean        @default(true)
