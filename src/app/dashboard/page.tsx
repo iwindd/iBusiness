@@ -79,8 +79,8 @@ const Dashboard = () => {
           ) : (
             <Paper className='h-80'>
               <ProfitChart
-                sold={info.sold}
-                months={info.months}
+                  sold={info.sold}
+                  months={info.months}
               />
             </Paper>
           )
