@@ -1,11 +1,12 @@
 "use client";
-import React from 'react'
+import React, { useEffect } from 'react'
 import Stat from './stat';
 import { ArchiveBoxIcon, DocumentIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
 import { getDashboardStats } from './action';
 import { Order } from '@prisma/client';
 import { v4 } from 'uuid';
+import { Skeleton } from '@mui/material';
 
 interface Stat {
   title: string,
@@ -44,31 +45,46 @@ const Items: Stat[] = [
 ]
 
 const Stats = () => {
-  const { data, isLoading, error } = useQuery({
+  const [stats, setStats] = React.useState<[
+    Order[],
+    Order[],
+    Order[],
+    number,
+    number
+  ]>([[], [], [], 0, 0]);
+  const { data, error, isLoading } = useQuery({
     queryKey: ['Stats'],
     queryFn: async () => {
       return await getDashboardStats()
     }
   })
 
-  if (isLoading) return <p>Loading</p>
+  useEffect(() => {
+    if (data?.success && data.data){
+      setStats(data.data);
+    }
+  }, [data])
+
   if (error) return <p>ERROR</p>;
+
 
   return (
     <div className="grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-2">
       {
         Items.map((i) => {
+          if (isLoading) return <Skeleton variant="rectangular" className=' h-24 '/>
+
           return (
             <Stat
               key={v4()}
               route={i.route}
               title={i.title}
               value={i.format(
-                data?.data?.[0] || [], // day order
-                data?.data?.[1] || [], // week order
-                data?.data?.[2] || [], // month order
-                data?.data?.[3] || 0, // out of stock products count
-                data?.data?.[4] || 0 // on stock products count
+                stats[0], // day order
+                stats[1], // week order
+                stats[2], // month order
+                stats[3], // out of stock products count
+                stats[4] // on stock products count
               )}
               desc={i.desc}
               icon={i.icon}

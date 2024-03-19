@@ -16,6 +16,7 @@ const WeekChart = ({ week }: {
   week: number[]
 }) => {
   const theme = useTheme()
+
   return (
     <BarChart
       series={[

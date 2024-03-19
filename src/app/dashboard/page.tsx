@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { Suspense, useEffect } from 'react'
 import Stats from './components/stats'
 import { useQuery } from '@tanstack/react-query';
 import ProfitChart from './components/chart/profit';
@@ -10,9 +10,28 @@ import ActivityTable from './components/helper/activity';
 import { getAnalysisData } from './action';
 import { Activity } from '@prisma/client';
 import { BestSellerItem } from './components/helper/action';
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, Skeleton } from '@mui/material';
 
 const Dashboard = () => {
+  const [info, setInfo] = React.useState<{
+    bestSeller: BestSellerItem[],
+    activities: Activity[],
+    months: Date[],
+    sold: number[],
+    profit: number[],
+    cost: number[],
+    times: number[],
+    week: number[]
+  }>({
+    bestSeller: [],
+    activities: [],
+    months: [],
+    sold: [],
+    profit: [],
+    cost: [],
+    times: [],
+    week: []
+  });
   const { data, isLoading, error } = useQuery({
     staleTime: 1000 * 60 * 60 * 24,
     queryKey: ['AnalysisData'],
@@ -21,7 +40,12 @@ const Dashboard = () => {
     }
   })
 
-  if (isLoading) return <p></p>
+  useEffect(() => {
+    if (data?.data && data.success) {
+      setInfo(data.data)
+    }
+  }, [data])
+
   if (error) return <p>Error </p>
 
   return (
@@ -31,23 +55,52 @@ const Dashboard = () => {
       </div>
       <div className="col-span-1 row-span-3 ">
         <div className="grid lg:grid-cols-1 sm:grid-cols-2 gap-2">
-          <BestSellerTable data={data?.data?.bestSeller.data as BestSellerItem[]} />
-          <ActivityTable activities={data?.data?.activities.data as Activity[]} />
+          {
+            isLoading ? (
+              <>
+                <Skeleton variant="rectangular" className='h-80' />
+                <Skeleton variant="rectangular" className='h-80' />
+              </>
+            ) : (
+              <>
+                <BestSellerTable data={info.bestSeller} />
+                <ActivityTable activities={info.activities} />
+              </>
+            )
+          }
         </div>
       </div>
       <div className="col-span-2">
-        <Paper className='h-80'>
-          <ProfitChart
-            sold={data?.data?.sold as number[]}
-            months={data?.data?.months as Date[]}
-          />
-        </Paper>
+        {
+          isLoading ? (
+            <>
+              <Skeleton variant="rectangular" className='h-80' />
+            </>
+          ) : (
+            <Paper className='h-80'>
+              <ProfitChart
+                sold={info.sold}
+                months={info.months}
+              />
+            </Paper>
+          )
+        }
+
       </div>
       <div className="col-span-2">
-        <Paper className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1'>
-          <Box><TimesChart times={data?.data?.times as number[]} /></Box>
-          <Box><WeekChart week={data?.data?.week as number[]} /></Box>
-        </Paper>
+        {
+          isLoading ? (
+            <>
+              <Skeleton variant="rectangular" className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1' />
+            </>
+          ) : (
+            <Paper className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1'>
+              <Box><TimesChart times={info.times} /></Box>
+              <Box><WeekChart week={info.week} /></Box>
+            </Paper>
+          )
+        }
+
       </div>
     </div>
   )

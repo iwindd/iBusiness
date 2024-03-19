@@ -83,8 +83,8 @@ export const getAnalysisData = async () => {
     return {
       success: true,
       data: {
-        bestSeller: await getBestSeller(),
-        activities: await getActivities(),
+        bestSeller: (await getBestSeller()).data,
+        activities: (await getActivities()).data,
         months: months,
         sold: data.map(info => info.length),
         profit: data.map((info) => info.reduce((total, order) => total + order.profit, 0), 0),
