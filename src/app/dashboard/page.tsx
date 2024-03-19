@@ -1,4 +1,4 @@
-"use client";
+ras"use client";
 import React, { Suspense, useEffect } from 'react'
 import Stats from './components/stats'
 import { useQuery } from '@tanstack/react-query';
