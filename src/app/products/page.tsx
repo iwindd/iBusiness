@@ -4,8 +4,8 @@ import { DataGrid, GridSortModel, GridSortDirection, GridFilterModel, GridRowPar
 import { getProducts, saveProduct, setFavorite } from './action';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { Button, Paper } from '@mui/material';
-import { Add, Delete, Inventory, QrCode } from '@mui/icons-material';
+import { Button, IconButton, MenuItem, Paper, Typography } from '@mui/material';
+import { Add, Delete, Inventory, MoreVert, QrCode } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Category, Product } from '@prisma/client';
 import Link from 'next/link';
@@ -17,8 +17,32 @@ import Header from '../components/header';
 import Favorite from './components/favorite';
 import CustomToolbar from '../components/toolbar';
 import AddDialog from './components/add';
+import StyledMenu from '../components/styledMenu';
 
 const ProductDataTable = () => {
+  const [selectProduct, setSelectProduct] = React.useState<number>(0);
+
+  /* MENU */
+  const [contextMenu, setContextMenu] = React.useState<{
+    mouseX: number;
+    mouseY: number;
+  } | null>(null);
+
+  const controller = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    setSelectProduct(Number(event.currentTarget.getAttribute('data-id')));
+    setContextMenu(
+      contextMenu === null
+        ? { mouseX: event.clientX - 2, mouseY: event.clientY - 4 }
+        : null,
+    );
+
+  };
+
+  const handleClose = () => {
+    setContextMenu(null);
+  };
+
   /* BARCODE */
   const [barcode, setBarcode] = React.useState<string>("0000000000000");
   const { inputRef } = useBarcode({
@@ -31,7 +55,6 @@ const ProductDataTable = () => {
   const { enqueueSnackbar } = useSnackbar()
 
   /* CATEGORY */
-  const [selectProduct, setSelectProduct] = React.useState<number>(0);
   const [products, setProducts] = React.useState<Product[]>([]);
   const [categories, setCategories] = React.useState<Category[]>([]);
 
@@ -94,12 +117,18 @@ const ProductDataTable = () => {
     refetch: refetch
   });
 
+  const openDeleteConfirmation = () => {
+    setContextMenu(null);
+    deleteDialog.onOpen();
+  }
+
   const addDialog = setDialog(AddDialog, {
     categories: categories,
     refetch: refetch
   }, "lg")
 
   const onCreateQRCode = async () => {
+    handleClose();
     const product = products.find(p => p.id == selectProduct);
     if (!product) return enqueueSnackbar("ไม่พบสินค้าที่จะทำ Barcode", { variant: "error" });
     if (!isValidEAN(product.serial)) return enqueueSnackbar("Serial ของสินค้าไม่ถูกต้องที่จะทำ Barcode", { variant: "error" });
@@ -134,12 +163,6 @@ const ProductDataTable = () => {
               จัดการสต๊อก
             </Button>
           </Link>
-          {selectProduct ? (
-            <>
-              <Button disabled={isLoading} startIcon={<Delete />} onClick={deleteDialog.onOpen} variant="outlined" color="error">ลบรายการ</Button>
-              <Button disabled={isLoading} startIcon={<QrCode />} onClick={onCreateQRCode} variant='outlined' color='info'>BARCODE</Button>
-            </>
-          ) : null}
         </Header>
       </Paper>
 
@@ -186,12 +209,34 @@ const ProductDataTable = () => {
             { field: 'price', sortable: true, headerName: 'ราคา', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
             { field: 'cost', sortable: true, headerName: 'ต้นทุน', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
             { field: 'stock', sortable: true, headerName: 'ของในสต๊อก', flex: 1, type: "number", editable: true, valueFormatter: params => (params.value as number).toLocaleString() },
+            {
+              field: 'tool', sortable: true, headerName: "เครื่องมือ", flex: 1, editable: false,
+              renderCell: (e) => {
+                return (
+                  <>
+                    <IconButton
+                      onClick={controller}
+                      disableRipple
+                    >
+                      <MoreVert />
+                    </IconButton>
+                  </>
+                )
+              }
+            }
           ]}
           rowCount={data?.total}
           density="compact"
 
           onRowClick={onSelectRow}
           processRowUpdate={onCommit}
+          slotProps={{
+            row: {
+              toolbar: { showQuickFilter: true },
+              onContextMenu: controller,
+              style: { cursor: 'context-menu' },
+            },
+          }}
 
           pageSizeOptions={[15, 30, 50, 100]}
           paginationModel={paginationModel}
@@ -207,13 +252,33 @@ const ProductDataTable = () => {
           slots={{
             toolbar: CustomToolbar,
           }}
-          slotProps={{ toolbar: { showQuickFilter: true } }}
           filterMode="server"
           filterModel={filterModel}
           onFilterModelChange={(newModel) => setFilterModel(newModel)}
         />
       </Paper>
 
+      <StyledMenu
+        open={contextMenu !== null}
+        onClose={handleClose}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          contextMenu !== null
+            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+            : undefined
+        }
+        slotProps={{
+          root: {
+            onContextMenu: (e) => {
+              e.preventDefault();
+              handleClose();
+            },
+          },
+        }}
+      >
+        <MenuItem onClick={onCreateQRCode} disableRipple><QrCode />Barcode</MenuItem>
+        <MenuItem onClick={openDeleteConfirmation} disableRipple ><Delete />ลบรายการ</MenuItem>
+      </StyledMenu>
     </div>
   )
 }
