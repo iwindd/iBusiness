@@ -64,7 +64,9 @@ export async function getCategories(
   } catch (error) {
     return {
       success: false,
-      error: error
+      error: error,
+      total: 0,
+      data: []
     }
   }
 }

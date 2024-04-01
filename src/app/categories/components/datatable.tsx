@@ -14,6 +14,8 @@ import CustomToolbar from '../toolbar';
 
 const CategoryDataTable = () => {
   const [selectRow, setSelectRow] = React.useState<number>(0);
+  const [categories, setCategories] = React.useState<Category[]>([]);
+  const [total, setTotal] = React.useState<number>(0);
 
   /* MENU */
   const [contextMenu, setContextMenu] = React.useState<{
@@ -73,7 +75,14 @@ const CategoryDataTable = () => {
     };
 
     fetchData();
-  }, [paginationModel, sortModel, filterModel, refetch])
+  }, [paginationModel, sortModel, filterModel])
+
+  useEffect(() => {
+    if (data?.success){
+      setCategories(data.data as Category[]);
+      setTotal(data.total)
+    }
+  })
 
   const { setDialog } = useInterface();
   const onSelectRow = (params: GridRowParams) => setSelectRow(params.id as number)
@@ -90,7 +99,7 @@ const CategoryDataTable = () => {
       <Paper sx={{ height: 750, width: '100%' }} >
         <DataGrid
           loading={isLoading}
-          rows={isLoading ? [] : data?.data as Category[]}
+          rows={categories}
           columns={[
             { field: 'title', sortable: true, headerName: 'ประเภทสินค้า', flex: 3, editable: true }, {
               field: 'products',
@@ -136,7 +145,7 @@ const CategoryDataTable = () => {
               }
             }
           ]}
-          rowCount={data?.total}
+          rowCount={total}
           density="compact"
 
           onRowClick={onSelectRow}
