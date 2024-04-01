@@ -1,9 +1,10 @@
 "use client";
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress, Slide } from '@mui/material';
 import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import Dialog, { DialogProps as OriginalDialogProps } from '@mui/material/Dialog';
 import { SnackbarProvider } from 'notistack';
 import { useRouter, usePathname } from 'next/navigation';
+import { TransitionProps } from '@mui/material/transitions';
 
 interface BackdropInterface {
   setBackdrop: React.Dispatch<React.SetStateAction<boolean>>
@@ -43,6 +44,15 @@ export function useInterface() {
   return context;
 }
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
 export function InterfaceProvider({ children }: {
   children: ReactNode;
 }) {
@@ -79,7 +89,7 @@ export function InterfaceProvider({ children }: {
   }
 
   useEffect(() => {
-    if (isDialog) {setDialog(false)}
+    if (isDialog) { setDialog(false) }
   }, [pathname])
 
   return (
@@ -111,13 +121,17 @@ export function InterfaceProvider({ children }: {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+
+
       <Dialog
         open={isDialog}
+        TransitionComponent={Transition}
         onClose={() => setDialog(false)}
         aria-labelledby="responsive-dialog-title"
         fullWidth={true}
         maxWidth={maxWidth}
       >
+
         {DialogContent}
       </Dialog>
     </InterfaceContext.Provider>

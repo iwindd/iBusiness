@@ -191,9 +191,9 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
           transition: "all 0.25s ease",
         }}
       >
-        <Paper className='m-2 p-2  bg-transparent border-none '>
+        <Box className='bg-transparent border-none '>
           {children}
-        </Paper>
+        </Box>
       </Box>
     </>
   )

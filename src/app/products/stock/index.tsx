@@ -8,8 +8,8 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
 import { useStock } from './providers/StockProvider';
 import Menu from './components/menu';
-import CustomToolbar from '@/app/components/toolbar';
 import { Delete } from '@mui/icons-material';
+import CustomToolbar from './toolbar';
 
 export interface data {
   id: number,
@@ -41,13 +41,7 @@ const Stock = () => {
 
   return (
     <>
-
-      <Paper className='p-2'>
-        <Header>
-          <Menu />
-        </Header>
-      </Paper>
-      <Paper sx={{ height: 750, width: '100%' }} className='mt-2' >
+      <Paper sx={{ height: 750, width: '100%' }} >
         <DataGrid
           columns={
             [

@@ -2,7 +2,7 @@
 
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
-import { data } from "./page";
+import { data } from ".";
 
 export const fetchingStock = async (payload: Record<string, number>) => {
   try {

@@ -1,54 +1,109 @@
 "use client";
-import Link from "next/link";
-import { Divider, Paper, Typography } from '@mui/material';
-import { DrawerItems } from "./components/navbar/components/config";
-import { DrawerItem } from "./components/navbar/components/typings";
+import React, { Suspense, useEffect } from 'react'
+import Stats from './dashboard/components/stats'
+import { useQuery } from '@tanstack/react-query';
+import ProfitChart from './dashboard/components/chart/profit';
+import TimesChart from './dashboard/components/chart/times';
+import WeekChart from './dashboard/components/chart/week';
+import BestSellerTable from './dashboard/components/helper/bestSeller';
+import ActivityTable from './dashboard/components/helper/activity';
+import { getAnalysisData } from './dashboard/action';
+import { Activity } from '@prisma/client';
+import { BestSellerItem } from './dashboard/components/helper/action';
+import { Box, Paper, Skeleton } from '@mui/material';
 
-const Navigation = (props: {
-  href: string,
-  header: string,
-  variant?: string,
-  startWith: React.ReactNode,
-  children: React.ReactNode
-}) => {
+const Dashboard = () => {
+  const [info, setInfo] = React.useState<{
+    bestSeller: BestSellerItem[],
+    activities: Activity[],
+    months: Date[],
+    sold: number[],
+    profit: number[],
+    cost: number[],
+    times: number[],
+    week: number[]
+  }>({
+    bestSeller: [],
+    activities: [],
+    months: [],
+    sold: [],
+    profit: [],
+    cost: [],
+    times: [],
+    week: []
+  });
+  const { data, isLoading, error } = useQuery({
+    staleTime: 1000 * 60 * 60 * 24,
+    queryKey: ['AnalysisData'],
+    queryFn: async () => {
+      return await getAnalysisData();
+    }
+  })
+
+  useEffect(() => {
+    if (data?.data && data.success) {
+      setInfo(data.data)
+    }
+  }, [data])
+
+  if (error) return <p>Error </p>
+
   return (
-    <Link href={props.href} className="hover:translate-y-1 transition-all duration-200 ">
-      <Paper
-        className={`border p-3 cursor-pointer space-y-1 transition-all overflow-hidden`}
-      >
-        <header className="p-1 px-3 flex items-center gap-2 bg-common-main">
-          {props.startWith}
-          <Typography variant="h6">{props.header}</Typography>
-        </header>
-        <Divider/>
-        <article className="bg-white">
-          {props.children}
-        </article>
-      </Paper>
-    </Link>
+    <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-2">
+      <div className="col-span-2 space-y-2">
+        <Stats />
+      </div>
+      <div className="col-span-1 row-span-3 ">
+        <div className="grid lg:grid-cols-1 sm:grid-cols-2 gap-2">
+          {
+            isLoading ? (
+              <>
+                <Skeleton variant="rectangular" className='h-80' />
+                <Skeleton variant="rectangular" className='h-80' />
+              </>
+            ) : (
+              <>
+                <BestSellerTable data={info.bestSeller} />
+                <ActivityTable activities={info.activities} />
+              </>
+            )
+          }
+        </div>
+      </div>
+      <div className="col-span-2">
+        {
+          isLoading ? (
+            <>
+              <Skeleton variant="rectangular" className='h-80' />
+            </>
+          ) : (
+            <Paper className='h-80'>
+              <ProfitChart
+                  sold={info.sold}
+                  months={info.months}
+              />
+            </Paper>
+          )
+        }
+
+      </div>
+      <div className="col-span-2">
+        {
+          isLoading ? (
+            <>
+              <Skeleton variant="rectangular" className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1' />
+            </>
+          ) : (
+            <Paper className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1'>
+              <Box><TimesChart times={info.times} /></Box>
+              <Box><WeekChart week={info.week} /></Box>
+            </Paper>
+          )
+        }
+
+      </div>
+    </div>
   )
 }
 
-export default function Index() {
-  const navigations: DrawerItem[] = [...DrawerItems.map(a => a.items)].flat().filter(i => i.route != "/");
-
-  return <>
-    <div className="container">
-      <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-2">
-        {
-          navigations.map(nav => {
-            if (nav.shortcut == false) return;
-            
-            return (
-              <Navigation key={nav.name} startWith={nav.icon} href={nav.route} header={nav.label}>
-                <article className="p-2 px-3">
-                  <Typography variant="body2">{nav.desc}</Typography>
-                </article>
-              </Navigation>
-            )
-          })
-        }
-      </div>
-    </div>
-  </>
-}
+export default Dashboard

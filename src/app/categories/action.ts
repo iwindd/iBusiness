@@ -69,6 +69,31 @@ export async function getCategories(
   }
 }
 
+export async function getAllCategories() {
+  try {
+    const session = await getServerSession();
+    const categories = await Prisma.category.findMany({
+      where: {
+        application: session?.user.application as number,
+      },
+      select:{
+        id: true,
+        title: true
+      }
+    })
+
+    return {
+      state: true,
+      categories: categories,
+    }
+  } catch (error) {
+    return {
+      state: false,
+      categories: []
+    }
+  }
+}
+
 export async function addCategory(payload: Inputs) {
   try {
     const session = await getServerSession();

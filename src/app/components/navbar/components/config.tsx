@@ -6,8 +6,7 @@ export const DrawerItems: DrawerCategory[] = [
     name: "main",
     label: "เมนูหลัก",
     items: [
-      { name: "index", route: "/", label: "หน้าแรก", icon: <Home /> },
-      { name: "dashboard", route: "/dashboard", label: "แดชบอร์ด", icon: <Dashboard />, desc: "การแสดงข้อมูลสรุปและกราฟที่สำคัญในรูปแบบกราฟิก หรือตาราง ที่เกี่ยวข้องกับการติดตามสถานะทางธุรกิจ, การวิเคราะห์ข้อมูล, หรือการรายงานผลการดำเนินงานในรูปแบบที่มีประสิทธิภาพ" }
+      { name: "index", route: "/", label: "แดชบอร์ด", icon: <Dashboard /> },
     ]
   },
   {

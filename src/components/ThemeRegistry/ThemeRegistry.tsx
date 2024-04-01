@@ -18,7 +18,7 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
       mode: "light",
       ...colors,
       background: {
-        default: colors.base.main
+        default: colors.common.main
       },
       divider: colors.base.divider
     },
@@ -41,7 +41,6 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
           root: {
             background: colors.common.main,
             boxShadow: "none",
-            border: `1px solid ${colors.base.divider}`
           },
         },
       },

@@ -1,13 +1,31 @@
 "use client";
+import { Box, Paper, Tab } from '@mui/material'
 import React from 'react'
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import StyledTabContext from '../components/styledTabContext';
+import { DataGrid } from '@mui/x-data-grid';
 import CategoryDataTable from './components/datatable';
 
-const Histories = () => {
+const CategoriesPage = () => {
+  const [value, setValue] = React.useState<string>('1');
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
   return (
-    <>
-      <CategoryDataTable />
-    </>
+    <Paper>
+      <StyledTabContext value={value} >
+        <Box sx={{ borderBottom: 1, borderTop: 0, borderColor: 'divider' }}>
+          <TabList onChange={handleChange} >
+            <Tab label="ประเภทสินค้า" value="1" />
+          </TabList>
+        </Box>
+        <TabPanel value="1" sx={{ p: 0 }}><CategoryDataTable/></TabPanel>
+      </StyledTabContext>
+    </Paper >
   )
 }
 
-export default Histories
+export default CategoriesPage
