@@ -20,7 +20,7 @@ const Favorite = (props: {
 
       setFavCache(isFavorite);
       props.onChange(isFavorite);
-    }, 500);
+    }, 100);
 
     debouncedFunction();
 

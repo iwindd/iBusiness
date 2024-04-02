@@ -2,23 +2,23 @@ import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
 import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import React from 'react'
 import { deleteCategory } from '../action';
+import { Category } from '@prisma/client';
 
 const Confirmation = (props: DialogProps<{
-  id: number,
-  title: string,
-  onDelete: (id: number, title: string) => void,
+  payload: Category,
   refetch: () => void
 }>) => {
 
+  const payload = props.payload
   const { setBackdrop } = useInterface();
 
   const onDelete = async () => {
     setBackdrop(true);
     props.onClose();
-    const resp = await deleteCategory(props.data.id, props.data.title);
+    const resp = await deleteCategory(payload.id, payload.title);
 
     setBackdrop(false);
-    if (!resp.success) return  props.onOpen();
+    if (!resp.success) return props.onOpen();
     props.data.refetch()
   }
 
@@ -29,7 +29,7 @@ const Confirmation = (props: DialogProps<{
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          คุณต้องการจะลบสินค้า {props.data.title} หรือไม่?
+          คุณต้องการจะลบสินค้า {payload.title} หรือไม่?
         </DialogContentText>
       </DialogContent>
       <DialogActions>

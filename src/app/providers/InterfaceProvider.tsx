@@ -23,10 +23,11 @@ interface ShopInterface {
 }
 
 export interface DialogProps<T = any> {
-  onOpen: () => void,
+  onOpen: (payload?: any) => void,
   onClose: () => void,
   State: boolean,
-  data: T
+  data: T,
+  payload?: any
 }
 interface DialogInterface {
   setDialog: (Content: React.FC<DialogProps>, data: any, size?: OriginalDialogProps['maxWidth']) => DialogProps
@@ -70,18 +71,18 @@ export function InterfaceProvider({ children }: {
     size: OriginalDialogProps['maxWidth'] = "sm"
   ) => {
     const dialogProps = {
-      onOpen: () => {
+      onOpen: (payload?: any) => {
         if (isDialog) return;
         setDialog(true);
-        contents()
+        contents(payload)
       },
       onClose: () => setDialog(false),
       State: isDialog,
       data: data
     }
 
-    const contents = () => {
-      setDialogContent(<Content {...dialogProps} data={data} />)
+    const contents = (payload?: any) => {
+      setDialogContent(<Content {...dialogProps} data={data} payload={payload} />)
       setMaxWidth(size)
     }
 

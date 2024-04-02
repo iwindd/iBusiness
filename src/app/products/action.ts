@@ -3,16 +3,14 @@ import Prisma from "@/libs/prisma";
 import { Inputs } from "./components/schema";
 import { getServerSession } from "@/libs/session";
 import { Activity } from "@/libs/activity";
-import { GridFilterModel, GridPaginationModel, GridSortModel } from "@mui/x-data-grid";
+import { SmartTableFetch } from "../components/SmartTable";
 
 export async function getProducts(
-  sort: GridSortModel,
-  pagination: GridPaginationModel,
-  filter: GridFilterModel,
-  filterCategory: number | null
+  { sort, pagination, filter }: SmartTableFetch,
+  filterCategory: number | null = 0
 ) {
-  try {
 
+  try {
     const orderBy: any = [{
       id: 'desc'
     }];
@@ -57,28 +55,19 @@ export async function getProducts(
       }),
       Prisma.product.count({
         where: query
-      }),
-      Prisma.category.findMany({
-        where: {
-          application: session?.user.application,
-        },
-        select: {
-          id: true,
-          title: true
-        }
       })
     ])
 
     return {
       success: true,
       data: resp[0],
-      total: resp[1],
-      categories: resp[2]
+      total: resp[1]
     }
   } catch (error) {
     return {
       success: false,
-      data: error
+      data: [],
+      total: 0
     }
   }
 }
@@ -103,7 +92,8 @@ export async function setFavorite(id: number, state: boolean) {
   } catch (error) {
     return {
       success: false,
-      error
+      data: [],
+      total: 0
     }
   }
 }
@@ -150,7 +140,7 @@ export async function addProduct(payload: Inputs) {
     }
   } catch (error) {
     console.error(error);
-    
+
     return {
       success: false,
       error: error

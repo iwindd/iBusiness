@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react'
-import { DataGrid, GridSortModel, GridFilterModel, GridRowParams, GridColDef } from '@mui/x-data-grid';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import React from 'react'
+import { GridColDef } from '@mui/x-data-grid';
+import { useQueryClient } from '@tanstack/react-query';
 import { getCategories, saveCategory } from '@/app/categories/action';
-import { IconButton, MenuItem, Paper } from '@mui/material';
-import { Delete, MoreVert, ViewAgenda } from '@mui/icons-material';
-import { Category } from '@prisma/client';
+import { Paper } from '@mui/material';
+import { Delete, ViewAgenda } from '@mui/icons-material';
 import Confirmation from './confirmation';
-import AddDialog from './add';
 import { useInterface } from '@/app/providers/InterfaceProvider';
-import StyledMenu from '@/app/components/styledMenu';
-import Link from 'next/link';
 import CustomToolbar from '../toolbar';
 import SmartTable, { ContextMenu } from '@/app/components/SmartTable';
+import { fDateT, fNumber } from '@/libs/formatter';
 
 const columns = (): GridColDef[] => {
   return [
@@ -28,9 +25,7 @@ const columns = (): GridColDef[] => {
       headerName: 'จำนวนสินค้า',
       flex: 1,
       editable: false,
-      valueFormatter: (data: any) => {
-        return ((data?.value?.length || 0) as number).toLocaleString()
-      }
+      valueFormatter: (data: any) => fNumber(data?.value?.length)
     },
     {
       field: 'createdAt',
@@ -39,16 +34,7 @@ const columns = (): GridColDef[] => {
       type: "number",
       flex: 1,
       editable: false,
-      valueFormatter: (data: any) => {
-        return data.value ? new Intl.DateTimeFormat('th-TH', {
-          timeZone: 'Asia/Bangkok',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        }).format(new Date(data.value)) : "..."
-      }
+      valueFormatter: (data: any) => fDateT(data.value)
     }
   ]
 }
@@ -64,8 +50,7 @@ const CategoryDataTable = () => {
   const [selectRow, setSelectRow] = React.useState<number>(0);
   const { setDialog } = useInterface();
   const queryClient = useQueryClient()
-  const deleteDialog = setDialog(Confirmation, {
-    id: selectRow,
+  const Deleter = setDialog(Confirmation, {
     refetch: async () => {
       await queryClient.refetchQueries({ queryKey: ['categories'], type: 'active' })
     }
@@ -86,7 +71,7 @@ const CategoryDataTable = () => {
         <SmartTable
           burger={true}
           columns={columns()}
-          context={context(deleteDialog.onOpen, selectRow)}
+          context={context(Deleter.onOpen, selectRow)}
           selectRow={selectRow}
           setSelectRow={setSelectRow}
           fetch={getCategories}

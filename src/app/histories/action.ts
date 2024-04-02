@@ -1,13 +1,9 @@
 "use server";
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
-import { GridFilterModel, GridPaginationModel, GridSortModel } from "@mui/x-data-grid";
+import { SmartTableFetch } from "../components/SmartTable";
 
-export async function getHistories(
-  sort: GridSortModel,
-  pagination: GridPaginationModel,
-  filter: GridFilterModel
-) {
+export async function getHistories({ sort, pagination, filter }: SmartTableFetch) {
   try {
     const orderBy: any = [{
       id: 'desc'
