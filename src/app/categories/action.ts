@@ -4,12 +4,9 @@ import { getServerSession } from "@/libs/session";
 import { Inputs } from "./components/schema";
 import { Activity } from "@/libs/activity";
 import { GridFilterModel, GridPaginationModel, GridSortModel } from "@mui/x-data-grid";
+import { SmartTableFetch } from "../components/SmartTable";
 
-export async function getCategories(
-  sort: GridSortModel,
-  pagination: GridPaginationModel,
-  filter: GridFilterModel
-) {
+export async function getCategories({ sort, pagination, filter }: SmartTableFetch) {
   try {
 
     const orderBy: any = [{
@@ -78,7 +75,7 @@ export async function getAllCategories() {
       where: {
         application: session?.user.application as number,
       },
-      select:{
+      select: {
         id: true,
         title: true
       }
