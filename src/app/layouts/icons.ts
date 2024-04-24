@@ -1,11 +1,12 @@
-import { AdminPanelSettingsTwoTone, ChatTwoTone, HistoryTwoTone, PaymentTwoTone, PeopleTwoTone, ReceiptLongTwoTone } from "@mui/icons-material";
+import { AdminPanelSettingsTwoTone, CategoryTwoTone, ChatTwoTone, HistoryTwoTone, ListTwoTone, PaymentTwoTone, PeopleTwoTone, ReceiptLongTwoTone, ShoppingBagTwoTone, StoreTwoTone } from "@mui/icons-material";
 import { ElementType } from "react";
 
 export const navIcons = {
   'chart-pie': ChatTwoTone,
-  'user': PeopleTwoTone,
+  'product': ListTwoTone,
   'history': HistoryTwoTone,
-  'invoice': ReceiptLongTwoTone,
-  'admin': AdminPanelSettingsTwoTone,
-  'payment': PaymentTwoTone,
+  'store': StoreTwoTone,
+  'employees': PeopleTwoTone,
+  'category': CategoryTwoTone,
+  'cashier': ShoppingBagTwoTone,
 } as Record<string, ElementType>;
