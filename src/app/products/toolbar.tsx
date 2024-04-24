@@ -13,13 +13,12 @@ const CustomToolbar = () => {
   const { setDialog } = useInterface();
   const queryClient = useQueryClient();
   const [categories, setCategories] = React.useState<Category[]>([]);
-
   const addDialog = setDialog(AddDialog, {
     categories: categories,
     refetch: async () => {
       await queryClient.refetchQueries({ queryKey: ['products'], type: 'active' })
     }
-  }, "lg")
+  }, "sm")
 
   const { data, isLoading } = useQuery({
     queryKey: ["categories2"],
@@ -30,7 +29,7 @@ const CustomToolbar = () => {
 
   useEffect(() => {
     if (data?.categories) {
-      if (data.categories) setCategories(data.categories as Category[]);
+      setCategories(data.categories as Category[]);
     }
   }, [data])
 
@@ -40,8 +39,8 @@ const CustomToolbar = () => {
         <Button
           startIcon={<Add />}
           onClick={addDialog.onOpen}
-          variant='text'
           disabled={isLoading}
+          variant='text'
         >
           เพิ่มรายการ
         </Button>

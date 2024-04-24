@@ -9,7 +9,6 @@ export const SelectizeProductFilter = async (filter: string) => {
     const data = await Prisma.product.findMany({
       take: 5,
       where: {
-        retail: session?.user.retail,
         application: session?.user.application,
         OR: [
           { serial: { contains: filter }, },
@@ -45,7 +44,6 @@ export const SelectizeGetProductData = async (serial: string) => {
       data: await Prisma.product.findFirst({
         where: {
           application: session?.user.application,
-          retail: session?.user.retail,
           serial: serial
         }
       })

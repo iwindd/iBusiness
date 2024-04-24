@@ -24,7 +24,6 @@ export async function getProducts(
     const session = await getServerSession();
     const query = {
       application: session?.user.application as number,
-      retail: session?.user.retail as boolean,
       ...(
         filterCategory != 0 ? {
           categoryId: filterCategory as number,
@@ -81,7 +80,6 @@ export async function setFavorite(id: number, state: boolean) {
       data: await Prisma.product.update({
         where: {
           application: session?.user.application,
-          retail: session?.user.retail,
           id: id
         },
         data: {
@@ -104,17 +102,14 @@ export async function addProduct(payload: Inputs) {
     const checkAlready = await Prisma.product.findFirst({
       where: {
         application: session?.user.application as number,
-        retail: session?.user.retail,
         serial: payload.serial
       }
     })
 
     if (checkAlready) throw new Error("already_serial")
-
     const product = await Prisma.product.create({
       data: {
         application: session?.user.application as number,
-        retail: session?.user.retail,
         serial: payload.serial,
         title: payload.title,
         price: payload.price,
@@ -144,6 +139,50 @@ export async function addProduct(payload: Inputs) {
     return {
       success: false,
       error: error
+    }
+  }
+}
+
+export async function upsertProduct(payload: Inputs, id?: number) {
+  try {
+    const session = await getServerSession();
+    const data = {
+      application: session?.user.application as number,
+      serial: payload.serial,
+      title: payload.title,
+      price: payload.price,
+      keywords: payload.keywords || "",
+      cost: payload.cost,
+      stock: payload.stock,
+      categoryId: Number(payload.categoryId)
+    }
+
+    const product = await Prisma.product.upsert({
+      where: {
+        id: id || 0,
+      },
+      create: data,
+      update: {
+        title: data.title,
+        price: data.price,
+        cost: data.cost,
+        stock: data.stock,
+        keywords: data.keywords || "",
+        categoryId: data.categoryId
+      }
+    })
+    
+    return {
+      state: true,
+      data: product,
+    }
+
+  } catch (error) {
+    console.error(error);
+    
+    return {
+      state: false,
+      data: ""
     }
   }
 }
@@ -214,6 +253,27 @@ export async function deleteProduct(id: number, title: string) {
     return {
       success: false,
       error: error
+    }
+  }
+}
+
+export async function findProduct(serial: string) {
+  try {
+    const session = await getServerSession();
+    const product = await Prisma.product.findFirst({
+      where: {
+        application: session?.user.application,
+        serial: serial
+      }
+    })
+
+    return {
+      state: true,
+      data: product
+    }
+  } catch (error) {
+    return {
+      state: false
     }
   }
 }

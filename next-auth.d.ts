@@ -7,8 +7,7 @@ export interface CartItem {
   price: number,
   count: number,
   stock: number,
-  category: string,
-  retail: boolean
+  category: string
 }
 
 export interface Address{
@@ -28,7 +27,6 @@ declare module "next-auth" {
       title: string,
       displaytitle: string,
       cart: CartItem[],
-      retail: boolean,
       addressOBJ: Address,
       account: {
         store: {

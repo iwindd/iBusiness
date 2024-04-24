@@ -9,7 +9,7 @@ const Cart = (props: CashierPageChildType) => {
   const { data: session } = useSession();
   const Cart = session?.user.cart ? session.user.cart : [];
 
-  const items = Cart.sort().filter(p => p.retail == session?.user.retail)
+  const items = Cart.sort()
 
   return (
     <TableContainer component={Paper}>

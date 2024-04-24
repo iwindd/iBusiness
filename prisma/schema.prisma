@@ -42,7 +42,6 @@ model Category {
 
 model Product {
   id          Int      @id @default(autoincrement())
-  retail      Boolean  @default(true)
   serial      String
   title       String
   price       Int      @default(0)
@@ -55,6 +54,8 @@ model Product {
   categoryId  Int
   favorite    Boolean  @default(false)
   keywords    String   @default("")
+
+  @@unique([application, serial])
 }
 
 model ProductSuggestion {
@@ -68,7 +69,6 @@ model ProductSuggestion {
 
 model Order {
   id           Int            @id @default(autoincrement())
-  retail       Boolean        @default(true)
   price        Int
   cost         Int
   profit       Int
@@ -83,7 +83,6 @@ model Order {
 
 model OrderProduct {
   id        Int      @id @default(autoincrement())
-  retail    Boolean  @default(true)
   order     Order    @relation(fields: [orderId], references: [id])
   orderId   Int
   serial    String

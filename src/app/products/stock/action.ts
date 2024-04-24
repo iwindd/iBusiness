@@ -11,7 +11,6 @@ export const fetchingStock = async (payload: Record<string, number>) => {
     const data = await Prisma.product.findMany({
       where: {
         application: session?.user.application,
-        retail: session?.user.retail,
         serial: { in: serials }
       },
       select: {
@@ -41,7 +40,6 @@ export const commitStock = async (payload: data[]) => {
       return Prisma.product.update({
         where: {
           application: session?.user.application,
-          retail: session?.user.retail,
           id: data.id
         },
         data: {

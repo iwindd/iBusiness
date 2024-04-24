@@ -16,12 +16,6 @@ interface ThemeInterface {
   setTheme: React.Dispatch<React.SetStateAction<theme>>
 }
 
-type shopType = "retail" | "wholesale"
-interface ShopInterface {
-  shop: shopType,
-  setShop: React.Dispatch<React.SetStateAction<shopType>>
-}
-
 export interface DialogProps<T = any> {
   onOpen: (payload?: any) => void,
   onClose: () => void,
@@ -33,7 +27,7 @@ interface DialogInterface {
   setDialog: (Content: React.FC<DialogProps>, data: any, size?: OriginalDialogProps['maxWidth']) => DialogProps
 }
 
-interface InterfaceData extends BackdropInterface, DialogInterface, ThemeInterface, ShopInterface { };
+interface InterfaceData extends BackdropInterface, DialogInterface, ThemeInterface { };
 
 const InterfaceContext = createContext<InterfaceData | undefined>(undefined);
 
@@ -60,7 +54,6 @@ export function InterfaceProvider({ children }: {
   const [isBackdrop, setBackdrop] = React.useState<boolean>(false);
   const [isDialog, setDialog] = React.useState<boolean>(false);
   const [theme, setTheme] = React.useState<theme>("light");
-  const [shop, setShop] = React.useState<shopType>("retail");
   const [DialogContent, setDialogContent] = React.useState<null | JSX.Element>(null);
   const [maxWidth, setMaxWidth] = React.useState<OriginalDialogProps['maxWidth']>('sm');
   const pathname = usePathname();
@@ -100,9 +93,7 @@ export function InterfaceProvider({ children }: {
           setBackdrop: setBackdrop,
           setDialog: setDialog_,
           theme: theme,
-          setTheme: setTheme,
-          shop: shop,
-          setShop: setShop
+          setTheme: setTheme
         }
       }
     >
@@ -131,6 +122,7 @@ export function InterfaceProvider({ children }: {
         aria-labelledby="responsive-dialog-title"
         fullWidth={true}
         maxWidth={maxWidth}
+        disableRestoreFocus
       >
 
         {DialogContent}

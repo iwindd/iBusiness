@@ -42,12 +42,12 @@ export const Item = (props: ItemProps) => {
   }
 
   const onIncrease = () => Property((cart, update) => {
-    const Product = cart.find(p => p.serial == props.serial && p.retail == session?.user.retail);
+    const Product = cart.find(p => p.serial == props.serial);
     if (Product) {
       Product.count++;
 
       if (Product.count <= 0) {
-        const Index = cart.findIndex(p => p.serial == props.serial && p.retail == session?.user.retail);
+        const Index = cart.findIndex(p => p.serial == props.serial);
         cart.splice(Index, 1)
       }
     }
@@ -56,12 +56,12 @@ export const Item = (props: ItemProps) => {
   })
 
   const onDecrease = () => Property((cart, update) => {
-    const Product = cart.find(p => p.serial == props.serial && p.retail == session?.user.retail);
+    const Product = cart.find(p => p.serial == props.serial);
     if (Product) {
       Product.count--;
 
       if (Product.count <= 0) {
-        const Index = cart.findIndex(p => p.serial == props.serial && p.retail == session?.user.retail);
+        const Index = cart.findIndex(p => p.serial == props.serial);
         cart.splice(Index, 1)
       }
     }

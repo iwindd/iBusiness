@@ -33,14 +33,12 @@ const ThemeSwitch = () => {
 const ShopSwitch = () => {
   const { data: session, update } = useSession();
   const queryClient = useQueryClient();
-  const shop = session?.user.retail ? "retail" : "wholesale";
 
   const Switch = async () => {
     await update({
       ...session,
       user: {
-        ...session?.user,
-        retail: shop == "retail" ? false : true
+        ...session?.user
       }
     })
     await queryClient.refetchQueries({ type: 'active', queryKey: ['histories'] });
@@ -49,9 +47,9 @@ const ShopSwitch = () => {
   }
 
   return (
-    <Tooltip title={`สลับเป็น${shop == "retail" ? "ค้าส่ง" : "ค้าปลีก"}`}>
+    <Tooltip title={`สลับเป็น`}>
       <IconButton onClick={Switch}>
-        {shop == "retail" ? <Storefront /> : <PointOfSale />}
+        <Storefront /> 
       </IconButton>
     </Tooltip>
   )

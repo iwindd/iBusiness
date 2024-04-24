@@ -23,7 +23,7 @@ const CashierPage = () => {
   const addProductToCart = async (serial: string) => {
     const resp = await AddToCashier({ serial });
 
-    if (!resp.success || session?.user.retail == undefined) {
+    if (!resp.success) {
       if (resp.error == "no_found_product") {
         enqueueSnackbar(`ไม่พบสินค้า ${serial}`, { variant: "error" })
       }
@@ -65,7 +65,7 @@ const CashierPage = () => {
 
   return (
     <>
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-12 p-2">
         <div className="col-span-12 mb-2 space-y-2">
           <Cashier
             addProductToCart={addProductToCart}
@@ -92,8 +92,6 @@ const CashierPage = () => {
           </div>
         </div>
       </div>
-      {/*     
-       */}
     </>
   )
 }

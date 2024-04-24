@@ -10,7 +10,7 @@ const Payment = (props: DialogProps<{
   session: Session,
   clear: () => void
 }>) => {
-  const cart = (props.data.session?.user.cart || []).filter(p => p.retail == props.data.session?.user.retail);
+  const cart = (props.data.session?.user.cart || [])
   const [Input, setInput] = React.useState<number>();
   const [type, setType] = React.useState<0 | 1>(0);
   const [note, setNote] = React.useState<string>("");

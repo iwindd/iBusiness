@@ -21,7 +21,6 @@ export async function getBestSeller() {
     const orders = await Prisma.order.findMany({
       where: {
         application: session?.user.application as number,
-        retail: session?.user.retail as boolean,
         createdAt: {
           gte: oneMonthAgo,
           lt: today,

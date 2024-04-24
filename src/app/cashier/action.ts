@@ -18,7 +18,6 @@ export const AddToCashier = async (payload: Inputs) => {
     const data = await Prisma.product.findFirst({
       where: {
         serial: payload.serial,
-        retail: session?.user.retail,
         application: session?.user.application
       },
       include: {
@@ -34,7 +33,7 @@ export const AddToCashier = async (payload: Inputs) => {
     }
 
     const cart = session?.user.cart == null ? [] : session.user.cart
-    const product = cart.find(p => p.serial == data.serial && p.retail == session?.user.retail);
+    const product = cart.find(p => p.serial == data.serial );
 
     if (!product) {
       cart.push({
@@ -44,7 +43,6 @@ export const AddToCashier = async (payload: Inputs) => {
         price: data.price,
         count: 1,
         category: data.category.title,
-        retail: session?.user.retail || true,
         stock: data.stock
       })
     } else { product.count++ }
@@ -83,7 +81,6 @@ export const PaymentAction = async (paymentPayload: {
     const data = await Prisma.product.findMany({
       where: {
         application: session?.user.application,
-        retail: session?.user.retail,
         serial: { in: payload.map(p => p.serial) }
       },
       include: {
@@ -92,7 +89,6 @@ export const PaymentAction = async (paymentPayload: {
     })
 
     const products = data
-      .filter(p => p.retail == session?.user.retail)
       .map((product) => {
         const count = (payload.find(p => p.id == product.id) as Product).count
         return {
@@ -102,7 +98,6 @@ export const PaymentAction = async (paymentPayload: {
           cost: product.cost,
           count: count,
           category: product.category.title,
-          retail: product.retail,
           overStock: count > product.stock
         }
       })
@@ -115,8 +110,7 @@ export const PaymentAction = async (paymentPayload: {
         profit: products.reduce((total, p) => total + p.price * p.count, 0) - products.reduce((total, p) => total + p.cost * p.count, 0),
         productsText: products.map(p => p.title).join(", "),
         products: { create: products },
-        application: session?.user.application as number,
-        retail: session?.user.retail as boolean
+        application: session?.user.application as number
       }
     })
 
@@ -163,7 +157,6 @@ export const getFavoriteItems = async () => {
     const products = await Prisma.product.findMany({
       where: {
         application: session?.user.application,
-        retail: session?.user.retail,
         favorite: true
       },
       select: {

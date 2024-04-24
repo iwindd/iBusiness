@@ -18,7 +18,6 @@ export async function getHistories({ sort, pagination, filter }: SmartTableFetch
     const session = await getServerSession();
     const query = {
       application: session?.user.application as number,
-      retail: session?.user.retail as boolean,
       ...(
         filter?.quickFilterValues?.[0] != undefined ?
           ({

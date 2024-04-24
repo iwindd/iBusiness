@@ -22,7 +22,6 @@ export const authOptions = {
           email: token.email,
           application: token.application,
           cart: token.cart,
-          retail: token.retail,
           title: token.title,
           displaytitle: token.displaytitle,
           addressOBJ: token.addressOBJ,
@@ -60,7 +59,6 @@ export const authOptions = {
               ...user,
               id: String(user.id),
               application: user.id,
-              retail: true,
               title: user.title,
               displaytitle: user.displaytitle,
               addressOBJ: {
