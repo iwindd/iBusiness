@@ -1,17 +1,18 @@
 "use server";
-import axios from "axios"
-import { getServerSession } from "./session"
+import { getServerSession } from "./session";
 
-export const push = async (msg: string, token?: string) => {
-  let token_ = token || (await getServerSession())?.user.account.store.linetoken
-  
-  return axios.post('https://notify-api.line.me/api/notify',
-    `message=${encodeURIComponent(msg)}`,
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${token_}`
-      }
-    }
-  )
-}
+export const push = async (msg: string, token? : string) => {
+  const params = new URLSearchParams();
+  params.append('message', msg);
+
+  const requestOptions: RequestInit = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${token || process.env.LINE_TOKEN}`
+    },
+    body: params
+  };
+
+  return fetch('https://notify-api.line.me/api/notify', requestOptions);
+};
