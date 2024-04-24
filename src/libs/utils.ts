@@ -1,3 +1,5 @@
+import { NavItemConfig } from "@/typings/layout";
+
 export function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
@@ -62,4 +64,30 @@ export function generateRandomEAN13(): string {
   const ean13 = productCode + checksum;
 
   return ean13;
+}
+
+export function isNavItemActive({
+  disabled,
+  external,
+  href,
+  matcher,
+  pathname,
+}: Pick<NavItemConfig, 'disabled' | 'external' | 'href' | 'matcher'> & { pathname: string }): boolean {
+  if (disabled || !href || external) {
+    return false;
+  }
+
+  if (matcher) {
+    if (matcher.type === 'startsWith') {
+      return pathname.startsWith(matcher.href);
+    }
+
+    if (matcher.type === 'equals') {
+      return pathname === matcher.href;
+    }
+
+    return false;
+  }
+
+  return pathname === href;
 }

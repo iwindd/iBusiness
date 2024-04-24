@@ -12,9 +12,9 @@ import QueryProvider from './providers/QueryProvider';
 import { StorageProvider } from '@/storage';
 
 /* COMPONENTS */
-import Navbar from './components/navbar';
 import LocalizationProvider from './providers/LocalizationProvider';
 import ThemeRegistry from '../styles/ThemeRegistry';
+import MainLayout from './providers/LayoutProvider';
 
 export const metadata = {
   title: 'iStore',
@@ -50,9 +50,9 @@ export default async function RootLayout({
                 <SessionProvider session={session}>
                   <QueryProvider>
                     {session ? (
-                      <Navbar>
+                      <MainLayout>
                         {children}
-                      </Navbar>
+                      </MainLayout>
                     ) : (
                       <Authentication />
                     )}
