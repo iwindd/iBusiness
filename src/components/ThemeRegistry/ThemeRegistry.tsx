@@ -3,8 +3,6 @@ import * as React from 'react';
 import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material/styles';
 import NextAppDirEmotionCacheProvider from './EmotionCache';
 import { Sarabun } from 'next/font/google';
-import { colors } from '../../../tailwind.config';
-
 
 const sarabun = Sarabun({
   weight: ['300', '400', '500', '700'],
@@ -16,11 +14,6 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
   const theme = createTheme({
     palette: {
       mode: "light",
-      ...colors,
-      background: {
-        default: colors.common.main
-      },
-      divider: colors.base.divider
     },
     typography: {
       fontFamily: sarabun.style.fontFamily,
@@ -29,17 +22,14 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
       MuiAppBar:{
         styleOverrides: {
           root: {
-            background: colors.common.main,
             boxShadow: "none",
             border:"0px",
-            borderBottom: `1px solid ${colors.base.divider}`,
           },
         },
       },
       MuiPaper:{
         styleOverrides: {
           root: {
-            background: colors.common.main,
             boxShadow: "none",
           },
         },
@@ -47,18 +37,14 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
       MuiChip:{
         styleOverrides: {
           root: {
-            background: colors.common.main,
             boxShadow: "none",
-            border: `1px solid ${colors.base.divider}`
           },
         },
       },
       MuiListItemButton: {
         styleOverrides: {
           root: ({ ownerState }) => ({
-            ...(ownerState.selected && {
-              color: colors.primary.main,
-            })
+            ...(ownerState.selected && {})
           }),
         },
       }
