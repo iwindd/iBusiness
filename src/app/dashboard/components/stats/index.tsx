@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect } from 'react'
 import Stat from './stat';
-import { ArchiveBoxIcon, DocumentIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
 import { getDashboardStats } from './action';
 import { Order } from '@prisma/client';
 import { v4 } from 'uuid';
 import { Skeleton } from '@mui/material';
+import { Analytics } from '@mui/icons-material';
 
 interface Stat {
   title: string,
@@ -18,27 +18,27 @@ interface Stat {
 
 const Items: Stat[] = [
   {
-    title: "ยอดขายวันนี้", route: "/histories?scope=today", desc: "ยอดขายทั้งหมดภายในวันนี้", icon: <DocumentIcon className='h-10 w-10' />, format: (day) => {
+    title: "ยอดขายวันนี้", route: "/histories?scope=today", desc: "ยอดขายทั้งหมดภายในวันนี้", icon: <Analytics className='h-10 w-10' />, format: (day) => {
       return day.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "ยอดขายสัปดาห์นี้", route: "/histories?scope=week", desc: "ยอดขายทั้งหมดภายในสัปดาห์นี้", icon: <DocumentIcon className='h-10 w-10' />, format: (_, week) => {
+    title: "ยอดขายสัปดาห์นี้", route: "/histories?scope=week", desc: "ยอดขายทั้งหมดภายในสัปดาห์นี้", icon: <Analytics className='h-10 w-10' />, format: (_, week) => {
       return week.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "ยอดขายเดือนนี้", route: "/histories?scope=month", desc: "ยอดขายทั้งหมดภายในเดือนนี้", icon: <DocumentIcon className='h-10 w-10' />, format: (_, __, month) => {
+    title: "ยอดขายเดือนนี้", route: "/histories?scope=month", desc: "ยอดขายทั้งหมดภายในเดือนนี้", icon: <Analytics className='h-10 w-10' />, format: (_, __, month) => {
       return month.reduce((total, data) => total += data.price, 0).toLocaleString() + " ฿"
     }
   },
   {
-    title: "สินค้าไม่มีในสต๊อก", route: "/products?sort=stock&format=asc", desc: "จำนวนสินค้าที่ไม่มีของคงเหลือ", icon: <ArchiveBoxIcon className='h-10 w-10' />, format: (_, __, ___, outOfStock) => {
+    title: "สินค้าไม่มีในสต๊อก", route: "/products?sort=stock&format=asc", desc: "จำนวนสินค้าที่ไม่มีของคงเหลือ", icon: <Analytics className='h-10 w-10' />, format: (_, __, ___, outOfStock) => {
       return outOfStock.toLocaleString()
     }
   },
   {
-    title: "สินค้าทั้งหมด", route: "/products", desc: "จำนวนสินค้าทั้งหมด", icon: <ArchiveBoxIcon className='h-10 w-10' />, format: (_, __, ___, outOfStock, stock) => {
+    title: "สินค้าทั้งหมด", route: "/products", desc: "จำนวนสินค้าทั้งหมด", icon: <Analytics className='h-10 w-10' />, format: (_, __, ___, outOfStock, stock) => {
       return (outOfStock + stock).toLocaleString()
     }
   }
