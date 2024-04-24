@@ -4,7 +4,7 @@ import React from 'react'
 const Loading = () => {
   return (
     <>
-      <Box className="flex justify-center">
+      <Box>
         <CircularProgress />
       </Box>
     </>

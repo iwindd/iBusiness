@@ -1,4 +1,4 @@
-import { Box, Button, Container } from '@mui/material';
+import { Box, Button, Container, Stack } from '@mui/material';
 import { GridCsvExportMenuItem, GridPrintExportMenuItem, GridToolbarContainer, GridToolbarExportContainer, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import React from 'react'
 import { useInterface } from '../providers/InterfaceProvider';
@@ -18,8 +18,8 @@ const CustomToolbar = () => {
   }, "sm")
 
   return (
-    <GridToolbarContainer className='flex justify-between px-2'>
-      <Box className='flex gap-2'>
+    <GridToolbarContainer sx={{justifyContent: "space-between"}}>
+      <Stack>
         <Button
           startIcon={<Add />}
           onClick={addDialog.onOpen}
@@ -27,7 +27,7 @@ const CustomToolbar = () => {
         >
           เพิ่มรายการ
         </Button>
-      </Box>
+      </Stack>
       <GridToolbarQuickFilter />
     </GridToolbarContainer>
   )

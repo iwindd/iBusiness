@@ -4,7 +4,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 /* LAYOUYS */
 import Authentication from './authentication';
-import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 
 // PROVIDERS
 import { InterfaceProvider } from './providers/InterfaceProvider';
@@ -14,8 +13,8 @@ import { StorageProvider } from '@/storage';
 
 /* COMPONENTS */
 import Navbar from './components/navbar';
-import { CssBaseline } from '@mui/material';
 import LocalizationProvider from './providers/LocalizationProvider';
+import ThemeRegistry from '../styles/ThemeRegistry';
 
 export const metadata = {
   title: 'iStore',
@@ -48,7 +47,6 @@ export default async function RootLayout({
           <LocalizationProvider >
             <InterfaceProvider>
               <ThemeRegistry>
-                <CssBaseline />
                 <SessionProvider session={session}>
                   <QueryProvider>
                     {session ? (

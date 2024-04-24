@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { GridColDef } from '@mui/x-data-grid';
 import { getProducts, setFavorite } from '../action';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { Delete, QrCode } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Category, Product } from '@prisma/client';
@@ -109,8 +109,10 @@ const ProductDataTable = () => {
 
   return (
     <>
-      <canvas ref={inputRef} id='mybarcode' className='hidden' />
-      <Paper sx={{ height: 840, width: '100%' }} >
+      <Paper sx={{ display: "none" }}>
+        <canvas ref={inputRef} id='mybarcode' />
+      </Paper>
+      <Box sx={{ height: 840, width: '100%' }} >
         <SmartTable
           columns={columns(onToggleFavorite, categories)}
           burger={true}
@@ -120,7 +122,7 @@ const ProductDataTable = () => {
           options={CustomToolbar}
           name={'products'}
         />
-      </Paper>
+      </Box>
     </>
   )
 }

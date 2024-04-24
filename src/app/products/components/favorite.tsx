@@ -30,8 +30,8 @@ const Favorite = (props: {
   }, [isFavorite]);
 
   return (
-    <IconButton onClick={onFavorite}>
-      <Star className={isFavorite ? "text-yellow-700" : "text-gray-300"} />
+    <IconButton onClick={onFavorite} color={isFavorite ? "primary" : "secondary"}>
+      <Star />
     </IconButton>
   )
 }

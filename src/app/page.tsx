@@ -11,6 +11,7 @@ import { getAnalysisData } from './dashboard/action';
 import { Activity } from '@prisma/client';
 import { BestSellerItem } from './dashboard/components/helper/action';
 import { Box, Paper, Skeleton } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 const Dashboard = () => {
   const [info, setInfo] = React.useState<{
@@ -49,60 +50,64 @@ const Dashboard = () => {
   if (error) return <p>Error </p>
 
   return (
-    <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-2">
-      <div className="col-span-2 space-y-2">
-        <Stats />
-      </div>
-      <div className="col-span-1 row-span-3 ">
-        <div className="grid lg:grid-cols-1 sm:grid-cols-2 gap-2">
-          {
-            isLoading ? (
-              <>
-                <Skeleton variant="rectangular" className='h-80' />
-                <Skeleton variant="rectangular" className='h-80' />
-              </>
-            ) : (
-              <>
-                <BestSellerTable data={info.bestSeller} />
-                <ActivityTable activities={info.activities} />
-              </>
-            )
-          }
-        </div>
-      </div>
-      <div className="col-span-2">
-        {
-          isLoading ? (
-            <>
-              <Skeleton variant="rectangular" className='h-80' />
-            </>
-          ) : (
-            <Paper className='h-80'>
-              <ProfitChart
-                  sold={info.sold}
-                  months={info.months}
-              />
-            </Paper>
-          )
-        }
-
-      </div>
-      <div className="col-span-2">
-        {
-          isLoading ? (
-            <>
-              <Skeleton variant="rectangular" className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1' />
-            </>
-          ) : (
-            <Paper className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1'>
-              <Box><TimesChart times={info.times} /></Box>
-              <Box><WeekChart week={info.week} /></Box>
-            </Paper>
-          )
-        }
-
-      </div>
-    </div>
+    <></>
+    /*<Grid container spacing={2}>
+      <Stats />
+    </Grid>
+         <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-2">
+          <div className="col-span-2 space-y-2">
+            
+          </div>
+          <div className="col-span-1 row-span-3 ">
+            <div className="grid lg:grid-cols-1 sm:grid-cols-2 gap-2">
+              {
+                isLoading ? (
+                  <>
+                    <Skeleton variant="rectangular" className='h-80' />
+                    <Skeleton variant="rectangular" className='h-80' />
+                  </>
+                ) : (
+                  <>
+                    <BestSellerTable data={info.bestSeller} />
+                    <ActivityTable activities={info.activities} />
+                  </>
+                )
+              }
+            </div>
+          </div>
+          <div className="col-span-2">
+            {
+              isLoading ? (
+                <>
+                  <Skeleton variant="rectangular" className='h-80' />
+                </>
+              ) : (
+                <Paper className='h-80'>
+                  <ProfitChart
+                      sold={info.sold}
+                      months={info.months}
+                  />
+                </Paper>
+              )
+            }
+    
+          </div>
+          <div className="col-span-2">
+            {
+              isLoading ? (
+                <>
+                  <Skeleton variant="rectangular" className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1' />
+                </>
+              ) : (
+                <Paper className='lg:h-80 sm:h-[40rem] grid lg:grid-cols-2 sm:grid-cols-1'>
+                  <Box><TimesChart times={info.times} /></Box>
+                  <Box><WeekChart week={info.week} /></Box>
+                </Paper>
+              )
+            }
+    
+          </div>
+        </div> */
   )
 }
 

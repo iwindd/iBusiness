@@ -49,11 +49,11 @@ const LineNotification = () => {
 
   const cancelEdit = async () => {
     setEditMode(false);
-    if (session?.user.account.store.linetoken) setToken(session.user.account.store.linetoken)
+    if (session?.user.account?.store.linetoken) setToken(session.user.account.store.linetoken)
   }
 
   useEffect(() => {
-    if (session?.user.account.store.linetoken) setToken(session.user.account.store.linetoken)
+    if (session?.user.account?.store.linetoken) setToken(session.user.account.store.linetoken)
   }, [session])
 
   return (

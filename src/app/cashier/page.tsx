@@ -10,6 +10,7 @@ import { Delete, PaymentOutlined } from '@mui/icons-material';
 import { Button, Divider } from '@mui/material';
 import { useInterface } from '../providers/InterfaceProvider';
 import Payment from './components/childs/Payment';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 export interface CashierPageChildType {
   addProductToCart: (serial: string) => void
@@ -65,33 +66,27 @@ const CashierPage = () => {
 
   return (
     <>
-      <div className="grid grid-cols-12 p-2">
-        <div className="col-span-12 mb-2 space-y-2">
+      <Grid container spacing={2}>
+        <Grid xs={12}>
           <Cashier
             addProductToCart={addProductToCart}
             PaymentDialog={PaymentDialog.onOpen}
           />
-        </div>
-
-        <div className="col-span-12 grid grid-cols-12 gap-1">
-          <div className="col-span-9">
-            <Cart addProductToCart={addProductToCart} />
-          </div>
-
-          <div className="col-span-3 space-y-1">
-            <div className='space-x-1'>
-              <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button>
-              <ConfirmButton
-                onClick={onClearCart}
-                label="ล้างตะกร้า"
-                label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
-                variant='outlined'
-                startIcon={<Delete />}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+        </Grid>
+        <Grid xs={9}>
+          <Cart addProductToCart={addProductToCart} />
+        </Grid>
+        <Grid>
+          <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button>
+          <ConfirmButton
+            onClick={onClearCart}
+            label="ล้างตะกร้า"
+            label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
+            variant='outlined'
+            startIcon={<Delete />}
+          />
+        </Grid>
+      </Grid>
     </>
   )
 }

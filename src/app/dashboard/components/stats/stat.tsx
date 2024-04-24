@@ -14,7 +14,6 @@ const DashboardStat = (props: Props) => {
   return (
     <Link
       href={props.route}
-      className='grow-1 flex-grow'
     >
       <Stat title={props.title} caption={props.value}>
         <Typography variant="caption"><i>-- {props.desc}</i></Typography>

@@ -7,6 +7,7 @@ import { Order } from '@prisma/client';
 import { v4 } from 'uuid';
 import { Skeleton } from '@mui/material';
 import { Analytics } from '@mui/icons-material';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 interface Stat {
   title: string,
@@ -60,7 +61,7 @@ const Stats = () => {
   })
 
   useEffect(() => {
-    if (data?.success && data.data){
+    if (data?.success && data.data) {
       setStats(data.data);
     }
   }, [data])
@@ -69,30 +70,31 @@ const Stats = () => {
 
 
   return (
-    <div className="grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-2">
+    <>
       {
         Items.map((i) => {
-          if (isLoading) return <Skeleton variant="rectangular" className=' h-24 '/>
+          if (isLoading) return null
 
           return (
-            <Stat
-              key={v4()}
-              route={i.route}
-              title={i.title}
-              value={i.format(
-                stats[0], // day order
-                stats[1], // week order
-                stats[2], // month order
-                stats[3], // out of stock products count
-                stats[4] // on stock products count
-              )}
-              desc={i.desc}
-              icon={i.icon}
-            />
+            <Grid key={v4()} lg={2} md={6} sm={12}>
+              <Stat
+                route={i.route}
+                title={i.title}
+                value={i.format(
+                  stats[0], // day order
+                  stats[1], // week order
+                  stats[2], // month order
+                  stats[3], // out of stock products count
+                  stats[4] // on stock products count
+                )}
+                desc={i.desc}
+                icon={i.icon}
+              />
+            </Grid>
           )
         })
       }
-    </div>
+    </>
   )
 }
 
