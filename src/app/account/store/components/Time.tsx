@@ -1,8 +1,6 @@
 "use client";
 import { Divider, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, IconButton, FormControl, InputLabel, Select, OutlinedInput, MenuItem, FormGroup, FormControlLabel, Checkbox, Button, Box, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import React, { useEffect } from 'react'
-import { DateRange } from '@mui/x-date-pickers-pro';
-import { SingleInputTimeRangeField } from '@mui/x-date-pickers-pro/SingleInputTimeRangeField';
 import dayjs, { Dayjs } from 'dayjs';
 import { DialogProps, useInterface } from '@/app/providers/InterfaceProvider';
 import { saveTime } from '../action';
@@ -15,7 +13,7 @@ export interface Day {
   name: dayName,
   label: string,
   state: boolean,
-  time: DateRange<Dayjs>;
+  time: any;
 }
 
 const Confirmation = (props: DialogProps<{
@@ -43,7 +41,7 @@ const Time = () => {
   const { setDialog, setBackdrop } = useInterface();
   const { enqueueSnackbar } = useSnackbar()
   const { data: session, update } = useSession();
-  const [time, setTime] = React.useState<DateRange<Dayjs>>([dayjs('2006-06-17T00:00'), dayjs('2006-06-17T23:59')]);
+  const [time, setTime] = React.useState<any>([dayjs('2006-06-17T00:00'), dayjs('2006-06-17T23:59')]);
   const [dayMode, setDaymode] = React.useState<string>("1");
   const [timeMode, setTimemode] = React.useState<string>("1");
   const [check, setCheck] = React.useState<boolean>(false);
@@ -98,7 +96,7 @@ const Time = () => {
             const info = data.days.find(t => t.name == d.name);
             if (!info) return d;
             const time = info.time as [string, string];
-            const parseTime : DateRange<Dayjs> = [dayjs(time[0]), dayjs(time[1])];
+            const parseTime : any = [dayjs(time[0]), dayjs(time[1])];
             setTime(parseTime);
 
             return {
@@ -123,7 +121,7 @@ const Time = () => {
     }));
   }
 
-  const handleTimeChange = (id: number, val: DateRange<Dayjs>) => {
+  const handleTimeChange = (id: number, val: any) => {
     setDays((days) =>
       days.map((day) => {
         if (day.id === id) {
@@ -134,7 +132,7 @@ const Time = () => {
     );
   };
 
-  const handleAllTimeChange = (val: DateRange<Dayjs>) => {
+  const handleAllTimeChange = (val: any) => {
     setTime(val);
     setDays((days) =>
       days.map((day) => {
@@ -177,7 +175,7 @@ const Time = () => {
       {
         timeMode == "2" ? (
           <FormControl sx={{ m: 1 }} fullWidth>
-            <SingleInputTimeRangeField value={time} onChange={handleAllTimeChange} disabled={!(!check || (timeMode == "2" && dayMode == "1"))} />
+         {/*    <SingleInputTimeRangeField value={time} onChange={handleAllTimeChange} disabled={!(!check || (timeMode == "2" && dayMode == "1"))} /> */}
           </FormControl>
         ) : (null)
       }{
@@ -205,12 +203,12 @@ const Time = () => {
                     </TableCell>
                     <TableCell>{day.label}</TableCell>
                     <TableCell className='cursor-pointer hover:text-gray-300'>
-                      <SingleInputTimeRangeField
+{/*                       <SingleInputTimeRangeField
                         variant="standard"
                         value={!check ? time : day.time}
-                        onChange={(newValue) => handleTimeChange(day.id, newValue)}
+                        onChange={(newValue : any) => handleTimeChange(day.id, newValue)}
                         disabled={!check || !day.state}
-                      />
+                      /> */}
                     </TableCell>
                   </TableRow>
                 ))

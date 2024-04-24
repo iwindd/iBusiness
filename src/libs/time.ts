@@ -1,6 +1,5 @@
 "use server";
 
-import { DateRange } from "@mui/x-date-pickers-pro";
 import { getServerSession } from "./session";
 import { Dayjs } from "dayjs";
 
@@ -9,7 +8,7 @@ type dayName = "sunday" | "monday" | "tuesday" | "wednesday" | "thursday" | "fri
 interface Day {
   name: dayName,
   state: boolean,
-  time: DateRange<Dayjs>
+  time: any
 }
 
 export const getData = async () => {
