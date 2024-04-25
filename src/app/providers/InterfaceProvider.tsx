@@ -8,6 +8,7 @@ import { TransitionProps } from '@mui/material/transitions';
 
 interface BackdropInterface {
   setBackdrop: React.Dispatch<React.SetStateAction<boolean>>
+  isBackdrop: boolean
 }
 
 type theme = "light" | "dark";
@@ -91,6 +92,7 @@ export function InterfaceProvider({ children }: {
       value={
         {
           setBackdrop: setBackdrop,
+          isBackdrop: isBackdrop,
           setDialog: setDialog_,
           theme: theme,
           setTheme: setTheme
