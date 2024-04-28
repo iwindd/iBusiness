@@ -89,7 +89,7 @@ function SearchDialog({ open, onClose, onSubmit, setLoading }: SearchDialogProps
 }
 
 export function ProductFormDialog({ open, setLoading, onClose, product, categories }: ProductFormDialogProps): React.JSX.Element {
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<ProductSchemaInputs>({
+  const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<ProductSchemaInputs>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
       price: 0,
@@ -110,6 +110,7 @@ export function ProductFormDialog({ open, setLoading, onClose, product, categori
       if (!resp.state) {
         enqueueSnackbar("เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้งภายหลัง", { variant: "error" });
       } else {
+        reset();
         await queryClient.refetchQueries({ queryKey: ['products'], type: 'active' })
         enqueueSnackbar("บันทึกสินค้าเรียบร้อยแล้ว!", { variant: "success" });
       }
