@@ -15,7 +15,7 @@ import { StorageProvider } from '@/storage';
 import LocalizationProvider from './providers/LocalizationProvider';
 import ThemeRegistry from '../styles/ThemeRegistry';
 import MainLayout from './providers/LayoutProvider';
-import { RecoilRoot } from 'recoil';
+import RecoilRoot from './providers/RecoilProvider';
 
 export const metadata = {
   title: 'iStore',
