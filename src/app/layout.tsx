@@ -15,6 +15,7 @@ import { StorageProvider } from '@/storage';
 import LocalizationProvider from './providers/LocalizationProvider';
 import ThemeRegistry from '../styles/ThemeRegistry';
 import MainLayout from './providers/LayoutProvider';
+import { RecoilRoot } from 'recoil';
 
 export const metadata = {
   title: 'iStore',
@@ -43,25 +44,27 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StorageProvider>
-          <LocalizationProvider >
-            <InterfaceProvider>
-              <ThemeRegistry>
-                <SessionProvider session={session}>
-                  <QueryProvider>
-                    {session ? (
-                      <MainLayout>
-                        {children}
-                      </MainLayout>
-                    ) : (
-                      <Authentication />
-                    )}
-                  </QueryProvider>
-                </SessionProvider>
-              </ThemeRegistry>
-            </InterfaceProvider>
-          </LocalizationProvider>
-        </StorageProvider>
+        <RecoilRoot>
+          <StorageProvider>
+            <LocalizationProvider >
+              <InterfaceProvider>
+                <ThemeRegistry>
+                  <SessionProvider session={session}>
+                    <QueryProvider>
+                      {session ? (
+                        <MainLayout>
+                          {children}
+                        </MainLayout>
+                      ) : (
+                        <Authentication />
+                      )}
+                    </QueryProvider>
+                  </SessionProvider>
+                </ThemeRegistry>
+              </InterfaceProvider>
+            </LocalizationProvider>
+          </StorageProvider>
+        </RecoilRoot>
       </body>
     </html>
   );
