@@ -4,8 +4,6 @@ import dayjs, { Dayjs } from "@/libs/dayjs";
 
 export const money = (val: number) => {
   try {
-    if (!val) return 0;
-
     return new Intl.NumberFormat('th-TH', {
       style: 'currency',
       currency: 'THB',
