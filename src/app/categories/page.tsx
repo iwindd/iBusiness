@@ -1,5 +1,4 @@
 import { Stack, Typography } from "@mui/material"
-import { getAllCategories } from "@/controllers/CategoryController"
 import AddController from "./components/add-controller";
 import CategoryDatatable from './components/datatable-categories';
 
