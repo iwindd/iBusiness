@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useSnackbar, enqueueSnackbar } from 'notistack';
+import { useSnackbar} from 'notistack';
 import { AddTwoTone, Rotate90DegreesCcw } from '@mui/icons-material';
 import { Category, Product } from '@prisma/client';
 import { ProductSchema, ProductSchemaInputs, ProductSearchSchema, ProductSearchSchemaInputs } from '@/schema/ProductSchema';
@@ -12,8 +12,7 @@ import { getProduct, upsertProduct } from '@/controllers/ProductController';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { useDialog } from '@/hooks/use-dialog';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getAllCategories } from '@/controllers/CategoryController';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface AddDialogProps {
   onClose: () => void;
@@ -89,7 +88,7 @@ function SearchDialog({ open, onClose, onSubmit, setLoading }: SearchDialogProps
   );
 }
 
-function ProductFormDialog({ open, setLoading, onClose, product, categories }: ProductFormDialogProps): React.JSX.Element {
+export function ProductFormDialog({ open, setLoading, onClose, product, categories }: ProductFormDialogProps): React.JSX.Element {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<ProductSchemaInputs>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -193,9 +192,8 @@ function ProductFormDialog({ open, setLoading, onClose, product, categories }: P
   );
 }
 
-const AddController = () => {
+const AddController = ({ categories }: { categories: Category[] }) => {
   const [product, setProduct] = useState<Product | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]); // Initialize with your categories
   const { setBackdrop, isBackdrop } = useInterface();
   const { enqueueSnackbar } = useSnackbar();
   const [isSearch, setIsSearch] = useState<boolean>(true);
@@ -220,18 +218,6 @@ const AddController = () => {
     setIsSearch(false);
   };
 
-  const { data } = useQuery({
-    queryKey: ["categories_all"],
-    queryFn: async () => {
-      return await getAllCategories();
-    }
-  })
-
-  useEffect(() => {
-    if (data?.state) {
-      setCategories(data.data as Category[])
-    }
-  }, [data, setCategories])
 
   return (
     <>

@@ -1,9 +1,11 @@
 import { Stack, Typography } from "@mui/material"
 import ProductDatatable from "./components/datatable-products"
 import AddController from "./components/add-controller"
+import { getAllCategories } from "@/controllers/CategoryController"
+import { Category } from "@prisma/client"
 
-
-const ProductsPage = () => {
+const ProductsPage = async () => {
+  const categories = (await getAllCategories()).data as Category[];
 
   return (
     <Stack spacing={3}>
@@ -13,10 +15,10 @@ const ProductsPage = () => {
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}></Stack>
         </Stack>
         <>
-          <AddController />
+          <AddController categories={categories} />
         </>
       </Stack>
-      <ProductDatatable />
+      <ProductDatatable categories={categories} />
     </Stack>
   )
 }

@@ -27,7 +27,7 @@ const Favorite = (props: {
     return () => {
       debouncedFunction.cancel();
     };
-  }, [isFavorite]);
+  }, [FavCache, isFavorite, props]);
 
   return (
     <IconButton onClick={onFavorite} color={isFavorite ? "primary" : "secondary"}>

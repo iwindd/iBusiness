@@ -14,7 +14,15 @@ export const getProducts = async (table: TableFetch) => {
         take: table.pagination.pageSize,
         orderBy: order(table.sort),
         where: {
-          application: session?.user.application
+          application: session?.user.application,
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              title: true
+            }
+          }
         }
       }),
       Prisma.product.count({
@@ -108,7 +116,23 @@ export const upsertProduct = async (payload: ProductSchemaInputs, id?: number) =
     return { state: true, }
   } catch (error) {
     console.log(error);
-    
+
+    return { state: false, }
+  }
+}
+
+export const deleteProduct = async (id: number) => {
+  try {
+    const session = await getServerSession();
+    await Prisma.product.delete({
+      where: {
+        id: id,
+        application: session?.user.application
+      }
+    })
+
+    return { state: true, }
+  } catch (error) {
     return { state: false, }
   }
 }
