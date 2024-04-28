@@ -6,6 +6,7 @@ export const paths = {
   },
   cashier: "/cashier",
   products: "/products",
+  stock: "/stock",
   categories: "/categories",
   histories: "/histories",
   account: {
@@ -20,7 +21,10 @@ export const routes = [
   { name: "signup", path: '/auth/signup', label: "ลงทะเบียน" },
   { name: "cashier", path: '/cashier', label: 'ขายสินค้า' },
   { name: "products", path: '/products', label: 'สินค้า' },
+  { name: "products.product", path: '/products/:id', label: 'รายละเอียดสินค้า' },
+  { name: "stock", path: '/stock', label: 'จัดการสต๊อก' },
   { name: "categories", path: '/categories', label: 'ประเภทสินค้า' },
+  { name: "categories.category", path: '/categories/:id', label: 'รายละเอียดประเภทสินค้า' },
   { name: "histories", path: '/histories', label: "ประวัติการขาย" },
   { name: "histories.history", path: '/histories/:id', label: "รายละเอียดการขายสินค้า" },
   { name: "employees", path: '/employees', label: 'พนักงาน' },
