@@ -1,11 +1,11 @@
 "use client";
 import { useInterface } from '@/app/providers/InterfaceProvider';
-import { Edit, Save } from '@mui/icons-material'
-import { Button, Divider, IconButton, Paper, TextField, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardHeader, Divider, TextField } from '@mui/material'
 import { useSnackbar } from 'notistack';
 import { lineConnect } from '../action';
 import React, { useEffect } from 'react'
 import { useSession } from 'next-auth/react';
+import { CancelTwoTone, EditTwoTone, SaveTwoTone } from '@mui/icons-material';
 
 const LineNotification = () => {
   const [token, setToken] = React.useState<string>("");
@@ -16,40 +16,40 @@ const LineNotification = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (editMode) {
-      //save
-      setEditMode(false);
-      setBackdrop(true);
-      const resp = await lineConnect(token);
-      setBackdrop(false);
-      if (resp) {
-        enqueueSnackbar("เชื่อมต่อสำเร็จ!", { variant: "success" })
-        update({
-          ...session,
-          user: {
-            ...session?.user,
-            account: {
-              ...session?.user.account,
-              store: {
-                ...session?.user.account.store,
-                linetoken: token
-              }
+    //save
+    setEditMode(false);
+    setBackdrop(true);
+    const resp = await lineConnect(token);
+    setBackdrop(false);
+    if (resp) {
+      enqueueSnackbar("เชื่อมต่อสำเร็จ!", { variant: "success" })
+      update({
+        ...session,
+        user: {
+          ...session?.user,
+          account: {
+            ...session?.user.account,
+            store: {
+              ...session?.user.account.store,
+              linetoken: token
             }
           }
-        })
-      } else {
-        setEditMode(true);
-        setToken("");
-        enqueueSnackbar("Invalid access token", { variant: "error" })
-      }
+        }
+      })
     } else {
-      setEditMode(true)
+      setEditMode(true);
+      setToken("");
+      enqueueSnackbar("Invalid access token", { variant: "error" })
     }
   }
 
-  const cancelEdit = async () => {
+  const onCancel = async () => {
     setEditMode(false);
     if (session?.user.account?.store.linetoken) setToken(session.user.account.store.linetoken)
+  }
+
+  const onEditMode = async () => {
+    setEditMode(true)
   }
 
   useEffect(() => {
@@ -57,10 +57,13 @@ const LineNotification = () => {
   }, [session])
 
   return (
-    <Paper sx={{ p: 2 }} className='space-y-2'>
-      <Typography variant='body1'>Line Notification : </Typography>
+    <Card
+      component={'form'}
+      onSubmit={onSubmit}
+    >
+      <CardHeader title="การแจ้งเตือนไลน์" />
       <Divider />
-      <form className='flex w-full space-x-1' onSubmit={onSubmit}>
+      <CardContent>
         <TextField
           value={token}
           onChange={(e) => setToken(e.target.value)}
@@ -69,16 +72,21 @@ const LineNotification = () => {
           fullWidth
           type={editMode ? "text" : "password"}
         />
-        <Button variant='outlined' type='submit'>
-          {editMode ? ("บันทึก") : ("แก้ไข")}
-        </Button>
+
+      </CardContent>
+      <CardActions>
         {
           editMode ? (
-            <Button variant='outlined' onClick={cancelEdit}> ยกเลิก </Button>
-          ) : (null)
+            <>
+              <Button onClick={onCancel} startIcon={<CancelTwoTone />} color="secondary"> ยกเลิก </Button>
+              <Button type="submit" startIcon={<SaveTwoTone />} color="success"> บันทึก </Button>
+            </>
+          ) : (
+            <Button onClick={onEditMode} startIcon={<EditTwoTone />} color="secondary">แก้ไข</Button>
+          )
         }
-      </form>
-    </Paper>
+      </CardActions>
+    </Card>
   )
 }
 
