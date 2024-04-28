@@ -1,10 +1,9 @@
 "use server";
-
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
-import { data } from ".";
+import { StockItem } from "@/typings/stock";
 
-export const fetchingStock = async (payload: Record<string, number>) => {
+export const FetchingStock = async (payload: Record<string, number>) => {
   try {
     const serials = Object.entries(payload).map(item => item[0]);
     const session = await getServerSession();
@@ -22,40 +21,39 @@ export const fetchingStock = async (payload: Record<string, number>) => {
     })
 
     return {
-      success: true,
+      state: true,
       data: data
     }
   } catch (error) {
     return {
-      success: false,
-      error
+      state: false,
     }
   }
 }
 
-export const commitStock = async (payload: data[]) => {
+export const CommitStock = async (payload: StockItem[]) => {
   try {
     const session = await getServerSession();
-    const data = await Prisma.$transaction(payload.map((data) => {
-      return Prisma.product.update({
-        where: {
-          application: session?.user.application,
-          id: data.id
-        },
-        data: {
-          stock: Number(data.all)
-        }
+    await Prisma.$transaction(
+      payload.map((data) => {
+        return Prisma.product.update({
+          where: {
+            application: session?.user.application,
+            id: data.id
+          },
+          data: {
+            stock: Number(data.all)
+          }
+        })
       })
-    }))
+    )
 
     return {
-      success: true,
-      data
+      state: true,
     }
   } catch (error) {
     return {
-      success: false,
-      error
+      state: false,
     }
   }
 }

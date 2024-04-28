@@ -23,6 +23,22 @@ export const number = (val: number) => {
   }
 }
 
+export const abs = (val : number) => {
+  try {
+    return Math.abs(val)    
+  } catch (error) {
+    return val
+  }
+}
+
+export const absNumber = (val : number) => {
+  try {
+    return number(abs(val))
+  } catch (error) {
+    return val
+  }
+}
+
 export const date = (val: Date) => {
   try {
     return new Intl.DateTimeFormat('th-TH', {

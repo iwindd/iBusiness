@@ -91,3 +91,27 @@ export function isNavItemActive({
 
   return pathname === href;
 }
+
+export const getFileContent = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (!(file instanceof Blob)) {
+      reject(new Error('Invalid file type. Expected a Blob.'));
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      if (event.target) {
+        const content = event.target.result as string;
+        resolve(content);
+      }
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsText(file);
+  });
+};

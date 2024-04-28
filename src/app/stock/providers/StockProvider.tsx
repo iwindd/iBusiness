@@ -1,36 +1,28 @@
 "use client";
 import React, { SetStateAction, createContext, useContext, useEffect } from "react";
-import { commitStock, fetchingStock } from "../action";
 import { useSnackbar } from "notistack";
 import { useStorage } from "@/storage";
+import { FetchingStock } from "@/controllers/StockController";
+import { StockItem } from "@/typings/stock";
 
 const stockContext = createContext<{
-  items: item[],
-  setItem: React.Dispatch<SetStateAction<item[]>>,
+  items: StockItem[],
+  setItem: React.Dispatch<SetStateAction<StockItem[]>>,
   render: (payload: string) => Promise<void>,
-  commit: (items?: item[]) => Promise<void>
 } | undefined>(undefined);
 
-export interface item {
-  id: number,
-  serial: string,
-  title: string,
-  stock: number,
-  payload: number,
-  all: number
-}
 
 export const useStock = () => {
   const context = useContext(stockContext);
   if (context === undefined) {
-    throw new Error('useInterface must be used within a InterfaceProvider');
+    throw new Error('useStock must be used within a StockProvider');
   }
   return context;
 }
 
 const StockProvider = ({ children }: { children: React.ReactNode }) => {
   const { use, declare } = useStorage("stock");
-  const [items, setItem] = React.useState<item[]>(use("stock", []));
+  const [items, setItem] = React.useState<StockItem[]>(use("stock", []));
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -56,8 +48,8 @@ const StockProvider = ({ children }: { children: React.ReactNode }) => {
       }
     });
 
-    const fetchingData = await fetchingStock(resultArray);
-    if (fetchingData.success && fetchingData.data) {
+    const fetchingData = await FetchingStock(resultArray);
+    if (fetchingData.state && fetchingData.data) {
       if (fetchingData?.data?.length > 0) {
         setItem(fetchingData.data.map((product) => {
           return {
@@ -70,19 +62,12 @@ const StockProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         enqueueSnackbar("ไม่พบสินค้า!", { variant: "error" });
       }
-    } else {
-      throw new Error(fetchingData.error as string);
     }
-  }
-
-  const commit = async (payload?: item[]) => {
-    await commitStock(payload || items);
-    setItem([]);
   }
 
   return (
     <stockContext.Provider
-      value={{ items, setItem, render, commit }}
+      value={{ items, setItem, render}}
     >
       {children}
     </stockContext.Provider>
