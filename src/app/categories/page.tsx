@@ -1,31 +1,23 @@
-"use client";
-import { Box, Paper, Tab } from '@mui/material'
-import React from 'react'
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import StyledTabContext from '../components/styledTabContext';
-import { DataGrid } from '@mui/x-data-grid';
-import CategoryDataTable from './components/datatable';
+import { Stack, Typography } from "@mui/material"
+import { getAllCategories } from "@/controllers/CategoryController"
+import AddController from "./components/add-controller";
+import CategoryDatatable from './components/datatable-categories';
 
-const CategoriesPage = () => {
-  const [value, setValue] = React.useState<string>('1');
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
+const CategoryPage = async () => {
   return (
-    <Paper>
-      <StyledTabContext value={value} >
-        <Box sx={{ borderBottom: 1, borderTop: 0, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} >
-            <Tab label="ประเภทสินค้า" value="1" />
-          </TabList>
-        </Box>
-        <TabPanel value="1" sx={{ p: 0 }}><CategoryDataTable/></TabPanel>
-      </StyledTabContext>
-    </Paper >
+    <Stack spacing={3}>
+      <Stack direction="row" spacing={3}>
+        <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
+          <Typography variant="h4">ประเภทสินค้า</Typography>
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}></Stack>
+        </Stack>
+        <>
+          <AddController />
+        </>
+      </Stack>
+      <CategoryDatatable />
+    </Stack>
   )
 }
 
-export default CategoriesPage
+export default CategoryPage
