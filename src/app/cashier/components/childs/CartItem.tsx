@@ -2,8 +2,8 @@
 import React from 'react'
 import { CartItem } from '../../../../../next-auth';
 import { useSession } from 'next-auth/react';
-import { CashierPageChildType } from '../../page';
-import ConfirmButton from '@/app/components/confirm_button';
+import { CashierPageChildType } from '../../page';/* 
+import ConfirmButton from '@/app/components/confirm_button'; */
 import { TableCell, TableRow, IconButton } from '@mui/material';
 import { Delete, Add, Remove } from '@mui/icons-material';
 
@@ -107,14 +107,14 @@ export const Item = (props: ItemProps) => {
         </div>
       </TableCell>
       <TableCell>
-        <ConfirmButton
+{/*         <ConfirmButton
           className={isOverstock ? "border-red-300 text-red-500 hover:border-red-700" : ""}
           onClick={onDelete}
           startIcon={<Delete />}
           variant='outlined'
           label='ลบ'
           label2={`คุณต้องการจะลบสินค้า ${props.title} ออกจากตะกร้าหรือไม่?`}
-        />
+        /> */}
       </TableCell>
     </TableRow>
   )

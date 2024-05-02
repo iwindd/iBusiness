@@ -5,7 +5,6 @@ import Cashier from './components/Cashier';
 import { AddToCashier } from './action';
 import { useSession } from 'next-auth/react';
 import { useSnackbar } from 'notistack';
-import ConfirmButton from '../components/confirm_button';
 import { Delete, PaymentOutlined } from '@mui/icons-material';
 import { Button, Divider } from '@mui/material';
 import { useInterface } from '../providers/InterfaceProvider';
@@ -78,13 +77,13 @@ const CashierPage = () => {
         </Grid>
         <Grid>
           <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button>
-          <ConfirmButton
+{/*           <ConfirmButton
             onClick={onClearCart}
             label="ล้างตะกร้า"
             label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
             variant='outlined'
             startIcon={<Delete />}
-          />
+          /> */}
         </Grid>
       </Grid>
     </>

@@ -5,8 +5,8 @@ import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { v4 } from 'uuid';
 import { useQuery } from '@tanstack/react-query';
-import { getDesigns } from './action';
-import ConfirmButton from '@/app/components/confirm_button';
+import { getDesigns } from './action';/* 
+import ConfirmButton from '@/app/components/confirm_button'; */
 import DesignDialog, { Design } from './components/Dialog';
 
 export interface Field {

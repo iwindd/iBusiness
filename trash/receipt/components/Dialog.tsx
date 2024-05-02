@@ -1,11 +1,11 @@
 "use client";
-import React from 'react'
-import { Dialog, Transition } from '@headlessui/react';
+import React from 'react'/* 
+import { Dialog, Transition } from '@headlessui/react'; */
 import { Schema, Inputs } from './schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useQueryClient } from '@tanstack/react-query';
-import ConfirmButton from '@/app/components/confirm_button';
+import { useQueryClient } from '@tanstack/react-query';/* 
+import ConfirmButton from '@/app/components/confirm_button'; */
 import { addDesign, deleteDesign, saveDesign } from '../action';
 
 export interface Design {
@@ -139,12 +139,12 @@ function DesignDialog({
                             ยกเลิก
                           </button>
                         </section>
-                        <ConfirmButton
+       {/*                  <ConfirmButton
                           className="btn btn-error ms-auto"
                           label='ลบ'
                           label2='ลบ ?'
                           onClick={onDelete}
-                        />
+                        /> */}
                       </div>
                     </div>
                   </Dialog.Panel>
