@@ -6,7 +6,6 @@ import React from 'react'
 import _ from 'lodash';
 import { useSearchParams } from 'next/navigation';
 import { TableFetch } from '@/typings/service';
-import InvoiceStatusFilter from './custom/invoice-status-filter';
 import thTHGrid from './locale/datatable';
 
 export interface TableOption {
@@ -88,15 +87,6 @@ const Datatable = (props: Props) => {
     return props.processRowUpdate(newData, oldData)
   }
 
-  const columns = React.useMemo(() => (
-    props.columns.map((col) => (
-      col.field === 'status' ? {
-        ...col,
-        filterOperators: InvoiceStatusFilter,
-      } : col
-    ))
-  ), [props.columns])
-
   return (
     <Paper
       sx={{
@@ -105,7 +95,7 @@ const Datatable = (props: Props) => {
     >
       <DataGrid
         rows={rows}
-        columns={columns}
+        columns={props.columns}
         loading={isLoading || props.loading}
         rowCount={total}
         localeText={thTHGrid}
