@@ -1,6 +1,4 @@
 "use server";
-import { getServerSession } from "./session";
-
 export const push = async (msg: string, token? : string) => {
   const params = new URLSearchParams();
   params.append('message', msg);

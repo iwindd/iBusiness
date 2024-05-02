@@ -1,9 +1,5 @@
 import { NavItemConfig } from "@/typings/layout";
 
-export function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export function filterArrayByProperty<T>(
   arr: T[],
   property: keyof T
