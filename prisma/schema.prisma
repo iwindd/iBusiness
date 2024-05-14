@@ -14,18 +14,9 @@ model User {
   id                 Int                  @id @default(autoincrement())
   email              String               @unique
   password           String
-  displaytitle       String
-  title              String
-  address            String
-  area               String
-  district           String
   firstname          String
   lastname           String
-  postalcode         String
-  provice            String
-  tel                String
   lineNotify         String               @default("")
-  time               Json                 @default("[]")
   Product            Product[]
   Order              Order[]
   OrderReceiptDesign OrderReceiptDesign[]

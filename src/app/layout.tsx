@@ -56,7 +56,9 @@ export default async function RootLayout({
                           {children}
                         </MainLayout>
                       ) : (
-                        <Authentication />
+                        <>
+                          {children}
+                        </>
                       )}
                     </QueryProvider>
                   </SessionProvider>

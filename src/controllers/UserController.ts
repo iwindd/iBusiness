@@ -17,16 +17,8 @@ export const Signup = async (payload: Inputs) => {
       data: {
         email: payload.email,
         password: payload.password,
-        title: payload.title,
-        displaytitle: payload.displaytitle,
-        address: payload.address,
-        area: payload.area,
-        district: payload.district,
         firstname: payload.firstname,
         lastname: payload.lastname,
-        postalcode: payload.postalcode,
-        provice: payload.province,
-        tel: payload.tel
       }
     })
 
