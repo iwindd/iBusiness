@@ -1,6 +1,18 @@
 "use client";
-import { Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { paths } from "@/paths";
+import { AddTwoTone } from "@mui/icons-material";
+import {
+  Button,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 
 const MainPage = () => {
@@ -17,9 +29,14 @@ const MainPage = () => {
             sx={{ alignItems: "center" }}
           ></Stack>
         </Stack>
-        <></>
+        <>
+          <Link href={paths.business_create}>
+            <Button startIcon={<AddTwoTone />} variant="contained">
+              ธุรกิจใหม่
+            </Button>
+          </Link>
+        </>
       </Stack>
-      
     </Stack>
   );
 };

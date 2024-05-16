@@ -5,7 +5,7 @@ const path = paths
 
 export const ApplicationNavItems = [
   { key: 'overview', title: 'ภาพรวมธุรกิจ', href: path.overview, icon: 'chart-pie' },
-  { key: 'business', title: 'ธุรกิจของฉัน', href: path.business, icon: 'business' },
+  { key: 'business', title: 'ธุรกิจของฉัน', href: path.business, icon: 'business', matcher: {type: "startsWith", href: path.business} },
   { key: 'account', title: 'บัญชีของฉัน', href: path.account, icon: 'person' },
   { key: 'employees', title: 'พนักงาน', href: path.employees, icon: 'badge' },
 ] satisfies NavItemConfig[];
