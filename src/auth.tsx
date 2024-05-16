@@ -18,6 +18,7 @@ export const authOptions = {
 
       return {
         ...{
+          id: token.id,
           application: token.application,
           fullname: token.fullname,
           email: token.email
@@ -52,6 +53,7 @@ export const authOptions = {
           if (!user) return null;
           return {
             id: String(user.id),
+            uid: user.id,
             application: null,
             fullname: `${user.firstname} ${user.lastname}`,
             email: user.email
