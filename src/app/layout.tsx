@@ -1,4 +1,3 @@
-import './globals.css';
 import { getServerSession } from '@/libs/session';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
