@@ -51,7 +51,9 @@ const SignIn = () => {
 
       if (!resp?.error) {
         enqueueSnackbar("เข้าสู่ระบบสำเร็จแล้ว!", { variant: "success" });
-        return router.push("/");
+
+        router.push(paths.overview);
+        router.refresh();
       } else {
         setError(
           "email",
@@ -76,8 +78,8 @@ const SignIn = () => {
         }
       );
     } finally {
-      resetField("password");
       setBackdrop(false);
+      resetField("password");
     }
   };
 
