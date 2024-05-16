@@ -1,9 +1,12 @@
 import { Box, Container, GlobalStyles } from "@mui/material";
-import { SideNav } from "../layouts/sidenav";
 import { MainNav } from "../layouts/mainnav";
 import Breadcrumb from "../layouts/breadcrumb";
+import { DesktopNav } from "../layouts/sidenav";
+import { getServerSession } from "@/libs/session";
 
-export default function MainLayout({ children }: { children: React.ReactNode }): React.JSX.Element {
+export default async function MainLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession();
+
   return (
     <>
       <GlobalStyles
@@ -27,9 +30,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }):
           minHeight: '100%',
         }}
       >
-        <SideNav />
+        <DesktopNav session={session}/>
         <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column', pl: { lg: 'var(--SideNav-width)' } }}>
-          <MainNav />
+          <MainNav session={session}/>
           <main>
             <Container maxWidth="xl" sx={{ py: 2 }}><Breadcrumb /></Container>
             <Container maxWidth="xl" sx={{ py: '10px' }}>{children}</Container>
