@@ -3,10 +3,9 @@ import { MainNav } from "../layouts/mainnav";
 import Breadcrumb from "../layouts/breadcrumb";
 import { DesktopNav } from "../layouts/sidenav";
 import { getServerSession } from "@/libs/session";
+import { Session } from "next-auth";
 
-export default async function MainLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession();
-
+export default async function MainLayout({ children, session}: { children: React.ReactNode, session: Session | null }) {
   return (
     <>
       <GlobalStyles

@@ -51,7 +51,7 @@ export default async function RootLayout({
                   <SessionProvider session={session}>
                     <QueryProvider>
                       {session ? (
-                        <MainLayout>
+                        <MainLayout session={session}>
                           {children}
                         </MainLayout>
                       ) : (
