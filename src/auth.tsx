@@ -1,5 +1,5 @@
-import CredentialsProvider from 'next-auth/providers/credentials'
-import Prisma from '@/libs/prisma'
+import CredentialsProvider from "next-auth/providers/credentials";
+import Prisma from "@/libs/prisma";
 
 export const authOptions = {
   pages: {
@@ -18,14 +18,9 @@ export const authOptions = {
 
       return {
         ...{
-          email: token.email,
           application: token.application,
-          cart: token.cart,
-          title: token.title,
-          displaytitle: token.displaytitle,
-          addressOBJ: token.addressOBJ,
-          account: token.account,
-          time: token.time,
+          fullname: token.fullname,
+          email: token.email
         },
         ...user,
       };
@@ -54,28 +49,13 @@ export const authOptions = {
             },
           });
 
-          return user
-            ? {
-                ...user,
-                id: String(user.id),
-                application: user.id,
-                title: user.title,
-                displaytitle: user.displaytitle,
-                addressOBJ: {
-                  etc: user.address,
-                  district: user.district,
-                  provice: user.provice,
-                  area: user.area,
-                  postalcode: user.postalcode,
-                },
-                time: user.time,
-                account: {
-                  store: {
-                    linetoken: user.lineNotify,
-                  },
-                },
-              }
-            : null;
+          if (!user) return null;
+          return {
+            id: String(user.id),
+            application: null,
+            fullname: `${user.firstname} ${user.lastname}`,
+            email: user.email
+          };
         } catch (error) {
           return null;
         }
