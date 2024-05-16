@@ -90,8 +90,6 @@ function renderNavItems({
   pathname: string;
   session: Session | null;
 }): React.JSX.Element {
-  console.log(session);
-  
   const items = session?.user?.application ? StoreNavItems : ApplicationNavItems;
   const children = items.reduce(
     (acc: React.ReactNode[], curr: NavItemConfig): React.ReactNode[] => {
