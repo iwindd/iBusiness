@@ -39,7 +39,7 @@ const SignIn = () => {
 
       if (!resp?.error) {
         enqueueSnackbar("เข้าสู่ระบบสำเร็จแล้ว!", { variant: "success" })
-        return router.refresh();
+        return router.push("/");
       } else {
         setError("email", {
           type: "string",
