@@ -4,7 +4,6 @@ import Favorite from './favorite'
 import * as ff from '@/libs/formatter'
 import Datatable from '@/components/datatable'
 import { deleteProduct, getProducts, setProductFavorite } from '@/controllers/ProductController';
-import GridLinkAction from '../../../components/GridLinkAction';
 import { DeleteTwoTone, EditTwoTone, ViewAgendaTwoTone } from '@mui/icons-material';
 import { paths } from '@/paths';
 import { Category, Product } from '@prisma/client';
@@ -15,6 +14,7 @@ import { useInterface } from '@/app/providers/InterfaceProvider';
 import { Confirmation, useConfirm } from '@/hooks/use-confirm';
 import { useSnackbar } from 'notistack';
 import { useQueryClient } from '@tanstack/react-query';
+import GridLinkAction from '@/components/GridLinkAction';
 
 const ProductDatatable = ({ categories }: { categories: Category[] }) => {
   const onToggleFavorite = async (id: number, state: boolean) => await setProductFavorite(id, state)

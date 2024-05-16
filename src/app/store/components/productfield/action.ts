@@ -1,7 +1,7 @@
 "use server";
-import { getFavoriteItems } from "@/app/cashier/action";
 import Prisma from "@/libs/prisma";
 import { getServerSession } from "@/libs/session";
+import { getFavoriteItems } from "../../cashier/action";
 
 export const SelectizeProductFilter = async (filter: string) => {
 

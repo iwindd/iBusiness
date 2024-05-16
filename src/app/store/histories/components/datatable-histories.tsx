@@ -2,11 +2,11 @@
 import React from 'react'
 import * as ff from '@/libs/formatter'
 import Datatable from '@/components/datatable'
-import GridLinkAction from '../../../components/GridLinkAction';
 import { ViewAgendaTwoTone } from '@mui/icons-material';
 import { paths } from '@/paths';
 import { Category } from '@prisma/client';
 import { getHistories } from '@/controllers/HistoryController';
+import GridLinkAction from '@/components/GridLinkAction';
 
 const HistoryDatatable = () => {
   const columns = [

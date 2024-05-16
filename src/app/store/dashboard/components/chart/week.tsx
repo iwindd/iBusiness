@@ -39,7 +39,7 @@ const WeekChart = ({ week }: {
     setLabels(weekLabels.map((label, index) => (
       dayworks[index] === true ? label : ""
     )).filter(label => label != ""));
-  }, [dayworks, week])
+  }, [dayworks, week, setData, data])
 
 
 

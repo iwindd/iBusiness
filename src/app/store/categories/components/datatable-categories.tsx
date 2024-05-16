@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import * as ff from '@/libs/formatter'
 import Datatable from '@/components/datatable'
 import { deleteProduct, getProducts, setProductFavorite } from '@/controllers/ProductController';
-import GridLinkAction from '../../../components/GridLinkAction';
 import { DeleteTwoTone, EditTwoTone, ViewAgendaTwoTone } from '@mui/icons-material';
 import { paths } from '@/paths';
 import { Category, Product } from '@prisma/client';
@@ -15,6 +14,7 @@ import { useSnackbar } from 'notistack';
 import { useQueryClient } from '@tanstack/react-query';
 import { CategoryFormDialog } from './add-controller';
 import { deleteCategory, getCategories } from '@/controllers/CategoryController';
+import GridLinkAction from '@/components/GridLinkAction';
 
 const CategoryDatatable = () => {
   const onToggleFavorite = async (id: number, state: boolean) => await setProductFavorite(id, state)

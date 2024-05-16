@@ -35,7 +35,7 @@ const ProfitChart = (data: {
 
     setSold(filteredSold);
     setMonths(months_payload.slice(0, filteredSold.length));
-  }, [data.sold]);
+  }, [data.sold, data.months]);
 
   const formattedMonths = months.map((date, i) => {
     const year = date.getFullYear() !== new Date().getFullYear() ? date.getFullYear().toString().slice(2) : '';

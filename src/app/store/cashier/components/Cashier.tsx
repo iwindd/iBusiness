@@ -3,9 +3,8 @@ import React, { FormEvent, FormEventHandler, useRef } from 'react'
 import { CashierPageChildType } from '../page';
 import { useSession } from 'next-auth/react';
 import { Paper } from '@mui/material';
-import ProductField from '@/app/components/productfield';
-import { Option } from '@/app/components/productfield/selectize';
-
+import { Option } from '../../components/productfield/selectize';
+import ProductField from '../../components/productfield';
 interface CashierProp extends CashierPageChildType{
   PaymentDialog: () => void
 }

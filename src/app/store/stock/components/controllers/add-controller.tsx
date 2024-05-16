@@ -4,12 +4,12 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typog
 import { AddTwoTone } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { useDialog } from '@/hooks/use-dialog';
-import ProductField from '@/app/components/productfield';
 import MathTextField from '../MatchTextField';
-import { Option } from '@/app/components/productfield/selectize';
 import { getProduct } from '@/controllers/ProductController';
 import { useStock } from '../../providers/StockProvider';
 import { useSnackbar } from 'notistack';
+import { Option } from '@/app/store/components/productfield/selectize';
+import ProductField from '@/app/store/components/productfield';
 
 interface StockDialogProps {
   onClose: () => void;

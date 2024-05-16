@@ -2,7 +2,6 @@ import React from 'react'
 import Selectize, { Option } from './selectize'
 import { SelectizeProductFilter } from './action';
 import { useStorage } from '@/storage';
-import { Product } from '@prisma/client';
 
 interface ProductFieldProps {
   onSelected: (payload: Option) => void,
@@ -79,7 +78,7 @@ const ProductField = (props: ProductFieldProps) => {
     }
   }, [filter])
 
-  React.useEffect(() => declare("options", options), [options])
+  React.useEffect(() => declare("options", options), [options, declare])
 
   return (
     <Selectize

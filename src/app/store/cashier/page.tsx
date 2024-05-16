@@ -1,16 +1,10 @@
 "use client";
 import React from 'react'
 import Cart from './components/Cart';
-import Cashier from './components/Cashier';
 import { AddToCashier } from './action';
 import { useSession } from 'next-auth/react';
 import { useSnackbar } from 'notistack';
-import { Delete, PaymentOutlined } from '@mui/icons-material';
-import { Button, Divider } from '@mui/material';
-import { useInterface } from '../providers/InterfaceProvider';
-import Payment from './components/childs/Payment';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-
 export interface CashierPageChildType {
   addProductToCart: (serial: string) => void
 }
@@ -18,7 +12,6 @@ export interface CashierPageChildType {
 const CashierPage = () => {
   const { data: session, update } = useSession();
   const { enqueueSnackbar } = useSnackbar();
-  const { setDialog } = useInterface();
 
   const addProductToCart = async (serial: string) => {
     const resp = await AddToCashier({ serial });
@@ -52,7 +45,7 @@ const CashierPage = () => {
     })
   }
 
-  const PaymentDialog = setDialog(Payment, {
+/*   const PaymentDialog = setDialog(Payment, {
     session: session,
     clear: () => update({
       ...session,
@@ -61,22 +54,22 @@ const CashierPage = () => {
         cart: []
       }
     })
-  });
+  }); */
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid xs={12}>
-          <Cashier
+{/*           <Cashier
             addProductToCart={addProductToCart}
             PaymentDialog={PaymentDialog.onOpen}
-          />
+          /> */}
         </Grid>
         <Grid xs={9}>
           <Cart addProductToCart={addProductToCart} />
         </Grid>
-        <Grid>
-          <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button>
+        <Grid>{/* 
+          <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button> */}
 {/*           <ConfirmButton
             onClick={onClearCart}
             label="ล้างตะกร้า"
