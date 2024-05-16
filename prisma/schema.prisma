@@ -21,6 +21,16 @@ model User {
   Order              Order[]
   OrderReceiptDesign OrderReceiptDesign[]
   Activity           Activity[]
+  Application        Application[]
+}
+
+model Application {
+  id          Int  @id @default(autoincrement())
+  owner   User @relation(fields: [ownerId], references: [id])
+  ownerId Int
+
+  title String
+  tel Int
 }
 
 model Category {

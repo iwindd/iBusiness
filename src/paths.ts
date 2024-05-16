@@ -1,24 +1,38 @@
 export const paths = {
   overview: '/',
+  business: "/business",
+  account: "/account",
+  employees: "/employees",
+
+  //Auth
   auth: {
     signIn: '/auth/signin',
     signUp: '/auth/signup'
   },
+
+  //Store
   cashier: "/store/cashier",
   products: "/store/products",
   stock: "/store/stock",
   categories: "/store/categories",
   histories: "/store/histories",
-  account: {
+/*   account: {
     store: "/store/account/store"
-  },
-  employees: "/store/employees"
+  }, */
+
 } as const;
 
 export const routes = [
-  { name: "home", path: '/', label: "หน้าแรก" },
+  { name: "home", path: '/', label: "ภาพรวมธุรกิจ" },
+  { name: "business", path: '/business', label: "ธุรกิจของฉัน" },
+  { name: "account", path: '/account', label: "บัญชีของฉัน" },
+  { name: "employees", path: '/employees', label: "พนักงาน" },
+
+  //Auth
   { name: "signin", path: '/auth/singin', label: "เข้าสู่ระบบ" },
   { name: "signup", path: '/auth/signup', label: "ลงทะเบียน" },
+
+  //Store
   { name: "cashier", path: '/store/cashier', label: 'ขายสินค้า' },
   { name: "products", path: '/store/products', label: 'สินค้า' },
   { name: "products.product", path: '/store/products/:id', label: 'รายละเอียดสินค้า' },
@@ -27,8 +41,6 @@ export const routes = [
   { name: "categories.category", path: '/store/categories/:id', label: 'รายละเอียดประเภทสินค้า' },
   { name: "histories", path: '/store/histories', label: "ประวัติการขาย" },
   { name: "histories.history", path: '/store/histories/:id', label: "รายละเอียดการขายสินค้า" },
-  { name: "employees", path: '/store/employees', label: 'พนักงาน' },
-  { name: "account.store", path: '/store/account/store', label: 'ร้านค้า' }
 ] as {
   name: string,
   path: string,

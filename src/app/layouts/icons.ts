@@ -1,8 +1,11 @@
-import { CategoryTwoTone, ChatTwoTone, HistoryTwoTone, ListTwoTone, PeopleTwoTone, ShoppingBagTwoTone, StoreTwoTone, AllInboxTwoTone } from "@mui/icons-material";
+import { CategoryTwoTone, ChatTwoTone, HistoryTwoTone, ListTwoTone, PeopleTwoTone, ShoppingBagTwoTone, StoreTwoTone, AllInboxTwoTone, BusinessTwoTone, PersonTwoTone, BadgeTwoTone } from "@mui/icons-material";
 import { ElementType } from "react";
 
 export const navIcons = {
   'chart-pie': ChatTwoTone,
+  'business': BusinessTwoTone,
+  'person': PersonTwoTone,
+  'badge': BadgeTwoTone,
   'product': ListTwoTone,
   'stock': AllInboxTwoTone,
   'history': HistoryTwoTone,

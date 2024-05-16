@@ -4,7 +4,10 @@ import { NavItemConfig } from '@/typings/layout';
 const path = paths
 
 export const ApplicationNavItems = [
-  { key: 'overview', title: 'ร้านค้าของฉัน', href: path.overview, icon: 'chart-pie' }
+  { key: 'overview', title: 'ภาพรวมธุรกิจ', href: path.overview, icon: 'chart-pie' },
+  { key: 'business', title: 'ธุรกิจของฉัน', href: path.business, icon: 'business' },
+  { key: 'account', title: 'บัญชีของฉัน', href: path.account, icon: 'person' },
+  { key: 'employees', title: 'พนักงาน', href: path.employees, icon: 'badge' },
 ] satisfies NavItemConfig[];
 
 export const StoreNavItems = [
@@ -14,7 +17,5 @@ export const StoreNavItems = [
   { key: 'stock', title: 'จัดการสต๊อก', href: path.stock, icon: 'stock' },
   { key: 'categories', title: 'ประเภทสินค้า', href: path.categories, icon: 'category' },
   { key: 'histories', title: 'ประวัติการขายสินค้า', href: path.histories, icon: 'history' },
-  { key: 'store', title: 'ร้านค้า', href: path.account.store, icon: 'store' },
-  { key: 'employees', title: 'พนักงาน', href: path.employees, icon: 'employees' },
 ] satisfies NavItemConfig[];
 
