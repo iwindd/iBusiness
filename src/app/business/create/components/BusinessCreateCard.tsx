@@ -1,19 +1,15 @@
 "use client";
-import {
-  AddTwoTone,
-  CancelTwoTone,
-  EditTwoTone,
-  UpdateTwoTone,
-} from "@mui/icons-material";
+import { AddTwoTone } from "@mui/icons-material";
 import {
   Button,
   Card,
   CardActions,
   CardHeader,
-  Checkbox,
   Divider,
-  FormControlLabel,
-  FormGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
@@ -27,9 +23,9 @@ import { BusinessInputs, BusinessSchema } from "@/schema/BusinessSchema";
 import { upsertBusiness } from "@/controllers/BusinessController";
 import { paths } from "@/paths";
 import { useRouter } from "next/navigation";
+import { BusinessCreateChildForm } from "../page";
 
-const BusinessCreateCard = () => {
-  const [isEdit, setIsEdit] = React.useState<boolean>(false);
+const BusinessCreateCard = ({ register, errors }: BusinessCreateChildForm) => {
   const { setBackdrop } = useInterface();
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
@@ -58,14 +54,6 @@ const BusinessCreateCard = () => {
     },
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<BusinessInputs>({
-    resolver: zodResolver(BusinessSchema),
-  });
-
   const onSubmit = (payload: BusinessInputs) => {
     confirmation.with(payload);
     confirmation.handleOpen();
@@ -74,46 +62,50 @@ const BusinessCreateCard = () => {
   return (
     <>
       <Card>
-        <CardHeader title="ธุรกิจใหม่" />
+        <CardHeader title="รายละเอียด" />
         <Divider />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={3} sx={{ p: 3 }}>
-            <Grid sm={12} md={6} lg={3}>
-              <TextField
-                type="text"
-                label="ชื่อธุรกิจ"
-                autoFocus
-                error={errors["title"]?.message != undefined ? true : false}
-                helperText={errors["title"]?.message}
-                {...register("title")}
-                fullWidth
-              />
-            </Grid>
-            <Grid sm={12} md={6} lg={3}>
-              <TextField
-                type="text"
-                label="เบอร์ติดต่อ"
-                error={errors["tel"]?.message != undefined ? true : false}
-                helperText={errors["tel"]?.message}
-                {...register("tel")}
-                fullWidth
-              />
-            </Grid>
+        <Grid container spacing={3} sx={{ p: 3 }}>
+          <Grid sm={12} md={6} lg={3}>
+            <TextField
+              type="text"
+              label="ชื่อธุรกิจ (เต็ม)"
+              autoFocus
+              error={errors["title"]?.message != undefined ? true : false}
+              helperText={errors["title"]?.message}
+              {...register("title")}
+              fullWidth
+            />
           </Grid>
-          <Divider />
-          <CardActions sx={{ justifyContent: "flex-end" }}>
-            <Button
-              color="inherit"
-              endIcon={<AddTwoTone />}
-              size="small"
-              variant="text"
-              type="submit"
-              onClick={() => setIsEdit(!isEdit)}
-            >
-              เพิ่มธุรกิจ
-            </Button>
-          </CardActions>
-        </form>
+          <Grid sm={12} md={6} lg={3}>
+            <TextField
+              type="text"
+              label="ชื่อธุรกิจ (ย่อ)"
+              autoFocus
+              error={errors["short"]?.message != undefined ? true : false}
+              helperText={errors["short"]?.message}
+              {...register("short")}
+              fullWidth
+            />
+          </Grid>
+          <Grid sm={12} md={6} lg={3}>
+            <TextField
+              type="text"
+              label="เบอร์ติดต่อ"
+              error={errors["tel"]?.message != undefined ? true : false}
+              helperText={errors["tel"]?.message}
+              {...register("tel")}
+              fullWidth
+            />
+          </Grid>
+          <Grid sm={12} md={6} lg={3}>
+            <FormControl fullWidth>
+              <InputLabel>ธุรกิจ</InputLabel>
+              <Select label="ธุรกิจ" value={1}>
+                <MenuItem value={1}>ระบบจัดการร้านค้า</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
       </Card>
       <Confirmation {...confirmation.props} />
     </>

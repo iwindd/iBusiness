@@ -9,8 +9,7 @@ export const upsertBusiness = async (payload: BusinessInputs, id?: number) => {
   try {
     const session = await getServerSession();
     const data = {
-      title: payload.title,
-      tel: payload.tel,
+      ...payload,
       ownerId: Number(session?.user.id )
     }
 
@@ -18,12 +17,13 @@ export const upsertBusiness = async (payload: BusinessInputs, id?: number) => {
       where: { id: id || 0, },
       create: data,
       update: {
-        title: data.title,
-        tel: data.tel
+        ...payload
       }
     })
     return { state: true, }
   } catch (error) {
+    console.log(error);
+    
     return { state: false, }
   }
 }

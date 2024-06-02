@@ -28,9 +28,12 @@ model Business {
   id          Int  @id @default(autoincrement())
   owner   User @relation(fields: [ownerId], references: [id])
   ownerId Int
-
+  short String
   title String
   tel String
+  time Json
+  line String
+  latlng Json
 }
 
 model Category {
