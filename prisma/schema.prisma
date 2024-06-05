@@ -11,29 +11,30 @@ datasource db {
 }
 
 model User {
+  id         Int    @id @default(autoincrement())
+  email      String @unique
+  password   String
+  firstname  String
+  lastname   String
+  lineNotify String @default("")
+
+  Business Business[]
+}
+
+model Business {
   id                 Int                  @id @default(autoincrement())
-  email              String               @unique
-  password           String
-  firstname          String
-  lastname           String
-  lineNotify         String               @default("")
+  owner              User                 @relation(fields: [ownerId], references: [id])
+  ownerId            Int
+  short              String
+  title              String
+  tel                String
+  time               Json
+  line               String
+  latlng             Json
   Product            Product[]
   Order              Order[]
   OrderReceiptDesign OrderReceiptDesign[]
   Activity           Activity[]
-  Business        Business[]
-}
-
-model Business {
-  id          Int  @id @default(autoincrement())
-  owner   User @relation(fields: [ownerId], references: [id])
-  ownerId Int
-  short String
-  title String
-  tel String
-  time Json
-  line String
-  latlng Json
 }
 
 model Category {
@@ -52,7 +53,7 @@ model Product {
   cost        Int      @default(0)
   stock       Int      @default(0)
   sold        Int      @default(0)
-  user        User     @relation(fields: [application], references: [id])
+  business    Business @relation(fields: [application], references: [id])
   application Int
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
@@ -78,7 +79,7 @@ model Order {
   profit       Int
   type         Int
   note         String
-  user         User           @relation(fields: [application], references: [id])
+  business     Business       @relation(fields: [application], references: [id])
   application  Int
   productsText String
   products     OrderProduct[]
@@ -100,9 +101,9 @@ model OrderProduct {
 }
 
 model OrderReceiptDesign {
-  id          Int     @id @default(autoincrement())
-  global      Boolean @default(false)
-  user        User    @relation(fields: [application], references: [id])
+  id          Int      @id @default(autoincrement())
+  global      Boolean  @default(false)
+  business    Business @relation(fields: [application], references: [id])
   application Int
   logo        String
   title       String
@@ -111,7 +112,7 @@ model OrderReceiptDesign {
 
 model Activity {
   id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [application], references: [id])
+  business    Business @relation(fields: [application], references: [id])
   application Int
   category    String
   type        String
