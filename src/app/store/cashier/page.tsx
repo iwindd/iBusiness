@@ -5,6 +5,7 @@ import { AddToCashier } from './action';
 import { useSession } from 'next-auth/react';
 import { useSnackbar } from 'notistack';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Cashier from './components/Cashier';
 export interface CashierPageChildType {
   addProductToCart: (serial: string) => void
 }
@@ -56,14 +57,15 @@ const CashierPage = () => {
     })
   }); */
 
+  const onPayment = () => {
+    
+  }
+
   return (
     <>
       <Grid container spacing={2}>
         <Grid xs={12}>
-{/*           <Cashier
-            addProductToCart={addProductToCart}
-            PaymentDialog={PaymentDialog.onOpen}
-          /> */}
+          <Cashier onPayment={onPayment} /> 
         </Grid>
         <Grid xs={9}>
           <Cart addProductToCart={addProductToCart} />
