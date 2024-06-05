@@ -2,7 +2,7 @@
 import React, { SetStateAction, createContext, useContext, useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { useStorage } from "@/storage";
-import { FetchingStock } from "@/controllers/StockController";
+import { FetchingStock } from "@/app/store/controllers/StockController";
 import { StockItem } from "@/typings/stock";
 
 const stockContext = createContext<{

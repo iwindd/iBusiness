@@ -8,7 +8,7 @@ import { AddTwoTone, Rotate90DegreesCcw } from '@mui/icons-material';
 import { Category, Product } from '@prisma/client';
 import { ProductSchema, ProductSchemaInputs, ProductSearchSchema, ProductSearchSchemaInputs } from '@/schema/ProductSchema';
 import { generateRandomEAN13 } from '@/libs/utils';
-import { getProduct, upsertProduct } from '@/controllers/ProductController';
+import { getProduct, upsertProduct } from '@/app/store/controllers/ProductController';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { useDialog } from '@/hooks/use-dialog';

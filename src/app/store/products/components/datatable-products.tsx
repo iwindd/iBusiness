@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Favorite from './favorite'
 import * as ff from '@/libs/formatter'
 import Datatable from '@/components/datatable'
-import { deleteProduct, getProducts, setProductFavorite } from '@/controllers/ProductController';
+import { deleteProduct, getProducts, setProductFavorite } from '@/app/store/controllers/ProductController';
 import { DeleteTwoTone, EditTwoTone, ViewAgendaTwoTone } from '@mui/icons-material';
 import { paths } from '@/paths';
 import { Category, Product } from '@prisma/client';

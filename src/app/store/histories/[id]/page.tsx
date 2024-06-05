@@ -1,6 +1,6 @@
 "use server";
 
-import { getHistory } from '@/controllers/HistoryController';
+import { getHistory } from '@/app/store/controllers/HistoryController';
 import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { notFound } from 'next/navigation';

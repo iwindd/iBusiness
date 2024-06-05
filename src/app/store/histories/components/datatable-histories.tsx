@@ -5,7 +5,7 @@ import Datatable from '@/components/datatable'
 import { ViewAgendaTwoTone } from '@mui/icons-material';
 import { paths } from '@/paths';
 import { Category } from '@prisma/client';
-import { getHistories } from '@/controllers/HistoryController';
+import { getHistories } from '@/app/store/controllers/HistoryController';
 import GridLinkAction from '@/components/GridLinkAction';
 
 const HistoryDatatable = () => {

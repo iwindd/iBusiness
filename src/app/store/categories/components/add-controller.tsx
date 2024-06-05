@@ -9,7 +9,7 @@ import { useInterface } from '@/app/providers/InterfaceProvider';
 import { useDialog } from '@/hooks/use-dialog';
 import { useQueryClient } from '@tanstack/react-query';
 import { CategorySchema, CategorySchemaInputs } from '@/schema/CategorySchema';
-import { upsertCategory } from '@/controllers/CategoryController';
+import { upsertCategory } from '@/app/store/controllers/CategoryController';
 import { Category } from '@prisma/client';
 
 interface AddDialogProps {

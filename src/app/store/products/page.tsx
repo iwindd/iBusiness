@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material"
 import ProductDatatable from "./components/datatable-products"
 import AddController from "./components/add-controller"
-import { getAllCategories } from "@/controllers/CategoryController"
+import { getAllCategories } from "@/app/store/controllers/CategoryController"
 import { Category } from "@prisma/client"
 
 const ProductsPage = async () => {

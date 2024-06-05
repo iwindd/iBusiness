@@ -5,7 +5,7 @@ import { AddTwoTone } from '@mui/icons-material';
 import { useInterface } from '@/app/providers/InterfaceProvider';
 import { useDialog } from '@/hooks/use-dialog';
 import MathTextField from '../MatchTextField';
-import { getProduct } from '@/controllers/ProductController';
+import { getProduct } from '@/app/store/controllers/ProductController';
 import { useStock } from '../../providers/StockProvider';
 import { useSnackbar } from 'notistack';
 import { Option } from '@/app/store/components/productfield/selectize';

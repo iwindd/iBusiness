@@ -6,7 +6,7 @@ import React from "react";
 import { useStock } from "../../providers/StockProvider";
 import { useSnackbar } from 'notistack';
 import { Confirmation, useConfirm } from "@/hooks/use-confirm";
-import { CommitStock } from "@/controllers/StockController";
+import { CommitStock } from "@/app/store/controllers/StockController";
 
 const CommitController = () => {
   const { setBackdrop } = useInterface();
