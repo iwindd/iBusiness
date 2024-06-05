@@ -22,7 +22,7 @@ const Cashier = ({ onPayment }: CashierProp) => {
 
       setCart((prev) => {
         const item = prev.find((i) => i.serial === newItem.serial);
-        enqueueSnackbar(`เพิ่มสินค้า <${item?.title}> เข้าตะกร้าแล้ว!`, {
+        enqueueSnackbar(`เพิ่มสินค้า <${newItem.title}> เข้าตะกร้าแล้ว!`, {
           variant: "success",
         });
         if (item) {
