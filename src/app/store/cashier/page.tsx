@@ -1,14 +1,16 @@
 "use client";
-import React from 'react'
-import Cart from './components/Cart';
-import { AddToCashier } from './action';
-import { useSession } from 'next-auth/react';
-import { useSnackbar } from 'notistack';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import Cashier from './components/Cashier';
-export interface CashierPageChildType {
-  addProductToCart: (serial: string) => void
-}
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import Cashier from "./components/Cashier";
+import { Confirmation, useConfirm } from "@/hooks/use-confirm";
+import { Button } from "@mui/material";
+import { useRecoilState } from "recoil";
+import { CartState } from "../atoms/cart";
+import dynamic from "next/dynamic";
+
+const CartContainer = dynamic(() => import("./components/Cart"), {
+  ssr: false,
+});
 
 const CashierPage = () => {
   const [, setCart] = useRecoilState(CartState);
@@ -27,10 +29,10 @@ const CashierPage = () => {
     <>
       <Grid container spacing={2}>
         <Grid xs={12}>
-          <Cashier onPayment={onPayment} /> 
+          <Cashier onPayment={onPayment} />
         </Grid>
         <Grid xs={9}>
-          <Cart />
+          <CartContainer />
         </Grid>
         <Grid>
           <Button onClick={confirmation.handleOpen}>ล้างตะกร้า</Button>

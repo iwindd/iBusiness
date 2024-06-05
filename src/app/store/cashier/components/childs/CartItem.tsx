@@ -58,9 +58,7 @@ export const Item = (props: CartItem) => {
         '&:last-child td, &:last-child th': { border: 0 } 
       }}
     >
-      <TableCell component="th" scope="row" >
-        {props.serial}
-      </TableCell>
+      <TableCell >{props.serial}</TableCell>
       <TableCell >{props.title}</TableCell>
       <TableCell >{(props.price).toLocaleString()}</TableCell>
       <TableCell >{(props.price * props.count).toLocaleString()}</TableCell>
