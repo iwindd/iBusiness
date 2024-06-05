@@ -96,22 +96,20 @@ export function UserPopover({
         sx={{ p: "8px", "& .MuiMenuItem-root": { borderRadius: 1 } }}
       >
         {data?.user.application ? (
-          <>
-            <MenuItem onClick={onLogout}>
-              <ListItemIcon>
-                <LogoutTwoTone />
-              </ListItemIcon>
-              ออกจากระบบร้านค้า
-            </MenuItem>
-          </>
-        ) : null}
-
-        <MenuItem onClick={onSignup}>
-          <ListItemIcon>
-            <LogoutTwoTone />
-          </ListItemIcon>
-          ออกจากระบบ
-        </MenuItem>
+          <MenuItem onClick={onLogout}>
+            <ListItemIcon>
+              <LogoutTwoTone />
+            </ListItemIcon>
+            ออกจากร้านค้า
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={onSignup}>
+            <ListItemIcon>
+              <LogoutTwoTone />
+            </ListItemIcon>
+            ออกจากระบบ
+          </MenuItem>
+        )}
       </MenuList>
     </Popover>
   );
