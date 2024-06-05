@@ -11,40 +11,13 @@ export interface CashierPageChildType {
 }
 
 const CashierPage = () => {
-  const { data: session, update } = useSession();
-  const { enqueueSnackbar } = useSnackbar();
+  const [, setCart] = useRecoilState(CartState);
 
-  const addProductToCart = async (serial: string) => {
-    const resp = await AddToCashier({ serial });
-
-    if (!resp.success) {
-      if (resp.error == "no_found_product") {
-        enqueueSnackbar(`ไม่พบสินค้า ${serial}`, { variant: "error" })
-      }
-
-      return false
-    };
-
-    await update({
-      ...session,
-      user: {
-        ...session?.user,
-        cart: resp.cart
-      }
-    })
-
-    return true
-  }
-
-  const onClearCart = () => {
-    update({
-      ...session,
-      user: {
-        ...session?.user,
-        cart: []
-      }
-    })
-  }
+  const confirmation = useConfirm({
+    title: "แจ้งเตือน",
+    text: "คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!",
+    onConfirm: async () => setCart([]),
+  });
 
   const onPayment = () => {
     
@@ -59,15 +32,9 @@ const CashierPage = () => {
         <Grid xs={9}>
           <Cart />
         </Grid>
-        <Grid>{/* 
-          <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button> */}
-{/*           <ConfirmButton
-            onClick={onClearCart}
-            label="ล้างตะกร้า"
-            label2="คุณต้องการจะล้างตะกร้าหรือไม่? สินค้าภายในตะกร้าจะถูกลบและไม่สามารถย้อนกลับได้!"
-            variant='outlined'
-            startIcon={<Delete />}
-          /> */}
+        <Grid>
+          <Button onClick={confirmation.handleOpen}>ล้างตะกร้า</Button>
+          <Confirmation {...confirmation.props} />
         </Grid>
       </Grid>
     </>
