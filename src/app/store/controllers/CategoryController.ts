@@ -4,6 +4,8 @@ import { TableFetch } from "@/typings/service";
 import { order } from "@/libs/formatter";
 import { CategorySchemaInputs } from "@/schema/CategorySchema";
 import { getServerSession } from "@/libs/session";
+import { paths } from "@/paths";
+import { revalidatePath } from "next/cache";
 
 export const getCategories = async (table: TableFetch) => {
   try {
@@ -81,6 +83,8 @@ export const upsertCategory = async (payload: CategorySchemaInputs, id?: number)
       create: data,
       update: { title: data.title, }
     })
+
+    revalidatePath(paths.products)
     return { state: true, }
   } catch (error) {
     console.log(error);
