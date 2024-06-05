@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { CartState } from "../atoms/cart";
 import dynamic from "next/dynamic";
+import { DeleteTwoTone } from "@mui/icons-material";
 
 const CartContainer = dynamic(() => import("./components/Cart"), {
   ssr: false,
@@ -35,7 +36,7 @@ const CashierPage = () => {
           <CartContainer />
         </Grid>
         <Grid>
-          <Button onClick={confirmation.handleOpen}>ล้างตะกร้า</Button>
+          <Button variant="contained" color="warning" startIcon={<DeleteTwoTone/>} onClick={confirmation.handleOpen}>ล้างตะกร้า</Button>
           <Confirmation {...confirmation.props} />
         </Grid>
       </Grid>
