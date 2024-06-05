@@ -16,7 +16,6 @@ const Cart = () => {
           <TableRow>
             <TableCell variant="head">รหัสสินค้า</TableCell>
             <TableCell variant="head">ชื่อสินค้า</TableCell>
-            <TableCell variant="head">ประเภทสินค้า</TableCell>
             <TableCell variant="head">ราคา</TableCell>
             <TableCell variant="head">ราคา(รวม)</TableCell>
             <TableCell variant="head">จำนวน</TableCell>

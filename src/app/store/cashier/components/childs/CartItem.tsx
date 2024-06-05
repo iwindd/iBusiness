@@ -62,7 +62,6 @@ export const Item = (props: CartItem) => {
         {props.serial}
       </TableCell>
       <TableCell >{props.title}</TableCell>
-      <TableCell >{props.category}</TableCell>
       <TableCell >{(props.price).toLocaleString()}</TableCell>
       <TableCell >{(props.price * props.count).toLocaleString()}</TableCell>
       <TableCell >

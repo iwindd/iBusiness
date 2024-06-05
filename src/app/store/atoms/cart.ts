@@ -9,7 +9,6 @@ export interface CartItem {
   price: number,
   count: number,
   stock: number,
-  category: string
 }
 
 const localStorage = typeof window !== `undefined` ? window.localStorage : null
@@ -19,8 +18,8 @@ const { persistAtom } = recoilPersist({
   storage: localStorage as PersistStorage
 })
 
-export const CartState = atom({
+export const CartState = atom<CartItem[]>({
   key: 'cart', 
-  default: [] as CartItem[],
+  default: [],
   effects: [persistAtom]
 });

@@ -20,7 +20,7 @@ const Cashier = ({ onPayment }: CashierProp) => {
       const { state, data: newItem } = await getProduct(serial);
       if (!state || !newItem) throw Error("");
 
-      setCart((prev: CartItem[]) => {
+      setCart((prev) => {
         const item = prev.find((i) => i.serial === newItem.serial);
         enqueueSnackbar(`เพิ่มสินค้า <${item?.title}> เข้าตะกร้าแล้ว!`, {
           variant: "success",
