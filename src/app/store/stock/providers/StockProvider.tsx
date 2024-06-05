@@ -30,9 +30,9 @@ const StockProvider = ({ children }: { children: React.ReactNode }) => {
   }, [declare, items])
 
   const render = async (payload: string) => {
-    const lines = payload.split(/\r?\n/);
+    const lines = payload.split(/\r?\n/).filter(i => i != "");
     const resultArray: Record<string, number> = {};
-
+    
     lines.forEach(line => {
       const [id, valueStr] = line.split(' ');
       const value = parseInt(valueStr);
