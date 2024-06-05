@@ -58,8 +58,8 @@ export function UserPopover({
       await update({
         ...data,
         user: {
-          application: null,
-          ...data?.user 
+          ...data?.user,
+          application: null
         }
       });
 
