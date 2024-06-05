@@ -33,7 +33,7 @@ const Cashier = ({ onPayment }: CashierProp) => {
           return [
             {
               ...newItem,
-              count: 0,
+              count: 1,
             },
             ...prev,
           ];
