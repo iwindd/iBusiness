@@ -54,7 +54,7 @@ export const authOptions = {
           return {
             id: String(user.id),
             uid: user.id,
-            application: null,
+            application: NaN,
             fullname: `${user.firstname} ${user.lastname}`,
             email: user.email
           };

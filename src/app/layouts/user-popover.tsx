@@ -59,7 +59,7 @@ export function UserPopover({
         ...data,
         user: {
           ...data?.user,
-          application: null
+          application: NaN
         }
       });
 
