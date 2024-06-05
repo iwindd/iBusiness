@@ -46,17 +46,6 @@ const CashierPage = () => {
     })
   }
 
-/*   const PaymentDialog = setDialog(Payment, {
-    session: session,
-    clear: () => update({
-      ...session,
-      user: {
-        ...session?.user,
-        cart: []
-      }
-    })
-  }); */
-
   const onPayment = () => {
     
   }
@@ -68,7 +57,7 @@ const CashierPage = () => {
           <Cashier onPayment={onPayment} /> 
         </Grid>
         <Grid xs={9}>
-          <Cart addProductToCart={addProductToCart} />
+          <Cart />
         </Grid>
         <Grid>{/* 
           <Button variant="outlined" onClick={PaymentDialog.onOpen} color='success' endIcon={< PaymentOutlined />} >คิดเงิน</Button> */}
