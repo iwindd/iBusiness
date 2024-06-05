@@ -43,7 +43,7 @@ const DatagridBusiness = () => {
   const columns = [
     { field: "title", sortable: false, headerName: "ชื่อธุรกิจ", flex: 1 },
     {
-      field: "stock",
+      field: "tel",
       sortable: true,
       headerName: "เบอร์ติดต่อ",
       flex: 1,
