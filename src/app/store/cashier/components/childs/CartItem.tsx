@@ -1,82 +1,46 @@
 "use client";
 import React from 'react'
-import { CartItem } from '../../../../../next-auth';
-import { useSession } from 'next-auth/react';
-import { CashierPageChildType } from '../../page';/* 
-import ConfirmButton from '@/app/components/confirm_button'; */
-import { TableCell, TableRow, IconButton } from '@mui/material';
-import { Delete, Add, Remove } from '@mui/icons-material';
+import { TableCell, TableRow, IconButton, Stack, Box, TextField, Input } from '@mui/material';
+import { Add, AddTwoTone, DeleteTwoTone, Remove, RemoveTwoTone } from '@mui/icons-material';
+import { CartItem, CartState } from '@/app/store/atoms/cart';
+import { useRecoilState } from 'recoil';
+import { Confirmation, useConfirm } from '@/hooks/use-confirm';
 
-interface ItemProps extends CartItem, CashierPageChildType {
-  items: CartItem[]
-}
-
-export const Item = (props: ItemProps) => {
-  const { data: session, update } = useSession();
+export const Item = (props: CartItem) => {
   const [grow, setGrow] = React.useState<boolean>(false);
+  const [, setCart] = useRecoilState(CartState);
 
-  const onDelete = () => {
-    const cart = session?.user.cart ? session.user.cart : []
-    update({
-      ...session,
-      user: {
-        ...session?.user,
-        cart: cart.filter((product) => product.serial != props.serial)
-      }
-    })
+  function limitNumberWithinRange(num : number, min : number, max : number){
+    const MIN = min ?? 1;
+    const MAX = max ?? 20;
+    return Math.max(+num, MIN)
   }
 
-  const Property = (cb: (cart: CartItem[], updateCart: (cart: CartItem[]) => void) => void) => {
-    const cart = session?.user.cart ? session.user.cart : []
-    const updateCart = (items: CartItem[]) => {
-      update({
-        ...session,
-        user: {
-          ...session?.user,
-          cart: items
-        }
-      })
-    }
-
-    return cb(cart, updateCart)
+  const countController = (delta : number) => {
+    setCart(prevCart => {
+      return prevCart.map(item => 
+        item.serial === props.serial 
+          ? { ...item, count: limitNumberWithinRange(item.count + delta, 1, 1000) } 
+          : item
+      );
+    });
   }
 
-  const onIncrease = () => Property((cart, update) => {
-    const Product = cart.find(p => p.serial == props.serial);
-    if (Product) {
-      Product.count++;
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCart(prevCart => {
+      return prevCart.map(item => 
+        item.serial === props.serial 
+          ? { ...item, count: limitNumberWithinRange(+e.target.value, 1, 1000) } 
+          : item
+      );
+    });
+  }
 
-      if (Product.count <= 0) {
-        const Index = cart.findIndex(p => p.serial == props.serial);
-        cart.splice(Index, 1)
-      }
-    }
-
-    update(cart)
-  })
-
-  const onDecrease = () => Property((cart, update) => {
-    const Product = cart.find(p => p.serial == props.serial);
-    if (Product) {
-      Product.count--;
-
-      if (Product.count <= 0) {
-        const Index = cart.findIndex(p => p.serial == props.serial);
-        cart.splice(Index, 1)
-      }
-    }
-
-    update(cart)
-  })
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => Property((cart, update) => {
-    const Product = cart.find(p => p.serial == props.serial);
-    if (Product) {
-      Product.count = Number(e.target.value)
-    }
-
-    update(cart)
-  })
+  const confirmation = useConfirm({
+    title: "แจ้งเตือน",
+    text: "คุณต้องการที่จะลบสินค้าหรือไม่ ?",
+    onConfirm: async () => setCart(prev => prev.filter(i => i.serial != props.serial))
+  });
 
   React.useEffect(() => {
     setGrow(true)
@@ -89,8 +53,10 @@ export const Item = (props: ItemProps) => {
 
   return (
     <TableRow
-      className={(grow ? isOverstock ? 'bg-red-300' : 'bg-base-divider' : isOverstock ? "bg-red-100" : "")}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      sx={{ 
+        'backgroundColor': (grow ? isOverstock ? 'var(--mui-palette-error-main)' : undefined : isOverstock ? "var(--mui-palette-error-light)" : ""),
+        '&:last-child td, &:last-child th': { border: 0 } 
+      }}
     >
       <TableCell component="th" scope="row" >
         {props.serial}
@@ -100,21 +66,13 @@ export const Item = (props: ItemProps) => {
       <TableCell >{(props.price).toLocaleString()}</TableCell>
       <TableCell >{(props.price * props.count).toLocaleString()}</TableCell>
       <TableCell >
-        <div >
-          <IconButton onClick={onDecrease}><Remove/></IconButton>
-          <input type="text" className="outline-none border-none w-14 text-center join-item bg-transparent" value={props.count} onChange={onChange} />
-          <IconButton onClick={onIncrease}><Add /></IconButton>
-        </div>
+        <IconButton onClick={() => countController(-1)}><RemoveTwoTone/></IconButton>
+        <Input disableUnderline sx={{width: '3em'}} inputProps={{min: 0, style: { textAlign: 'center' }}}  type='number' value={props.count} onChange={onChange}/>
+        <IconButton onClick={() => countController(1)}><AddTwoTone /></IconButton>
       </TableCell>
       <TableCell>
-{/*         <ConfirmButton
-          className={isOverstock ? "border-red-300 text-red-500 hover:border-red-700" : ""}
-          onClick={onDelete}
-          startIcon={<Delete />}
-          variant='outlined'
-          label='ลบ'
-          label2={`คุณต้องการจะลบสินค้า ${props.title} ออกจากตะกร้าหรือไม่?`}
-        /> */}
+          <IconButton onClick={confirmation.handleOpen}><DeleteTwoTone/></IconButton>
+          <Confirmation {...confirmation.props} />
       </TableCell>
     </TableRow>
   )

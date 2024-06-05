@@ -2,14 +2,12 @@
 import { useSession } from 'next-auth/react';
 import React from 'react'
 import { Item } from './childs/CartItem';
-import { CashierPageChildType } from '../page';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { useRecoilState } from 'recoil';
+import { CartState } from '../../atoms/cart';
 
-const Cart = (props: CashierPageChildType) => {
-  const { data: session } = useSession();
-  const Cart = session?.user.cart ? session.user.cart : [];
-
-  const items = Cart.sort()
+const Cart = () => {
+  const [cart] = useRecoilState(CartState);
 
   return (
     <TableContainer component={Paper}>
@@ -27,13 +25,11 @@ const Cart = (props: CashierPageChildType) => {
         </TableHead>
         <TableBody>
           {
-            items.length > 0 ? (
-              items.map((product, index) => {
+            cart.length > 0 ? (
+              cart.map((product, index) => {
                 return (
                   <Item
                     key={`${product.serial}-${index}`}
-                    items={Cart}
-                    {...props}
                     {...product}
                   />
                 )
