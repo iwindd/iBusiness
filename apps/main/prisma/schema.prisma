@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int    @id @default(autoincrement())
+  email      String @unique
+  password   String
+  firstname  String
+  lastname   String
+  lineNotify String @default("")
+
+  Business Business[]
+}
+
+model Business {
+  id                 Int                  @id @default(autoincrement())
+  owner              User                 @relation(fields: [ownerId], references: [id])
+  ownerId            Int
+  short              String
+  title              String
+  tel                String
+  time               Json
+  line               String
+  latlng             Json
+  Product            Product[]
+  Order              Order[]
+  OrderReceiptDesign OrderReceiptDesign[]
+  Activity           Activity[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  application Int
+  title       String
+  createdAt   DateTime  @default(now())
+  products    Product[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  serial      String
+  title       String
+  price       Int      @default(0)
+  cost        Int      @default(0)
+  stock       Int      @default(0)
+  sold        Int      @default(0)
+  business    Business @relation(fields: [application], references: [id])
+  application Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  favorite    Boolean  @default(false)
+  keywords    String   @default("")
+
+  @@unique([application, serial])
+}
+
+model ProductSuggestion {
+  id     Int    @id @default(autoincrement())
+  serial String
+  title  String
+  price  String
+  cost   Int    @default(0)
+  stock  Int    @default(0)
+}
+
+model Order {
+  id           Int            @id @default(autoincrement())
+  price        Int
+  cost         Int
+  profit       Int
+  type         Int
+  note         String
+  business     Business       @relation(fields: [application], references: [id])
+  application  Int
+  productsText String
+  products     OrderProduct[]
+  createdAt    DateTime       @default(now())
+}
+
+model OrderProduct {
+  id        Int      @id @default(autoincrement())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
+  serial    String
+  title     String
+  category  String
+  price     Int
+  cost      Int
+  count     Int
+  createdAt DateTime @default(now())
+  overStock Boolean  @default(false)
+}
+
+model OrderReceiptDesign {
+  id          Int      @id @default(autoincrement())
+  global      Boolean  @default(false)
+  business    Business @relation(fields: [application], references: [id])
+  application Int
+  logo        String
+  title       String
+  design      Json
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  business    Business @relation(fields: [application], references: [id])
+  application Int
+  category    String
+  type        String
+  payload     Json
+  createdAt   DateTime @default(now())
+}
