@@ -1,9 +1,6 @@
 import { getServerSession } from '@/libs/session';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-/* LAYOUYS */
-import Authentication from './authentication';
-
 // PROVIDERS
 import { InterfaceProvider } from './providers/InterfaceProvider';
 import SessionProvider from './providers/SessionProvider';
