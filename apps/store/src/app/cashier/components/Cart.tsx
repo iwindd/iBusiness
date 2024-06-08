@@ -4,7 +4,7 @@ import React from 'react'
 import { Item } from './childs/CartItem';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { CartState } from '../../atoms/cart';
+import { CartState } from '../../../atoms/cart';
 
 const Cart = () => {
   const [cart] = useRecoilState(CartState);

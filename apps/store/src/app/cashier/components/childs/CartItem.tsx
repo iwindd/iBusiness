@@ -2,7 +2,7 @@
 import React from 'react'
 import { TableCell, TableRow, IconButton, Stack, Box, TextField, Input } from '@mui/material';
 import { Add, AddTwoTone, DeleteTwoTone, Remove, RemoveTwoTone } from '@mui/icons-material';
-import { CartItem, CartState } from '@/app/store/atoms/cart';
+import { CartItem, CartState } from '@/app/atoms/cart';
 import { useRecoilState } from 'recoil';
 import { Confirmation, useConfirm } from '@/hooks/use-confirm';
 

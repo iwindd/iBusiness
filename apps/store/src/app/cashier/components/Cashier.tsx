@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Paper, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useRecoilState } from "recoil";
-import { CartItem, CartState } from "../../atoms/cart";
+import { CartItem, CartState } from "../../../atoms/cart";
 import { getProduct } from "../../controllers/ProductController";
 import { enqueueSnackbar } from "notistack";
 interface CashierProp  {

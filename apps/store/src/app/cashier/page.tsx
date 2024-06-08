@@ -5,7 +5,7 @@ import Cashier from "./components/Cashier";
 import { Confirmation, useConfirm } from "@/hooks/use-confirm";
 import { Button } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { CartState } from "../atoms/cart";
+import { CartState } from "../../atoms/cart";
 import dynamic from "next/dynamic";
 import { DeleteTwoTone } from "@mui/icons-material";
 
