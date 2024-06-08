@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "cls && next lint",
-    "prisma": "npx prisma generate"
+    "prisma-generate": "npx prisma generate"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

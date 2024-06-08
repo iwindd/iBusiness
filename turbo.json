@@ -18,6 +18,9 @@
         "^lint"
       ]
     },
+    "prisma-generate": {
+      
+    },
     "dev": {
       "cache": false,
       "persistent": true
