@@ -1,9 +1,67 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import Prisma from "@/libs/prisma";
+const cookiePrefix = "store";
 
 export const authOptions = {
   pages: {
     signIn: "/",
+  },
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: true
+      }
+    },
+    callbackUrl: {
+      name: `${cookiePrefix}-next-auth.callback-url`,
+      options: {
+        sameSite: 'lax',
+        path: '/',
+        secure: true
+      }
+    },
+    csrfToken: {
+      name: `${cookiePrefix}-next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: true
+      }
+    },
+    pkceCodeVerifier: {
+      name: `${cookiePrefix}next-auth.pkce.code_verifier`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: true,
+        maxAge: 900
+      }
+    },
+    state: {
+      name: `${cookiePrefix}next-auth.state`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+        maxAge: 900
+      },
+    },
+    nonce: {
+      name: `${cookiePrefix}next-auth.nonce`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      },
+    },
   },
   session: {
     jwt: true,
