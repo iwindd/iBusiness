@@ -1,0 +1,11 @@
+{
+  "activity": {
+    "product-add": "คุณได้เพิ่มสินค้า {title} แล้ว!",
+    "product-edit": "คุณได้แก้ไขสินค้า {title} แล้ว!",
+    "product-delete": "คุณได้ลบสินค้า {title} แล้ว!",
+    "cashier-payment": "#{id} คุณได้ทำรายการค้าขายแล้ว",
+    "category-add": "คุณได้เพิ่มประเภทสินค้า {title} แล้ว!",
+    "category-edit": "คุณได้แก้ไขประเภทสินค้า {title} แล้ว!",
+    "category-delete": "คุณได้ลบประเภทสินค้า {title} แล้ว!"
+  }
+}
