@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Business" ALTER COLUMN "line" SET DATA TYPE TEXT;

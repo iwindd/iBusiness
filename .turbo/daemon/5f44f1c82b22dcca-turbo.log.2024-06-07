@@ -1,0 +1,82 @@
+2024-06-07T16:25:49.281119Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main"), AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:25:49.281163Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:25:49.635744Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:25:49.635756Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:25:49.635840Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:25:49.775811Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:25:49.775833Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:25:49.894327Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:25:49.894495Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:25:49.894501Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:25:49.894567Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:25:49.976057Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:25:49.976072Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:25:50.057268Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:26:30.673597Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:26:30.673622Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:26:30.868079Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:26:35.883680Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:26:35.883703Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:26:35.916178Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:34:37.887714Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:34:37.887758Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:34:38.091728Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:34:38.091754Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:34:38.242249Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:34:38.389311Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:34:38.389344Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:34:38.592307Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:34:38.592476Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:34:38.592483Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:34:38.592579Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:34:42.590590Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:34:42.590615Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:34:42.679359Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:47:38.628505Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:47:38.628540Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:47:38.818996Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:47:38.819009Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:47:38.819100Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:47:39.027468Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:47:39.027481Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:47:39.077175Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:47:39.630441Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:47:39.630458Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:47:39.747208Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:47:39.747353Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:47:39.747359Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:47:39.747436Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:55:31.160757Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:55:31.160780Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:55:31.865055Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:55:31.865066Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:55:31.865144Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:55:32.762431Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:55:32.762457Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:55:32.921752Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:55:32.921864Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:55:32.921871Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:55:32.921921Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:57:09.134559Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:57:09.134585Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:57:09.434330Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:57:09.434344Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:57:09.567216Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:57:09.567411Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:57:09.567418Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:57:09.567490Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:57:49.680442Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:57:49.680465Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:57:49.977074Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:57:49.977090Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:57:50.106617Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:57:50.106823Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:57:50.106830Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:57:50.106916Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T16:57:50.374863Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\main\\.next")}
+2024-06-07T16:57:50.374878Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("istore"), path: AnchoredSystemPathBuf("apps\\main") }}))
+2024-06-07T16:57:50.517019Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2024-06-07T17:02:49.279639Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("")}
+2024-06-07T17:02:49.279658Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({}))
+2024-06-07T17:02:49.778989Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("")}
+2024-06-07T17:02:49.779001Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({}))
