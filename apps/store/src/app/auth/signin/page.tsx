@@ -16,17 +16,38 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import RouterLink from "next/link";
 import { paths } from "@/paths";
+import Loading from "@/components/loading";
 
 const SignIn = () => {
   const { setBackdrop } = useInterface();
   const { enqueueSnackbar } = useSnackbar();
+  const params = useSearchParams();
   const router = useRouter();
+  const token = params.get("token");
+
+  if (token) {
+    signIn("credentials", {
+      token,
+      email: "",
+      password: "",
+      redirect: false,
+    }).then((e : any) => {
+      if (e.ok as boolean) {
+        router.push(paths.overview);
+        router.refresh();
+      }else{
+        window.location.href = "http://localhost:3000/"
+      }
+    });
+
+    return <Loading />;
+  }
 
   const {
     register,
@@ -43,30 +64,10 @@ const SignIn = () => {
   ) => {
     setBackdrop(true);
     try {
-      const resp = await signIn("credentials", {
-        email: payload.email,
-        password: payload.password,
-        redirect: false,
-      });
-
-      if (!resp?.error) {
-        enqueueSnackbar("เข้าสู่ระบบสำเร็จแล้ว!", { variant: "success" });
-
-        router.push(paths.overview);
-        router.refresh();
-      } else {
-        setError(
-          "email",
-          {
-            type: "string",
-            message: "ไม่พบผู้ใช้งาน",
-          },
-          {
-            shouldFocus: true,
-          }
-        );
-      }
+      // TODO : EMPLOYEES LOGIN
     } catch (error) {
+      console.log("fail", error);
+
       setError(
         "email",
         {

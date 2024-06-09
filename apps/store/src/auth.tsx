@@ -96,29 +96,34 @@ export const authOptions = {
       credentials: {
         email: {},
         password: {},
+        token: {}
       },
       async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) return null;
-
-        try {
-          const user = await Prisma.user.findFirst({
+        
+        if (credentials?.token){
+          
+          const business = await Prisma.business.findFirst({
             where: {
-              email: credentials.email,
-              password: credentials.password,
+              token: credentials.token as string
             },
-          });
+            include: {
+              owner: true
+            }
+          })
 
-          if (!user) return null;
+          if (!business) return null;
+
           return {
-            id: String(user.id),
-            uid: user.id,
-            application: NaN,
-            fullname: `${user.firstname} ${user.lastname}`,
-            email: user.email
-          };
-        } catch (error) {
-          return null;
+            id: String(business.owner.id),
+            uid: business.owner.id,
+            application: business.id,
+            fullname: `${business.owner.firstname} ${business.owner.lastname}`,
+            email: business.owner.email
+          }
+        }else{
+          return null
         }
+        
       },
     }),
   ],

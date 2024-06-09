@@ -4,7 +4,7 @@ import * as ff from "@/libs/formatter";
 import React from "react";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { ViewAgendaTwoTone } from "@mui/icons-material";
-import { getBusiness } from "@/controllers/BusinessController";
+import { getBusiness, loginBusiness } from "@/controllers/BusinessController";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { paths } from "@/paths";
@@ -21,16 +21,12 @@ const DatagridBusiness = () => {
     (business: Business) => async () => {
       setBackdrop(true);
       try {
-        const resp = await update({
-          ...data,
-          user: {
-            ...data?.user,
-            application: business.id,
-          },
-        });
 
-        router.push(paths.cashier);
-        router.refresh();
+        const resp = await loginBusiness(business.id);
+        
+        if (resp.state){
+          window.location.href = `${resp.redirect}`;
+        }
       } catch (error) {
         enqueueSnackbar("ไม่สามารถจัดการร้านค้าได้", { variant: "error" });
       } finally {

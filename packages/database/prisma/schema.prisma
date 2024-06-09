@@ -28,7 +28,7 @@ model Business {
   short              String
   title              String
   tel                String
-  token              String @default("")
+  token              String @default("") 
   time               Json
   line               String
   latlng             Json
